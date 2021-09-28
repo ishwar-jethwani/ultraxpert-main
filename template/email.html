@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/0.0.0-insiders.4a070ac/tailwind.min.css"
+    rel="stylesheet">
+</head>
+
+<body>
+  <div>
+  <figure class="md:flex bg-gray-100 rounded-xl p-8 md:p-0">
+    <img class="w-32 h-32 md:w-48 md:h-auto md:rounded-none rounded-full mx-auto"
+      src="https://source.unsplash.com/1600x900/?study" alt="" width="384" height="512">
+    <div class="pt-6 md:p-8 text-center md:text-left space-y-4">
+      <blockquote>
+        <p class="text-lg font-semibold">
+          Hi {{ username }},<br>
+
+          Thanks for getting started with our UltraExperts Portal !<br>
+          
+          We need a little more information to complete your registration, including a confirmation of your email address.<br>
+          
+          Your  email Varification code is {{ otp }}  
+        </p>
+      </blockquote>
+      <figcaption class="font-medium">
+        <div class="text-cyan-600">
+          UltraExperts
+        </div>
+      </figcaption>
+    </div>
+  </figure>
+</div>
+</body>
+
+</html>

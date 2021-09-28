@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "ultra-experts-classroom",
+  "private_key_id": "6fd9a01da55c04fbe7feecde76784848a57b0d21",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkPjMCEBrm5rIm\nDhSx06G0kxdtrvwP5WbjvydwqVgHRRVPjusGjWl9W2XzP7ROa/fs+sna3+rDsnQy\nsBR2SDgrLhaU4QDX0VRXYIqRAqxVTHJIfwpsUeoGSpZb0xMTWwzLP10yyT1lCRV9\nnx+599PKbP2Af71UhSYEkRNsMeIpTvC+zDO6fTtU9VVaqkPeBmtujUwQkKDplv0s\nEK7VX1mjYqJX+Hj8UyMK5XmzsF3gNJrtZ8hK1KDRwMQshoUi4oMAo1ZTglr/xuBy\nKhc9hDBA73A8rfCWy14QuTA1QLP87j9zWYreqoGP5ciRess8RNvaspbx3sg90WI9\nRZcNdlTXAgMBAAECggEACz0YV3FLrfYmRZVcFCkDnSwdg8tgAyRy7G2loL9tvx2a\njjWc3ndpuwK4kLMQvvcDYYttqZT95wM8kUVcORXLBiVitTBKUvpHd60q/i49JZ8U\nCOLsjynxxhlvfXwNh5sI3pWI5pM/qLy85DoxvRN4whbAJ/1VssVjqxdUSWiGbcYV\nbdjWRbSp1GYVTPLD/s62kIduPj7VeIFQTob97G+QQCoc8UaG0h9lbKRhuEzlTj4Y\nKPQXdYApT2BigNDlh3gj7wwf4ldVX2flp0MT9CdpTkuUwPXhguL2jKBk1e5XRFid\nqKTwQBbiwL/CkWlF8gKQrVY/s/XuihIzbpMuuUyBkQKBgQDdEURRs7XU8oe7/JyJ\ntIlBz0eo7qr74U4X7ZF8EDDZJ+M8hQSek/9FkIDK55VMSfp/J53XE88lfuu5nL7c\nGcowaBstrVvmQORkaLDMshynDF4rtkqei34sZ9eAXlvjQv59s451huZ+ul/clfvB\nmCWjBVtlBZcmsONISEd+4469BwKBgQC+Mj1LO47iHSGbXRRS4+PH9quTkQnEd5XU\nNpLPXCUhFFoWFPlFUfda+nnIpYmxwsm2cW49Rq88f7C2k89nev/d9ZtB/zhBJ7xD\nK7Y/B1D1/6CJBnOeuSgtfMH6X+OTolaf6UKnrhI6K7i1tn0peojZG0ZLoMbJ/tSc\nz09AwKeFsQKBgDVw7iYeHo/bDYsZVzJG7YN2O2mQQM9hOQK50JjART7J0LoZofM/\n7c8ATtI+R65ImADTL+oFhOcYlp2pUc5dga5QDHnvVa8E8vF/CXaCfEC50a4ZhFJt\ngFP1ynfi163JzUHP/VlWAjSSk4f8zf6P7FFLgzuZrV+SFW+s4XPASQpTAoGBALnq\nZhvqRgslKrqxy7IS7Y+DwcfnmMKhmqXsCqoDio/BUyYOrnNiYgZenTjTB7vpij96\ntaXUOGtM7jIqXizrAL243WEv149pBhAq5GTMBAnTLNuEoPRgTbPZJcxWeyDPKRn7\na5p4/3w5TL7jeYlYK/j9PkOjD25YWQBHbVMAf0ChAoGANVQ0pInKw3r3MxRQjU99\nPhkSiA0uzvnlPBjiipkKk5IFVlhBu60Bcah0JyYSsfoj5/ji09OCaSpc2r2HwmDz\n4q2MwvfpEBGrMF2oak1pZ+x+58FWLQsd/ggPUHQ12Azga+tB4Ac0jCUEIgmTgKeD\nOer4hxg4ZpHDz4pPSLON8cI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ultracreation@ultra-experts-classroom.iam.gserviceaccount.com",
+  "client_id": "105911355700214478781",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ultracreation%40ultra-experts-classroom.iam.gserviceaccount.com"
+}
+
