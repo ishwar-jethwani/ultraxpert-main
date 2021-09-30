@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -63,12 +64,13 @@ INSTALLED_APPS = [
     "user",
     "activity",
     "chat",
-    "api",
+    "events",
     "socialauth",
+    "payment",
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
-    'classroom',
+
 
 ]
 REST_FRAMEWORK = {
