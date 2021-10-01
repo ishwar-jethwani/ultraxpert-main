@@ -48,15 +48,15 @@ class PaymentAPIView(APIView):
         context['razorpay_amount'] = amount
         context['currency'] = currency
         context['callback_url'] = callback_url
-        return Response(context,status=HTTP_201_CREATED)
+        return render(request,"payment.html",context)
 
     @csrf_exempt
     def post(self,request):
 
         try:
-            payment_id = request.data["razorpay_payment_id"]
-            razorpay_order_id = request.data["razorpay_order_id"]
-            signature = request.data["razorpay_signature"]
+            payment_id = request.POST.get('razorpay_payment_id', '')
+            razorpay_order_id = request.POST.get('razorpay_order_id', '')
+            signature = request.POST.get('razorpay_signature', '')
             params_dict = {
                 'razorpay_order_id': razorpay_order_id,
                 'razorpay_payment_id': payment_id,
