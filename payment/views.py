@@ -23,13 +23,12 @@ class PaymentAPIView(APIView):
         if type == "Plan":
             sub_id = request.data["subs_id"]
             subscription = Subscriptions.objects.get(subs_id=sub_id)
-            amount = subscription.plan.plan_price
-            print(amount)
+            amount = int(subscription.plan.plan_price)*100
         else:
             order_id = request.data["order_id"]
             order = Order.objects.get(order_id=order_id)
-            amount = order.price
-            print(amount)
+            amount = int(order.price)*100
+
 
     
         # Create a Razorpay Order
