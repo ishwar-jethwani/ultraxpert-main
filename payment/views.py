@@ -17,7 +17,6 @@ razorpay_client = razorpay.Client(
  
  
 class ServicePaymentAPIView(APIView):
-    permission_classes = [IsAuthenticated]
     def get(self,request,order_id):
         currency = 'INR'
         order = Order.objects.get(order_id=order_id)
