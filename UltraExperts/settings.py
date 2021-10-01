@@ -288,14 +288,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AWS_QUERYSTRING_AUTH = False
 PLATEFORM = "AWS"
 if PLATEFORM == "HEROKU":
-    AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = S3_BUCKET_NAME
+    AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
     MEDIA_URL = f'/http://%s.s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/' % AWS_STORAGE_BUCKET_NAME
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_DEFAULT_ACL = None
-    REGION_NAME = REGION_NAME
+    REGION_NAME = os.environ['REGION_NAME']
 else:
     AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
@@ -313,7 +312,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # ckeditor configuration
-ADMIN_SITE_HEADER = "UltraExperts Adminstration"
+ADMIN_SITE_HEADER = "UltraExpert"
 
 CKEDITOR_CONFIGS = {
     'default': {
