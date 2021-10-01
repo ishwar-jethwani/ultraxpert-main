@@ -7,6 +7,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
 from activity.models import Order, Subscriptions
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
+
  
 # authorize razorpay client with API Keys.
 razorpay_client = razorpay.Client(
@@ -14,6 +16,7 @@ razorpay_client = razorpay.Client(
  
  
 class PaymentAPIView(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         currency = 'INR'
         type = request.data["type"]
