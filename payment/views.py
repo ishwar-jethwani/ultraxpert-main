@@ -35,6 +35,7 @@ class PaymentAPIView(APIView):
         razorpay_order = razorpay_client.order.create(dict(amount=amount,
                                                         currency=currency,
                                                         payment_capture='0'))
+        print(razorpay_order)
     
         # order id of newly created order.
         razorpay_order_id = razorpay_order['id']
@@ -53,9 +54,9 @@ class PaymentAPIView(APIView):
     def post(self,request):
 
         try:
-            payment_id = request.POST.get('razorpay_payment_id', '')
-            razorpay_order_id = request.POST.get('razorpay_order_id', '')
-            signature = request.POST.get('razorpay_signature', '')
+            payment_id = request.data["razorpay_payment_id"]
+            razorpay_order_id = request.data["razorpay_order_id"]
+            signature = request.data["razorpay_signature"]
             params_dict = {
                 'razorpay_order_id': razorpay_order_id,
                 'razorpay_payment_id': payment_id,
