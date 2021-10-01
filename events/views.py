@@ -137,74 +137,11 @@ class EventCreateAPIView(CreateAPIView):
     serializer_class = EventCreateSerializer
 
 
-class GetResponse(APIView):
-    def post(self,request):
-        data = request.data
-        print("response",data)
-        payment_data = PaymentStatus.objects.create(order_no=data["order_no"],response=data)
-        if payment_data:
-            payment_created = PaymantStatusSerializer(payment_data)
-            response = payment_created.data
-            status = response["response"]["result"]
-            email = response["response"]["customer_email"]
-            amount = response["response"]["amount"]
-            if status== "success":
-                
-                admins = User.objects.filter(is_superuser=True)
-                for admin in admins:     
-                    pass
-                return Response(data=payment_created.data)
-            return Response(data={"somthing went wrong"})
 
-    def get(self,request):
-        order_no = request.data["order_no"]
-        data = PaymentStatus.objects.get(order_no=order_no)
-        payment_created = PaymantStatusSerializer(data)
-        return Response(payment_created.data) 
 
-class GetSubsResponse(APIView):
-    def post(self,request):
-        data = request.data
-        print("response",data)
-        payment_data = PaymentStatus.objects.create(order_no=data["order_no"],response=data)
-        if payment_data:
-            payment_created = PaymantStatusSerializer(payment_data)
-            response = payment_created.data
-            status = response["response"]["result"]
-            email = response["response"]["customer_email"]
-            amount = response["response"]["amount"]
-            if status== "success":
-                admins = User.objects.filter(is_superuser=True)
-                for admin in admins:     
-                    pass
-                return Response(data=payment_created.data)
-            return Response(data={"somthing went wrong"})
 
-    def get(self,request):
-        order_no = request.data["order_no"]
-        data = PaymentStatus.objects.get(order_no=order_no)
-        payment_created = PaymantStatusSerializer(data)
-        return Response(payment_created.data)
 
-class PaymentAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    def post(self, request, order_id):
-        data = request.data
-        if data["type"] == "plan":
-            plan = Subscriptions.objects.get(subs_id=order_id)
-            try:
-                pass
-            except Exception as e:
-                raise ValidationError(detail=e,code=400)
 
-            
-        else:
-            order = Order.objects.get(order_id=order_id)  
-            try:
-                pass
-                return Response(data="payment_response.json()",status=status.HTTP_200_OK)
-            except Exception as e:
-                raise ValidationError(detail=e,code=400)
 
             
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic.base import RedirectView
+from .models import *
+from .serializers import *
 import razorpay
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseBadRequest
@@ -9,8 +10,6 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
 from activity.models import Order, Subscriptions
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
-
-from user.models import Services
 
  
 # authorize razorpay client with API Keys.
@@ -110,3 +109,17 @@ class PlanPaymentAPIView(APIView):
         else:
             return render(request, 'paymentfail.html')    
 
+class GetResponse(APIView):
+    def post(self,request):
+        data = request.data
+        print("response",data)
+        payment_data = PaymentStatus.objects.create(order_no=data["order_no"],response=data)
+        if payment_data:
+            payment_created = PaymantStatusSerializer(payment_data)
+            return Response(data=payment_created.data)
+
+    def get(self,request):
+        order_no = request.data["order_no"]
+        data = PaymentStatus.objects.get(order_no=order_no)
+        payment_created = PaymantStatusSerializer(data)
+        return Response(payment_created.data) 

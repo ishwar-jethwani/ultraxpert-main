@@ -2,7 +2,7 @@ from django.db.models import fields
 from rest_framework import request, serializers
 from .models import *
 from user.serializers import *
-from events.models import PaymentStatus
+from payment.models import PaymentStatus
 import requests
 
 class ProjectRequestSerializer(serializers.ModelSerializer):
