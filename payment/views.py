@@ -24,10 +24,12 @@ class PaymentAPIView(APIView):
             sub_id = request.data["subs_id"]
             subscription = Subscriptions.objects.get(subs_id=sub_id)
             amount = subscription.plan.plan_price
+            print(amount)
         else:
             order_id = request.data["order_id"]
             order = Order.objects.get(order_id=order_id)
             amount = order.price
+            print(amount)
 
     
         # Create a Razorpay Order
