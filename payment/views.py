@@ -22,7 +22,7 @@ class ServicePaymentAPIView(APIView):
     def get(self,request,order_id):
         currency = 'INR'
         order = Order.objects.get(order_id=order_id)
-        amount = int(order.price)*100
+        amount = int(order.plan.plan_price)*100
         razorpay_order = razorpay_client.order.create(dict(amount=amount,
                                                         currency=currency,
                                                         payment_capture='0'))
