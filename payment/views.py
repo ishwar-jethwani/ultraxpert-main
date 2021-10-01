@@ -36,7 +36,7 @@ class ServicePaymentAPIView(APIView):
         context['razorpay_amount'] = amount
         context['currency'] = currency
         context['callback_url'] = callback_url
-        return render(request,"payment.html")
+        return render(request,"payment.html",context)
 
     @csrf_exempt
     def post(self,request):
@@ -82,7 +82,7 @@ class PlanPaymentAPIView(APIView):
         context['razorpay_amount'] = amount
         context['currency'] = currency
         context['callback_url'] = callback_url
-        return render(request,"payment.html")
+        return render(request,"payment.html",context)
 
     @csrf_exempt
     def post(self,request):
