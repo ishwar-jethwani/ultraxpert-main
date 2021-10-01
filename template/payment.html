@@ -88,11 +88,6 @@
 	// Pass the `id` obtained in the response of Step 1
 	order_id: "{{ razorpay_order_id }}",
 	callback_url: "{{ callback_url }}",
-    "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
-    },
 	};
 	
 	// initialise razorpay with the options.
