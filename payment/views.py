@@ -27,7 +27,7 @@ class ServicePaymentAPIView(APIView):
                                                         currency=currency,
                                                         payment_capture='0'))
         razorpay_order_id = razorpay_order['id']
-        callback_url = 'pay/'
+        callback_url = '/'
     
         # we need to pass these details to frontend.
         context = {}
@@ -73,7 +73,7 @@ class PlanPaymentAPIView(APIView):
                                                         currency=currency,
                                                         payment_capture='0'))
         razorpay_order_id = razorpay_order['id']
-        callback_url = 'pay/'
+        callback_url = '/'
     
         # we need to pass these details to frontend.
         context = {}
