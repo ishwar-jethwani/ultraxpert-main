@@ -112,15 +112,15 @@ class PlanPaymentAPIView(APIView):
 class GetResponse(APIView):
     def post(self,request):
         data = request.data
+        order_id = data["payload"]["payment"]["entity"]["order_id"]
         print("response",data)
-        return Response({"data":request.data}) 
-        # payment_data = PaymentStatus.objects.create(order_no=data["order_no"],response=data)
-        # if payment_data:
-        #     payment_created = PaymantStatusSerializer(payment_data)
-        #     return Response(data=payment_created.data)
+        payment_data = PaymentStatus.objects.create(order_no=order_id,response=data)
+        if payment_data:
+            payment_created = PaymantStatusSerializer(payment_data)
+            return Response(data=payment_created.data)
 
     def get(self,request):
-        # order_no = request.data["order_no"]
-        # data = PaymentStatus.objects.get(order_no=order_no)
-        # payment_created = PaymantStatusSerializer(data)
-        return Response({"data":request.data}) 
+        order_no = request.data["payload"]["payment"]["entity"]["order_id"]
+        data = PaymentStatus.objects.get(order_no=order_no)
+        payment_created = PaymantStatusSerializer(data)
+        return Response(data = payment_created.data) 
