@@ -47,7 +47,7 @@ class ServicePaymentAPIView(APIView):
             'razorpay_payment_id': payment_id,
             'razorpay_signature': signature
         }
-        result = razorpay_client.utility.verify_payment_signature(
+        razorpay_client.utility.verify_payment_signature(
                 params_dict)
         capture = razorpay_client.payment.capture(payment_id, self.amount)
         if capture:
@@ -87,7 +87,7 @@ class PlanPaymentAPIView(APIView):
             'razorpay_signature': signature
         }
 
-        result = razorpay_client.utility.verify_payment_signature(params_dict)
+        razorpay_client.utility.verify_payment_signature(params_dict)
 
         amount = self.amount 
         capture = razorpay_client.payment.capture(payment_id, amount)
