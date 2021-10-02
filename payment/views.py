@@ -21,8 +21,8 @@ class ServicePaymentAPIView(APIView):
     def get(self,request,order_id):
         currency = 'INR'
         order = Order.objects.get(order_id=order_id)
-        amount = int(order.price)*100
-        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+        self.amount = int(order.price)*100
+        razorpay_order = razorpay_client.order.create(dict(amount=self.amount,
                                                         currency=currency,
                                                         payment_capture='0'))
         razorpay_order_id = razorpay_order['id']
@@ -32,7 +32,7 @@ class ServicePaymentAPIView(APIView):
         context = {}
         context['razorpay_order_id'] = razorpay_order_id
         context['razorpay_merchant_key'] = RAZOR_KEY_ID
-        context['razorpay_amount'] = amount
+        context['razorpay_amount'] = self.amount
         context['currency'] = currency
         context['callback_url'] = callback_url
         return render(request,"payment.html",context)
@@ -47,28 +47,21 @@ class ServicePaymentAPIView(APIView):
             'razorpay_payment_id': payment_id,
             'razorpay_signature': signature
         }
-
         result = razorpay_client.utility.verify_payment_signature(
                 params_dict)
-        if result is None:
-            amount = 20000  # Rs. 200
-            try:
-                razorpay_client.payment.capture(payment_id, amount)
- 
-                    # render success page on successful caputre of payment
-                return render(request, 'paymentsuccess.html')
-            except:
-                    # if there is an error while capturing payment.
-                return render(request, 'paymentfail.html')
+        capture = razorpay_client.payment.capture(payment_id, self.amount)
+        if capture:
+            return render(request, 'paymentsuccess.html')
         else:
             return render(request, 'paymentfail.html')
+
 
 class PlanPaymentAPIView(APIView):
     def get(self,request,subs_id):
         currency = 'INR'
         subscibers = Subscriptions.objects.get(subs_id=subs_id)
-        amount = int(subscibers.plan.plan_price)*100
-        razorpay_order = razorpay_client.order.create(dict(amount=amount,
+        self.amount = int(subscibers.plan.plan_price)*100
+        razorpay_order = razorpay_client.order.create(dict(amount=self.amount,
                                                         currency=currency,
                                                         payment_capture='0'))
         razorpay_order_id = razorpay_order['id']
@@ -78,7 +71,7 @@ class PlanPaymentAPIView(APIView):
         context = {}
         context['razorpay_order_id'] = razorpay_order_id
         context['razorpay_merchant_key'] = RAZOR_KEY_ID
-        context['razorpay_amount'] = amount
+        context['razorpay_amount'] = self.amount
         context['currency'] = currency
         context['callback_url'] = callback_url
         return render(request,"payment.html",context)
@@ -94,20 +87,16 @@ class PlanPaymentAPIView(APIView):
             'razorpay_signature': signature
         }
 
-        result = razorpay_client.utility.verify_payment_signature(
-                params_dict)
-        if result is None:
-            amount = 20000  # Rs. 200
-            try:
-                razorpay_client.payment.capture(payment_id, amount)
+        result = razorpay_client.utility.verify_payment_signature(params_dict)
+
+        amount = self.amount 
+        capture = razorpay_client.payment.capture(payment_id, amount)
  
-                    # render success page on successful caputre of payment
-                return render(request, 'paymentsuccess.html')
-            except:
-                    # if there is an error while capturing payment.
-                return render(request, 'paymentfail.html')
+        if capture:         # render success page on successful caputre of payment
+            return render(request, 'paymentsuccess.html')
         else:
-            return render(request, 'paymentfail.html')    
+            return render(request, 'paymentfail.html')
+  
 
 class GetResponse(APIView):
     def post(self,request):
@@ -124,3 +113,5 @@ class GetResponse(APIView):
         data = PaymentStatus.objects.get(order_no=order_no)
         payment_created = PaymantStatusSerializer(data)
         return Response(data = payment_created.data) 
+
+

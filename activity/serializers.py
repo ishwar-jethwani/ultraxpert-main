@@ -36,7 +36,7 @@ class OrderHistorySerializer(serializers.ModelSerializer):
         depth = 1
 
     def update(self,instance, validated_data):
-        transaction = PaymentStatus.objects.get(order_no=instance.order_id)
+        transaction = PaymentStatus.objects.get(payment_id=instance.payment_id)
         if transaction.response["result"] == "success":
             instance.paid = True
             
