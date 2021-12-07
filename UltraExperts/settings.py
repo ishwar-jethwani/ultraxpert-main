@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'ckeditor',
     'drf_yasg',
-    'agora',
+    'meet',
     # system application
     "user",
     "activity",

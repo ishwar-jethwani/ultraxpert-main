@@ -43,6 +43,7 @@ urlpatterns = [
     path("payments/",include("payment.urls")),
     path("socialauth/",include("socialauth.urls")),
     path('register/', include('dj_rest_auth.registration.urls')),
+    path("meet/",include('meet.urls')),
     path("login/",CustomLoginView.as_view(),name="login"),
     path("logout/",LogoutView.as_view(),name="logout"),
     path("password/reset/",ResetPassword.as_view(),name="reset_password"),
@@ -54,6 +55,7 @@ urlpatterns = [
     path("mobile_reset_password/",MobileResetPassword.as_view(),name="mobile_password_reset"),
     path("mobile_verification/",MobileVerificationApi.as_view(),name="mobile_verification"),
     path("privacy/",privacy,name="privacy"),
+    
 
 
     

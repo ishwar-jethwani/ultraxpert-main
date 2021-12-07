@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UltraMeet</title>
+</head>
+
+<body>
+    
+    <script>
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+
+        script.addEventListener("load", function (event) {
+            const config = {
+                name: "",
+                meetingId: "ultrameet_testing",
+                apiKey: "68a807a6-8d98-4549-8c81-76285d21af7d",
+
+                containerId: null,
+
+                joinScreen: {
+                        visible: true,
+                        title: "Meeting",
+                        meetingUrl: "customURL.com",
+                        },
+                micEnabled: true,
+                webcamEnabled: true,
+                participantCanToggleSelfWebcam: true,
+                participantCanToggleSelfMic: true,
+                chatEnabled: true,
+                screenShareEnabled: true,
+                whiteBoardEnabled:true,
+                pollEnabled:true,
+                raiseHandEnabled:true,
+                recordingEnabled: true,
+                participantCanToggleRecording: true,
+                recordingWebhookUrl: "yourwebsite.com/callback",
+                brandingEnabled: true,
+                brandLogoURL: " ",
+                brandName: "UltraMeet",
+                poweredBy: false,
+                pin: {
+                    allowed: true,
+                    layout: "SIDEBAR",
+                },
+                
+                participantCanLeave: true,
+                redirectOnLeave: "https://www.ultracreation.tech/",
+
+                /*
+          
+               Other Feature Properties
+                
+                */
+            };
+
+            const meeting = new VideoSDKMeeting();
+            meeting.init(config);
+        });
+
+        script.src =
+            "https://sdk.videosdk.live/rtc-js-prebuilt/0.1.15/rtc-js-prebuilt.js";
+        document.getElementsByTagName("head")[0].appendChild(script);
+    </script>
+</body>
+
+</html>
