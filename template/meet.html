@@ -8,6 +8,7 @@
 <body>
     
     <script>
+        var api_key = {{API_KEY|safe}}
         var script = document.createElement("script");
         script.type = "text/javascript";
 
@@ -15,7 +16,7 @@
             const config = {
                 name: "",
                 meetingId: "ultrameet_testing",
-                apiKey: `${API_KEY|safe}`,
+                apiKey: ""+api_key,
 
                 containerId: null,
 
