@@ -4,9 +4,10 @@ from UltraExperts.constants import VIDEOSDK_API_KEY
 # Create your views here.
 def meet(request):
     key = ""
-    if len(os.environ["API_KEY"]) == 0:
-        key = VIDEOSDK_API_KEY
-    else:
+    try:
         key = os.environ["API_KEY"]
+    except KeyError:
+        key = VIDEOSDK_API_KEY
+       
     context = {"API_KEY":str(key)}
     return render(request,"meet.html",context)
