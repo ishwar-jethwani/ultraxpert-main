@@ -8,5 +8,5 @@ def meet(request):
         key = VIDEOSDK_API_KEY
     else:
         key = os.environ["API_KEY"]
-    context = {"API_KEY":key}
+    context = {"API_KEY":str(key)}
     return render(request,"meet.html",context)

@@ -8,16 +8,16 @@
 <body>
     
     <script>
-        let api_key_first = {{API_KEY|safe}}
-        let api_key = "" + api_key_first
+        
+
         var script = document.createElement("script");
         script.type = "text/javascript";
 
         script.addEventListener("load", function (event) {
-            const config = {
+            let config = {
                 name: "",
                 meetingId: "ultrameet_testing",
-                apiKey: api_key,
+                apiKey:{{API_KEY|safe}},
 
                 containerId: null,
 
