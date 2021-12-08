@@ -29,7 +29,7 @@ class MeetingAPI(APIView):
                 meeting_space = self.get_meet(self.request,meet.meeting_id,name,title)
                 return meeting_space
     
-    def get_meet(request,meeting_id,name,title):
+    def get_meet(self,request,meeting_id,name,title):
         key = ""
         try:
             key = os.environ["API_KEY"]
