@@ -14,7 +14,7 @@ from rest_framework.response import Response
 class MeetingAPI(APIView):
     permission_classes = [IsAuthenticated]
 
-    def meet(self,request):
+    def get(self,request):
         user = request.user
         consumer = Profile.objects.get(profile=user)
         name = "".join(f'{consumer.first_name} {consumer.last_name}')
@@ -26,10 +26,10 @@ class MeetingAPI(APIView):
             )
             if meet:
                 serialize = MeetingSerializer(meet)
-                meeting_space = self.get(self.request,meet.meeting_id,name,title)
+                meeting_space = self.get_meet(self.request,meet.meeting_id,name,title)
                 return meeting_space
     
-    def get(request,meeting_id,name,title):
+    def get_meet(request,meeting_id,name,title):
         key = ""
         try:
             key = os.environ["API_KEY"]
