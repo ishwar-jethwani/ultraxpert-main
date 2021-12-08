@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import os
 from rest_framework import serializers
 from rest_framework.views import APIView
@@ -36,8 +36,11 @@ def get_meet(request,meeting_id):
     data = Meeting.objects.get(meeting_id=meeting_id)
     title = data.service_name
     user = request.user
-    consumer = Profile.objects.get(profile=user)
-    name = "".join(f'{consumer.first_name} {consumer.last_name}')
+    try:
+        consumer = Profile.objects.get(profile=user)
+        name = "".join(f'{consumer.first_name} {consumer.last_name}')
+    except:
+        return redirect("login")
     key = ""
     try:
         key = os.environ["API_KEY"]
