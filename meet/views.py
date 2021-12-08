@@ -28,12 +28,16 @@ class MeetingAPI(APIView):
                 service_name = title
             )
             if meet:
-                serialize = MeetingSerializer(meet)
                 meeting_id = meet.meeting_id
-                meeting_space = get_meet(self.request,meeting_id,name,title)
+                meeting_space = get_meet(self.request,meeting_id)
                 return Response({"url":f'{BASE_URL}/{meeting_id}/'})
 
-def get_meet(request,meeting_id,name,title):
+def get_meet(request,meeting_id):
+    data = Meeting.objects.get(meeting_id=meeting_id)
+    title = data.service_name
+    user = request.user
+    consumer = Profile.objects.get(profile=user)
+    name = "".join(f'{consumer.first_name} {consumer.last_name}')
     key = ""
     try:
         key = os.environ["API_KEY"]
