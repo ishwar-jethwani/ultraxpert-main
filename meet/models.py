@@ -13,7 +13,7 @@ class Meeting(models.Model):
         class Meta:
             ordering = ["-date_time"]
 
-        def __str_(self):
+        def __str__(self):
             self.meeting_id
 
 
