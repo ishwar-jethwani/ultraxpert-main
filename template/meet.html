@@ -16,16 +16,16 @@
 
         script.addEventListener("load", function (event) {
             let config = {
-                name: "Rishabh",
-                meetingId: "milkyway",
+                name: "{{name|safe}}",
+                meetingId: "{{meeting_id|safe}}",
                 apiKey:"{{API_KEY|safe}}",
 
                 containerId: null,
 
                 joinScreen: {
                         visible: true,
-                        title: "Meeting",
-                        meetingUrl: "customURL.com",
+                        title: "{{title|safe}}",
+                        meetingUrl: "",
                         },
                 micEnabled: true,
                 webcamEnabled: true,
@@ -38,7 +38,7 @@
                 raiseHandEnabled:true,
                 recordingEnabled: true,
                 participantCanToggleRecording: true,
-                recordingWebhookUrl: "yourwebsite.com/callback",
+                recordingWebhookUrl: "ultraxpert.com/callback",
                 brandingEnabled: true,
                 brandLogoURL: " ",
                 brandName: "UltraMeet",
