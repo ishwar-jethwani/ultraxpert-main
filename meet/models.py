@@ -14,7 +14,9 @@ class Meeting(models.Model):
             ordering = ["-date_time"]
 
         def __str__(self):
-            self.meeting_id
+            return self.meeting_id
+
+
 
 
 def pre_save_create_meeting_id(sender, instance, *args, **kwargs):
