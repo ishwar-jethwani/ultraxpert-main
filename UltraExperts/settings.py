@@ -120,8 +120,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
  
-#CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com"]
-CORS_ORIGIN_ALLOWED_ALL = True
+CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000"]
+#CORS_ORIGIN_ALLOWED_ALL = True
 
 CORS_ALLOW_METHODS = [
     'DELETE',
