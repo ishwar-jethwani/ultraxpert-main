@@ -3,6 +3,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.core.mail import send_mail
+from django.db.models.fields.json import JSONField
 from googleapiclient import model
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db.models.signals import pre_save
@@ -57,6 +58,7 @@ class User_Plans(models.Model):
     plan_name       = models.CharField(max_length=50,verbose_name="Plan Name")
     plan_price      = models.DecimalField(verbose_name="Price",decimal_places=2,max_digits=10)
     no_of_service   = models.PositiveIntegerField(default=5,verbose_name="No of service which can we add")
+    no_of_meeting   = models.PositiveBigIntegerField(default=2,verbose_name="No of Meetings")
     date_created    = models.DateField(auto_now_add=True)
     expire_in_days  = models.PositiveIntegerField(default=30,verbose_name="User plan expire in days")
 
@@ -145,6 +147,8 @@ class Profile(models.Model):
     keywords            = models.ManyToManyField(Keywords,blank=True)
     categories          = models.ManyToManyField(Category,blank=True)
     user_plan           = models.ForeignKey(User_Plans,on_delete=models.CASCADE,null=True)
+    education           = models.JSONField(default=dict,verbose_name="Education")
+    experience          = models,JSONField(default=dict,verbose_name="Experience")
 
 
 

@@ -5,12 +5,16 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from UltraExperts.constants import VIDEOSDK_API_KEY
 from meet.models import Meeting
-from user.models import User,Services,Profile
+from user.models import User,Services,Profile, User_Plans
 from django.db.models.query_utils import Q
 from .serializers import MeetingSerializer
 from rest_framework.response import Response
+from UltraExperts.settings import DEBUG
 
-BASE_URL = os.environ["BASE_URL"]
+if DEBUG==True:
+    BASE_URL = "http://127.0.0.1:8000"
+else:
+    BASE_URL = os.environ["BASE_URL"]
     
 
 
@@ -20,17 +24,19 @@ class MeetingAPI(APIView):
     def get(self,request):
         user = request.user
         consumer = Profile.objects.get(profile=user)
-        name = "".join(f'{consumer.first_name} {consumer.last_name}')
         if consumer.profile.is_expert==True:
-            title = Services.objects.get(user=consumer.profile).service_name
-            meet = Meeting.objects.create(
-                expert = consumer.profile,
-                service_name = title
-            )
-            if meet:
-                meeting_id = meet.meeting_id
-                meeting_space = get_meet(self.request,meeting_id)
-                return Response({"url":f'{BASE_URL}/{meeting_id}/'})
+            if consumer.user_plan>0:
+                title = Services.objects.get(user=consumer.profile).service_name
+                meet = Meeting.objects.create(
+                    expert = consumer.profile,
+                    service_name = title
+                )
+                if meet:
+                    meeting_id = meet.meeting_id
+                    meeting_space = get_meet(self.request,meeting_id)
+                    return Response({"url":f'{BASE_URL}/{meeting_id}/'})
+            else:
+                return Response({"res":0,"msg":"you dont have meeting"})
 
 def get_meet(request,meeting_id):
     data = Meeting.objects.get(meeting_id=meeting_id)
