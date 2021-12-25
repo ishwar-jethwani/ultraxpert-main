@@ -46,17 +46,15 @@ class UserPlanSelect(APIView):
         user_profile = Profile.objects.filter(profile=user)
         plan_selected = user_profile.update(user_plan=plan_selection)
         if plan_selected:
-            usr = User.objects.filter(user_id=user.user_id)
-            usr.update(is_expert=True)
+            User.objects.filter(user_id = user.user_id).update(is_expert=True)
             subscription = Subscriptions.objects.create(
                 plan = plan_selection,
                 user = user
             )
             if subscription:
                 serialize = SubscriptionSerializer(subscription)
-                
                 return Response(data=serialize.data,status=status.HTTP_200_OK)
-            return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
 class Expert_View(APIView):
 
@@ -65,20 +63,11 @@ class Expert_View(APIView):
         expert_list = []
         for i in user:
             profile_obj = Profile.objects.filter(Q(profile__is_expert=True) & Q(profile__user_id=i.user_id))
-            social_obj = SocialMedia.objects.filter(user__user_id=i.user_id)
-            service_obj = Services.objects.filter(user__user_id=i.user_id)
             rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
             rating_res = RatingSerializer(rating_obj,many=True)
             profile_res = ProfileSerializer(profile_obj,many=True)
-            social_res  = SocialMediaSerializer(social_obj,many=True)
-            service_res = ServicesSerializer(service_obj,many=True)
             user_profiles = json.dumps(profile_res.data)
             profiles = json.loads(user_profiles)
-            user_services = json.dumps(service_res.data)
-            services = json.loads(user_services)
-            user_social_links = json.dumps(social_res.data)
-            social_links = json.loads(user_social_links)
-
             data = json.dumps(rating_res.data)
             stars = json.loads(data)
             avg_list = list()
@@ -90,7 +79,7 @@ class Expert_View(APIView):
             except ZeroDivisionError:
                 avg = 0.0
                 count= len(avg_list)
-            profile = {"expert_profile":{"personal_detail":profiles,"social":social_links,"services":services,"ratings":{"avg":avg,"reviews":count}}}
+            profile = {"expert_profile":{"personal_detail":profiles,"ratings":{"avg":avg,"reviews":count}}}
             expert_list.append(profile)
         return Response({"experts":expert_list})
 

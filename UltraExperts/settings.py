@@ -29,10 +29,14 @@ SECRET_KEY = SECRET_KEY
 #SECRET_KEY = os.getenv("AKIA5DN3OIK4N4I7SMC3")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-SECURE_SSL_REDIRECT = True
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
+if DEBUG == False:
+    SECURE_SSL_REDIRECT = True
+else:
+    SECURE_SSL_REDIRECT = False
 
 
 # Application definition
@@ -120,7 +124,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
  
-CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000"]
 #CORS_ORIGIN_ALLOWED_ALL = True
 
 CORS_ALLOW_METHODS = [

@@ -104,6 +104,11 @@ class Category(models.Model):
         return ' -> '.join(full_path[::-1])
 
 class Services(models.Model):
+    currency_take = (
+        ("INR","INR"),
+        ("USD","USD"),
+        ("GBP","GBP")
+    )
     user            = models.ForeignKey(User,on_delete=models.CASCADE)
     service_id      = models.CharField(max_length=20,verbose_name="Service ID",unique=True,blank=True)
     service_type    = models.CharField(max_length=50,verbose_name="Service Type",choices=Services_type)
@@ -114,6 +119,7 @@ class Services(models.Model):
     duration        = models.CharField(max_length=10,verbose_name="Duration",blank=True,null=True)
     delivery_date   = models.DateTimeField(blank=True,default=timezone.now)
     price           = models.DecimalField(max_digits=10,decimal_places=2,verbose_name="Price",blank=True)
+    currency        = models.CharField(max_length=10,verbose_name="Currency",choices=currency_take,default="INR")
     date_created    = models.DateTimeField(auto_now_add=True)
     tags            = models.CharField(max_length=200,verbose_name="Keywords")
     ordered         = models.BooleanField(default=False)
