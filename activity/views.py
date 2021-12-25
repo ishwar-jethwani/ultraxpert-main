@@ -178,7 +178,12 @@ class ExpertGotOrder(generics.ListAPIView):
 
 
 
-
+class SubscriptionView(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = SubscriptionSerializer
+    def get_queryset(self):
+        return Subscriptions.objects.filter(order_on=self.request.user)
+    
 
 
     
