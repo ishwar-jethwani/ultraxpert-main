@@ -6,6 +6,7 @@ urlpatterns = [
     # path("subs_pay/<str:subs_id>/",PlanPaymentAPIView.as_view(),name="subs_payment"),
     # path("response/",GetResponse.as_view(),name="response")
     path("create_customer/",CreateCustomer.as_view(),name="create_customer"),
-    path("pay/<str:order_id>/",ServiceOrderPayment.as_view(),name="pay_order")
+    path("pay/<str:order_id>/",ServiceOrderCreate.as_view(),name="create_order"),
+    path("pay_link/<str:order_id>/",PaymentLink.as_view(),name="pay_link")
     
 ]

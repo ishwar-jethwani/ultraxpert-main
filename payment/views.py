@@ -14,6 +14,7 @@ import os
 import requests
 from requests.auth import HTTPBasicAuth
 from activity.models import *
+from decimal import Decimal
 
 if DEBUG==True:
     BASE_URL = "http://127.0.0.1:8000"
@@ -52,13 +53,13 @@ class CreateCustomer(APIView):
                 return Response({"res":0,"msg":"somthing went wrong"})
 
                 
-class ServiceOrderPayment(APIView):
+class ServiceOrderCreate(APIView):
     endpoint = "orders" 
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
     permission_classes = [IsAuthenticated]
-    def post(self,request,order_id):
-        user = Profile.objects.get(profile=request.user)
+    def get(self,request,order_id):
+        
         try:
             order = Order.objects.get(order_id=order_id)
             payload = {
@@ -67,27 +68,45 @@ class ServiceOrderPayment(APIView):
             "receipt": "Recept"+"-"+order.order_id,
             }
             order_creted = requests.request("POST",url=self.url,auth=self.auth,data=payload)
-            if order_creted.json()["status"]=="created":
-                self.endpoint = "payment_links"
-                self.url = PAYMANT_BASE_URL+self.endpoint
-                reference_id = order_creted.json()["id"]
-                amount = order_creted.json()["amount"]
-                currency = order_creted.json()["currency"]
-                payload = {
-                    "amount":int(amount*100),
+            return Response(order_creted.json())
+
+
+                # self.endpoint = f"payments/{pay_id}/capture"
+                # self.url = PAYMANT_BASE_URL+self.endpoint
+                # payload = {
+                #     "amount":amount,
+                #     "currency":currency
+                # }
+                # payment = requests.request("POST",url=self.url,data=payload,auth=self.auth)
+                # return Response(payment.json())
+                
+        except Exception as e:
+            print(e)
+            return Response({"res":0,"msg":"somthing went wrong"})
+
+
+class PaymentLink(APIView):
+    endpoint = "payment_links"
+    auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
+    url = PAYMANT_BASE_URL+endpoint
+    permission_classes = [IsAuthenticated]
+    def get(self,request, order_id):
+        user = Profile.objects.get(profile=request.user)
+        try:
+            order = Order.objects.get(order_id=order_id)
+            reference_id = order.order_id
+            amount = order.service_obj.price
+            currency = order.service_obj.currency
+            payload = {
+                    "amount":20000,
                     "currency": currency,
                     "reference_id": reference_id,
-                    "accept_partial": False,
+                    "description": f"Pay for {order.service_obj.service_name} ",
                     "customer": {
                         "name": f"{user.first_name} {user.last_name }",
                         "contact": str(user.mobile_number),
                         "email": str(user.profile.email),
                     },
-                    "notify": {
-                        "sms": True,
-                        "email": True
-                    },
-                    "reminder_enable": True,
                     "options": {
                             "checkout": {
                             "method": {
@@ -101,14 +120,12 @@ class ServiceOrderPayment(APIView):
                     "notes": {
                         "service_name": f"{order.service_obj.service_name}"
                     },
-                    "callback_url": f"{BASE_URL}/{order.order_id}",
+                    "callback_url": f"{BASE_URL}",
                     "callback_method": "get"
                     }
+            payment_link = requests.request("POST",url=self.url,auth=self.auth,data=payload)
+            return Response(payment_link.json())
 
-                payload=json.dumps(payload)
-                print(payload)
-                payment_link = requests.request("POST",url=self.url,auth=self.auth,data=payload)
-                return Response((payment_link.json()))
 
                 # self.endpoint = f"payments/{pay_id}/capture"
                 # self.url = PAYMANT_BASE_URL+self.endpoint
