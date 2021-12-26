@@ -98,7 +98,7 @@ class PaymentLink(APIView):
             amount = order.service_obj.price
             currency = order.service_obj.currency
             payload = {
-                    "amount":20000,
+                    "amount":int(amount*100),
                     "currency": currency,
                     "reference_id": reference_id,
                     "description": f"Pay for {order.service_obj.service_name} ",
