@@ -6,6 +6,7 @@ from .views import *
 
 urlpatterns = [
     path("",Expert_View.as_view(),name="home"),
+    path("expert/<str:pk>/",ExpertDetailView.as_view(),name="user_detail"),
     path("update/<str:user_id>/",UserUpdateAPI.as_view(),name="user_update"),
     path("profile/<str:pk>/",Profile_View.as_view(),name="profile"),
     path("category-select/",CategoryAPIView.as_view(),name="category"),
@@ -16,6 +17,7 @@ urlpatterns = [
     path("user_plan/",UserPlanAPIView.as_view(),name="user_plan"),
     path("user_plan_selection/",UserPlanSelect.as_view(),name="user_plan_selection"),
     path("service/read-update-delete/<str:pk>/",ServiceRetriveUpdateDelete.as_view(),name="service-read-update-delete"),
-    path("delete/",UserDelete.as_view(),name="delete")
+    path("delete/",UserDelete.as_view(),name="delete"),
+    
 
 ]

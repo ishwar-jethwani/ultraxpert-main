@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from UltraExperts.constants import VIDEOSDK_API_KEY
 from meet.models import Meeting
-from user.models import User,Services,Profile, User_Plans
+from user.models import User,Services,Profile, UserPlans
 from django.db.models.query_utils import Q
 from .serializers import MeetingSerializer
 from rest_framework.response import Response

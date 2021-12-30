@@ -89,70 +89,11 @@ class OrderHistory(APIView):
 
 
 
-class ExpertSearchView(generics.ListAPIView):
-    queryset = Profile.objects.filter(profile__is_expert = True)
-    serializer_class = ProfileSerializer
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
-    search_fields = ["first_name","last_name","profile__username","profile__email"]
-
-
-class ExpertServicesSearchView(generics.ListAPIView):
-    queryset = Services.objects.all()
-    serializer_class = ServicesSerializer
-    filter_backends = [filters.SearchFilter,filters.OrderingFilter]
-    search_fields = ["service_name"]
-
-class SearchView(APIView):
-    def get(self,request):
-        data = request.data["serach"]
-        try:
-            keyword = Keywords.objects.get(name=data)
-            related_expert = Profile.objects.filter(keywords=keyword)
-        except:
-            category = Category.objects.get(name=data)
-            related_expert = Profile.objects.filter(categories=category)
-        serialize = ProfileSerializer(related_expert,many=True)
-        if serialize:
-            return Response(serialize.data,status=status.HTTP_200_OK)
-        return Response({"msg":"we could not find any profile releted to this keyword or category"})
 
 
 
 
-class ExpertDetailView(APIView):
 
-    def get(self,request,pk):
-        user = User.objects.get(pk=pk)
-
-        profile_obj = Profile.objects.filter(Q(profile__is_expert=True) & Q(profile__user_id=user.user_id))
-        social_obj = SocialMedia.objects.filter(user__user_id=user.user_id)
-        service_obj = Services.objects.filter(user__user_id=user.user_id)
-        rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=user.user_id)
-        rating_res = RatingSerializer(rating_obj,many=True)
-        profile_res = ProfileSerializer(profile_obj,many=True)
-        social_res  = SocialMediaSerializer(social_obj,many=True)
-        service_res = ServicesSerializer(service_obj,many=True)
-        user_profiles = json.dumps(profile_res.data)
-        profiles = json.loads(user_profiles)
-        user_services = json.dumps(service_res.data)
-        services = json.loads(user_services)
-        user_social_links = json.dumps(social_res.data)
-        social_links = json.loads(user_social_links)
-
-        data = json.dumps(rating_res.data)
-        stars = json.loads(data)
-        avg_list = list()
-        for star in stars:
-            avg_list.append(star["star_rating"]) 
-        try:
-            avg = sum(avg_list)/len(avg_list)
-            count= len(avg_list)
-        except ZeroDivisionError:
-            avg = 0.0
-            count= len(avg_list)
-
-        profile = {"expert profile":{"personal_detail":profiles,"social":social_links,"sevices":services,"ratings":{"avg":round(avg,1),"reviews":count}}}
-        return Response(profile,status=status.HTTP_200_OK)
 
 
 

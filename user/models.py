@@ -20,7 +20,7 @@ import json
 
 class Keywords(models.Model):
     name = models.CharField(max_length=10,verbose_name="Keyword",null=True,blank=True)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     class Meta:
         ordering = ["-date_created"]
@@ -30,14 +30,14 @@ class Keywords(models.Model):
 
 
 class User(AbstractBaseUser,PermissionsMixin):
-    user_id     = models.CharField(max_length=10,unique=True)
-    username    = models.CharField(max_length=50,unique=True,verbose_name="username")
+    user_id     = models.CharField(max_length=10,unique=True,blank=True,null=True)
+    username    = models.CharField(max_length=50,unique=True,verbose_name="username",blank=True,null=True)
     is_staff    = models.BooleanField(default=False)
     is_superuser= models.BooleanField(default=False)
     is_active   = models.BooleanField(('active'), default=True)
-    mobile      = PhoneNumberField()
+    mobile      = PhoneNumberField(blank=True,null=True)
     email       = models.EmailField(('email address'),unique=True)
-    date_joined = models.DateTimeField(('date_joined'), auto_now_add=True)
+    date_joined = models.DateTimeField(('date_joined'),auto_now_add=True,blank=True,null=True)
     is_expert   = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
@@ -53,15 +53,15 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 
 
-class User_Plans(models.Model):
+class UserPlans(models.Model):
     plan_id         = models.CharField(max_length=20,verbose_name="plan_id",blank=True,unique=True)
-    plan_name       = models.CharField(max_length=50,verbose_name="Plan Name")
-    plan_price      = models.DecimalField(verbose_name="Price",decimal_places=2,max_digits=10)
-    no_of_service   = models.PositiveIntegerField(default=5,verbose_name="No of service which can we add")
-    no_of_meeting   = models.PositiveBigIntegerField(default=2,verbose_name="No of Meetings")
-    date_created    = models.DateField(auto_now_add=True)
-    expire_in_days  = models.PositiveIntegerField(default=30,verbose_name="User plan expire in days")
-
+    plan_name       = models.CharField(max_length=50,verbose_name="Plan Name",blank=True,null=True)
+    plan_price      = models.DecimalField(verbose_name="Price",decimal_places=2,max_digits=10,blank=True,null=True)
+    no_of_service   = models.PositiveIntegerField(default=5,verbose_name="No of service which can we add",blank=True,null=True)
+    no_of_meeting   = models.PositiveBigIntegerField(default=0,verbose_name="No of Meetings",blank=True,null=True)
+    duration        = models.DurationField(verbose_name="Meeting Duration",blank=True,null=True)
+    date_created    = models.DateField(auto_now_add=True,blank=True,null=True)
+    expire_in_days  = models.PositiveIntegerField(default=30,verbose_name="User plan expire in days",blank=True,null=True)
 
     def __str__(self) -> str:
         return self.plan_name
@@ -73,9 +73,9 @@ class User_Plans(models.Model):
 
 class SocialMedia(models.Model):
     user    = models.ForeignKey(User,on_delete=models.CASCADE)
-    icon    = models.CharField(max_length=100,verbose_name="icon")
-    plateform_name = models.CharField(max_length=30,verbose_name="Plateform Name")
-    link    = models.URLField(verbose_name="Link")
+    icon    = models.CharField(max_length=100,verbose_name="icon",blank=True,null=True)
+    plateform_name = models.CharField(max_length=30,verbose_name="Plateform Name",blank=True,null=True)
+    link    = models.URLField(verbose_name="Link",blank=True,null=True)
 
 
     def __str__(self) -> str:
@@ -111,17 +111,17 @@ class Services(models.Model):
     )
     user            = models.ForeignKey(User,on_delete=models.CASCADE)
     service_id      = models.CharField(max_length=20,verbose_name="Service ID",unique=True,blank=True)
-    service_type    = models.CharField(max_length=50,verbose_name="Service Type",choices=Services_type)
-    service_img     = models.URLField(blank=True)
+    service_type    = models.CharField(max_length=50,verbose_name="Service Type",choices=Services_type,blank=True,null=True)
+    service_img     = models.URLField(blank=True,null=True)
     category        = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
-    service_name    = models.CharField(max_length=100,verbose_name="Title")
-    description     = RichTextField(verbose_name="Service in brief")
+    service_name    = models.CharField(max_length=100,verbose_name="Title",blank=True,null=True)
+    description     = RichTextField(verbose_name="Service in brief",blank=True,null=True)
     duration        = models.CharField(max_length=10,verbose_name="Duration",blank=True,null=True)
     delivery_date   = models.DateTimeField(blank=True,default=timezone.now)
     price           = models.DecimalField(max_digits=10,decimal_places=2,verbose_name="Price",blank=True)
-    currency        = models.CharField(max_length=10,verbose_name="Currency",choices=currency_take,default="INR")
-    date_created    = models.DateTimeField(auto_now_add=True)
-    tags            = models.CharField(max_length=200,verbose_name="Keywords")
+    currency        = models.CharField(max_length=10,verbose_name="Currency",choices=currency_take,default="INR",blank=True,null=True)
+    date_created    = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    tags            = models.CharField(max_length=200,verbose_name="Keywords",blank=True,null=True)
     ordered         = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -141,20 +141,20 @@ class Services(models.Model):
 
 
 class Profile(models.Model):
-    first_name          = models.CharField(max_length=25,verbose_name="First Name")
-    last_name           = models.CharField(max_length=25,verbose_name="Last Name")
+    first_name          = models.CharField(max_length=25,verbose_name="First Name",blank=True,null=True)
+    last_name           = models.CharField(max_length=25,verbose_name="Last Name",blank=True,null=True)
     profile             = models.OneToOneField(User,on_delete=models.CASCADE)
     mobile_number       = PhoneNumberField(blank=True,null=True)
     is_online           = models.BooleanField(default=False)
     got_projects        = models.ManyToManyField("activity.Project_Request",related_name="Project_Request",blank=True)
-    title               = models.CharField(max_length=100,verbose_name="Title")
-    description         = RichTextField(verbose_name="Expert brief")
+    title               = models.CharField(max_length=100,verbose_name="Title",blank=True,null=True)
+    description         = RichTextField(verbose_name="Expert brief",blank=True,null=True)
     profile_img         = models.URLField(blank=True)
     keywords            = models.ManyToManyField(Keywords,blank=True)
     categories          = models.ManyToManyField(Category,blank=True)
-    user_plan           = models.ForeignKey(User_Plans,on_delete=models.CASCADE,null=True)
-    education           = models.JSONField(default=dict,verbose_name="Education")
-    experience          = models.JSONField(default=dict,verbose_name="Experience")
+    user_plan           = models.ForeignKey(UserPlans,on_delete=models.CASCADE,null=True)
+    education           = models.JSONField(default=dict,verbose_name="Education",blank=True,null=True)
+    experience          = models.JSONField(default=dict,verbose_name="Experience",blank=True,null=True)
 
 
 
@@ -179,7 +179,19 @@ class Profile(models.Model):
 
 
 class BankDetail(models.Model):
-    pass
+    user = models.ForeignKey(User,on_delete=models.CASCADE,default=0)
+    account_holder = models.CharField(max_length=100,verbose_name="Account Holder Name",blank=True,null=True)
+    bank_name = models.CharField(max_length=1000,verbose_name="Bank Name",blank=True,null=True)
+    account_number = models.CharField(max_length=20,verbose_name="Account_number",blank=True,null=True)
+    ifsc_code = models.CharField(max_length=100,verbose_name="IFSC Code",blank=True,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Creted On",blank=True,null=True)
+
+    def __str__(self) -> str:
+        return self.user.user_id
+
+    class Meta:
+        ordering = ["-timestamp"]
+    
 
 
 def pre_save_create_user_id(sender, instance, *args, **kwargs):
@@ -205,7 +217,7 @@ def pre_save_create_plan_id(sender, instance, *args, **kwargs):
         instance.plan_id= f"PLAN{unique_plan_id_generator(instance)}"
 
 
-pre_save.connect(pre_save_create_plan_id, sender=User_Plans)
+pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
 
 
 

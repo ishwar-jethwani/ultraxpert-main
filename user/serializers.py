@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
 
-from .models import Keywords, User,Profile,Category,SocialMedia,Services, User_Plans
+from .models import Keywords, User,Profile,Category,SocialMedia,Services, UserPlans
 from activity.models import Order
 from activity.serializers import OrderSerializer
 from rest_framework.response import Response
@@ -55,13 +55,13 @@ class CategorySerializer(serializers.ModelSerializer):
         
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User_Plans
+        model = UserPlans
         fields = "__all__"
     
 
 class UserPlanSerilizer(serializers.ModelSerializer):
     class Meta:
-        model = User_Plans
+        model = UserPlans
         fields = "__all__"
 
 

@@ -6,4 +6,4 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 
-admin.site.register([User,Profile,Category,SocialMedia,User_Plans,Services,Keywords,BankDetail])
+admin.site.register([User,Profile,Category,SocialMedia,UserPlans,Services,Keywords,BankDetail])

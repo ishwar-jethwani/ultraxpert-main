@@ -38,6 +38,11 @@ if DEBUG == False:
 else:
     SECURE_SSL_REDIRECT = False
 
+if DEBUG==True:
+    BASE_URL = "http://127.0.0.1:8000"
+else:
+    BASE_URL = os.environ["BASE_URL"]
+
 
 # Application definition
 
@@ -64,18 +69,25 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'ckeditor',
     'drf_yasg',
+
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
+]
+
+# SYSTEM APPLICATION
+
+INSTALLED_APPS+=[
     'meet',
-    # system application
     "user",
     "activity",
     "chat",
     "events",
     "socialauth",
     "payment",
-    'oauth2_provider',
-    'social_django',
-    'rest_framework_social_oauth2',
-
+    "search"
 
 ]
 REST_FRAMEWORK = {
