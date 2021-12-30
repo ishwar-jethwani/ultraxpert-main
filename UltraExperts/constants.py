@@ -1,5 +1,5 @@
 from requests_aws4auth import AWS4Auth
-from elasticsearch import RequestsHttpConnection
+
 
 SECRET_KEY = 'django-insecure-4dxo_xznm7s#882^*pg0$885t=je!kh)(^qt+pg#kp!&%**wd)'
 AWS_ACCESS_KEY_ID = "AKIA5DN3OIK4N4I7SMC3"
@@ -11,19 +11,11 @@ RAZOR_KEY_SECRET = "gBFymE5aOESg7DnwpydhhPHd"
 VIDEOSDK_API_KEY = "8a6405a4-3c2b-474b-acc0-c49367cfad89"
 PAYMANT_BASE_URL = "https://api.razorpay.com/v1/"
 SERVICE = "es"
-awsauth = AWS4Auth(
+ELASTIC_SEARCH_ENDPOINT = "https://search-ultracreation-ujxyyd6ezbuiqexwslu5pe4b5m.ap-south-1.es.amazonaws.com/"
+AWS_AUTH = AWS4Auth(
                     AWS_ACCESS_KEY_ID,
                     AWS_SECRET_ACCESS_KEY,
                     REGION_NAME,
                     SERVICE ,
                 )
 
-ELASTICSEARCH_DSL = {
-        "default":{
-                    "hosts": "https://search-ultracreation-ujxyyd6ezbuiqexwslu5pe4b5m.ap-south-1.es.amazonaws.com/",
-                    "http_auth": awsauth,
-                    "use_ssl": True,
-                    "verify_certs": True,
-                    "connection_class": RequestsHttpConnection,
-                    }
-}

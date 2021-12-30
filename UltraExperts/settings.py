@@ -12,9 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import django_heroku
-from .constants import SECRET_KEY, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME, REGION_NAME
+from .constants import *
 import os
 from datetime import datetime,timedelta
+from elasticsearch import RequestsHttpConnection
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,6 +91,15 @@ INSTALLED_APPS+=[
     "search"
 
 ]
+ELASTICSEARCH_DSL = {
+        "default":{
+                    "hosts": ELASTIC_SEARCH_ENDPOINT,
+                    "http_auth": AWS_AUTH,
+                    "use_ssl": True,
+                    "verify_certs": True,
+                    "connection_class": RequestsHttpConnection,
+                    }
+}
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
