@@ -48,8 +48,8 @@ urlpatterns = [
 urlpatterns+=[
    path("login/",CustomLoginView.as_view(),name="login"),
    path("logout/",LogoutView.as_view(),name="logout"),
-   path("password/reset/",ResetPassword.as_view(),name="reset_password"),
-   path("password/change/",PasswordChangeView.as_view(),name="change_password"),
+   path("reset/",ResetPassword.as_view(),name="reset_password"),
+   path("change/",PasswordChangeView.as_view(),name="change_password"),
    path("account/", include("allauth.urls")),
    path("verification/",UserEmailVerification.as_view(),name="verification"),
    path("file/upload/",FileUploadView.as_view(),name="upload"),

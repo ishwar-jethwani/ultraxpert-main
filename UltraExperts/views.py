@@ -19,7 +19,11 @@ from django.template.loader import get_template
 from django.core.mail import send_mail
 import requests
 import json
+from twilio.rest import Client
+from .constants import TWILIO_AUTH_ID,TWILIO_SECRET_KEY
+from twilio.base.exceptions import TwilioRestException
 
+client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
@@ -42,19 +46,17 @@ class CustomLoginView(LoginView):
         orginal_response.data.update(mydata)
         email = mydata["email"]
         subject = "Ultra Creation Sending Email"
-        message = "Hi %s! Testing the email functionality" % email
-        htmly = get_template("email.html")
+        message = "Hi %s! Welcome to UltraXpert" % email
+        htmly = get_template("welcome.html")
+        htmly = htmly.render({"username":email})
 
 
         send_mail(
-
             from_email = None,
             recipient_list = [email],
             subject =subject,
-            #html_message = htmly,
+            html_message = htmly,
             message = message
-
-
             )
 
         return orginal_response 
@@ -89,6 +91,13 @@ class ResetPassword(APIView):
         self.user = User.objects.get(email=user_email)
         email = self.user.email
         if user_email == email:
+            send_mail(
+            from_email = None,
+            recipient_list = [email],
+            subject ="Reset Your Password",
+            message = f"This is you otp:{self.gen_otp} to reset your password"
+
+            )
             return Response({"msg":"email has been sent"})
         return Response({"msg":"email is failed to send"})
 

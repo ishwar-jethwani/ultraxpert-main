@@ -88,6 +88,7 @@ six==1.16.0
 social-auth-app-django==4.0.0
 social-auth-core==4.1.0
 sqlparse==0.4.1
+twilio==7.4.0
 typing-extensions==3.10.0.0
 tzlocal==2.1
 uritemplate==3.0.1
