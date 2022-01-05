@@ -153,8 +153,8 @@ class Profile(models.Model):
     keywords            = models.ManyToManyField(Keywords,blank=True)
     categories          = models.ManyToManyField(Category,blank=True)
     user_plan           = models.ForeignKey(UserPlans,on_delete=models.CASCADE,null=True)
-    education           = models.JSONField(default=dict,verbose_name="Education",blank=True,null=True)
-    experience          = models.JSONField(default=dict,verbose_name="Experience",blank=True,null=True)
+    education           = models.CharField(max_length=1000,verbose_name="Education",blank=True,null=True)
+    experience          = models.CharField(max_length=1000,verbose_name="Experience",blank=True,null=True)
 
 
 

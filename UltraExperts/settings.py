@@ -30,10 +30,10 @@ SECRET_KEY = SECRET_KEY
 #SECRET_KEY = os.getenv("AKIA5DN3OIK4N4I7SMC3")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
 if DEBUG == False:
     SECURE_SSL_REDIRECT = True
 else:
@@ -190,9 +190,6 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
@@ -216,6 +213,7 @@ LOGIN_REDIRECT_URL = "/user/user_plan_selection/"
 OLD_PASSWORD_FIELD_ENABLED = True
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'jwt-auth'
+
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
 SITE_ID = 1
@@ -226,7 +224,8 @@ REST_AUTH_SERIALIZERS = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'UltraExperts.authenticate.CustomAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
         'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ],
@@ -249,10 +248,15 @@ SIMPLE_JWT = {
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
+    'AUTH_COOKIE_HTTP_ONLY' : True,
+    'AUTH_COOKIE_PATH': '/',
+    'AUTH_COOKIE_SAMESITE': 'Lax',
 
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
-
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_DOMAIN': None,
+    'AUTH_COOKIE_SECURE': False, 
     'JTI_CLAIM': 'jti',
 
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',

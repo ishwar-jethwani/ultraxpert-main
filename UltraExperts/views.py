@@ -1,4 +1,5 @@
 from email import message
+import email
 from django.shortcuts import render
 from requests.api import post
 from rest_framework_simplejwt.tokens import Token
@@ -22,18 +23,82 @@ import json
 from twilio.rest import Client
 from .constants import TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
-
-client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.middleware import csrf
+from django.contrib.auth import authenticate
+from django.conf import settings
+from rest_framework import status
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
 SECRET_KEY = AWS_SECRET_ACCESS_KEY
 BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
 
+client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+# class LoginView(APIView):
+#     def post(self, request, format=None):
+#         data = request.data
+#         response = Response()        
+#         email = data.get('email', None) 
+#         password = data.get('password', None)
+#         user = authenticate(email=email, password=password)
+#         if user is not None:
+#             if user.is_active:
+#                 data = get_tokens_for_user(user)
+#                 response.set_cookie(
+#                     key = settings.SIMPLE_JWT['AUTH_COOKIE'], 
+#                     value = data["access"],
+#                     expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+#                     secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+#                     httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+#                     samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+#                 )
+#                 csrf.get_token(request)
+#                 response.data = {"Success" : "Login successfully","data":data}
+#                 return response
+#             else:
+#                 return Response({"No active" : "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
+#         else:
+#             return Response({"Invalid" : "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+
 
 def privacy(request):
     return render(request,"privacy.html")
+
+# def set_cookie(response, key, value):
+#     if days_expire is None:
+#         max_age = 365 * 24 * 60 * 60  # one year
+#     else:
+#         max_age = days_expire * 24 * 60 * 60
+#     expires = datetime.datetime.strftime(
+#         datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age),
+#         "%a, %d-%b-%Y %H:%M:%S GMT",
+#     )
+#     response.set_cookie(
+#         key,
+#         value,
+#         max_age=max_age,
+#         expires=expires,
+#         domain=settings.SESSION_COOKIE_DOMAIN,
+#         secure=settings.SESSION_COOKIE_SECURE or None,
+#     )
+
     
+
+
+
+
 class CustomLoginView(LoginView):
       
     def get_user(self):
@@ -44,6 +109,16 @@ class CustomLoginView(LoginView):
         orginal_response = super().get_response()
         mydata = self.get_user()
         orginal_response.data.update(mydata)
+        data = get_tokens_for_user(self.request.user)
+        orginal_response.set_cookie(
+            key = settings.SIMPLE_JWT['AUTH_COOKIE'], 
+            value = data["access"],
+            expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+            secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+            httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+            samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+        )
+        csrf.get_token(self.request)
         email = mydata["email"]
         subject = "Ultra Creation Sending Email"
         message = "Hi %s! Welcome to UltraXpert" % email
