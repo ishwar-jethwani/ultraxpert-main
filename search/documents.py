@@ -41,7 +41,7 @@ class ExpertsDocument(Document):
 
 
     class Index:
-        name = "Experts"
+        name = "experts"
         settings = {
         'number_of_shards': 1,
         'number_of_replicas': 1
