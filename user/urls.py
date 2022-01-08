@@ -14,6 +14,7 @@ urlpatterns = [
     path("social_link/",SocialMedia_view.as_view(),name="sociallink"),
     path("user_social_links/<str:user_id>/",SocialMediaLinks.as_view(),name="social_handles"),
     path("services/",ServiceCreate.as_view(),name="services"),
+    path("service_detail/<service_id>/",ServiceDetail.as_view(),name="services_detail"),
     path("user_plan/",UserPlanAPIView.as_view(),name="user_plan"),
     path("user_plan_selection/",UserPlanSelect.as_view(),name="user_plan_selection"),
     path("service/read-update-delete/<str:pk>/",ServiceRetriveUpdateDelete.as_view(),name="service-read-update-delete"),

@@ -155,6 +155,12 @@ class ServiceRetriveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         return Services.objects.filter(user=self.request.user)
 
+class ServiceDetail(generics.RetrieveAPIView):
+    serializer_class = ServicesSerializer
+    lookup_field = "service_id"
+    queryset = Services.objects.all()
+    
+
 class UserPlanAPIView(generics.ListAPIView):
     serializer_class = UserPlanSerilizer
     queryset = UserPlans.objects.all()
