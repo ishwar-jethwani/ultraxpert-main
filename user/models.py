@@ -157,8 +157,6 @@ class Profile(models.Model):
     experience          = models.CharField(max_length=1000,verbose_name="Experience",blank=True,null=True)
 
 
-
-
     def __str__(self) -> str:
         return self.profile.username
 

@@ -30,7 +30,7 @@ SECRET_KEY = SECRET_KEY
 #SECRET_KEY = os.getenv("AKIA5DN3OIK4N4I7SMC3")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
@@ -91,6 +91,7 @@ INSTALLED_APPS+=[
     "search"
 
 ]
+
 ELASTICSEARCH_DSL = {
         "default":{
                     "hosts": ELASTIC_SEARCH_ENDPOINT,
