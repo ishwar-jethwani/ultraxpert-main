@@ -17,30 +17,21 @@ import os
 from datetime import datetime,timedelta
 from elasticsearch import RequestsHttpConnection
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = SECRET_KEY
-#SECRET_KEY = os.getenv("AKIA5DN3OIK4N4I7SMC3")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = DEBUG
 ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
+
 if DEBUG == False:
     SECURE_SSL_REDIRECT = True
 else:
     SECURE_SSL_REDIRECT = False
 
 if DEBUG==True:
-    BASE_URL = "http://127.0.0.1:8000"
+    BASE_URL = BASE_URL
 else:
     BASE_URL = os.environ["BASE_URL"]
 
@@ -86,7 +77,6 @@ INSTALLED_APPS+=[
     "activity",
     "chat",
     "events",
-    "socialauth",
     "payment",
     "search"
 
@@ -94,7 +84,7 @@ INSTALLED_APPS+=[
 
 ELASTICSEARCH_DSL = {
         "default":{
-                    "hosts": ELASTIC_SEARCH_ENDPOINT,
+                    "hosts": ELASTIC_SEARCH_URL,
                     "http_auth": AWS_AUTH,
                     "use_ssl": True,
                     "verify_certs": True,
@@ -265,24 +255,17 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "652948961962-a04g540iuif3i451ok267cbneiignmro.apps.googleusercontent.com"
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "jqRwkCHP_sTjorDj_8feKM_j"
-SOCIAL_AUTH_FACEBOOK_KEY = ('2621133301514102')
-SOCIAL_AUTH_FACEBOOK_SECRET = ('b773769eade1110bfa9cdb44a8f91abb')
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'http://localhost:3000/'
+#social auth
 
-# Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from Facebook.
-# Email is not sent by default, to get it, you must request the email permission.
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id, name, email'
-}
-SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'first_name', 'password']
-# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+SOCIAL_AUTH_FACEBOOK_KEY = SOCIAL_AUTH_FACEBOOK_KEY
+SOCIAL_AUTH_FACEBOOK_SECRET = SOCIAL_AUTH_FACEBOOK_SECRET
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = SOCIAL_AUTH_LOGIN_REDIRECT_URL
+SOCIAL_AUTH_FACEBOOK_SCOPE = SOCIAL_AUTH_FACEBOOK_SCOPE
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS
+SOCIAL_AUTH_USER_FIELDS = SOCIAL_AUTH_USER_FIELDS
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE =  SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE
 
 
   

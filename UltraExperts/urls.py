@@ -68,7 +68,6 @@ urlpatterns+=[
    path("chat/",include("chat.urls")),
    path("events/",include("events.urls")),
    path("payments/",include("payment.urls")),
-   path("socialauth/",include("socialauth.urls")),
    path("meet/",include('meet.urls')),
    path("search/",include("search.urls"))
 
