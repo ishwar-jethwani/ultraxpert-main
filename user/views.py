@@ -22,14 +22,6 @@ import json
 
 
 
-class FacebookConnect(SocialConnectView):
-    adapter_class = FacebookOAuth2Adapter
-
-class TwitterConnect(SocialConnectView):
-    serializer_class = TwitterConnectSerializer
-    adapter_class = TwitterOAuthAdapter
-
-
 
 
 class UserPlanSelect(APIView):

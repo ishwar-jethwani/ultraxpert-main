@@ -191,6 +191,12 @@ class BankDetail(models.Model):
         ordering = ["-timestamp"]
     
 
+class Comment(models.Model):
+    pass
+
+
+
+
 
 def pre_save_create_user_id(sender, instance, *args, **kwargs):
     if not instance.user_id:
