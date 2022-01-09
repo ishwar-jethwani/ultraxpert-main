@@ -54,19 +54,25 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'dj_rest_auth.registration',
+    'ckeditor',
+    'drf_yasg',
+    #elastic search
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
+]
+
+# social authenticaton application
+
+INSTALLED_APPS+=[
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.twitter',
-    'dj_rest_auth.registration',
-    'ckeditor',
-    'drf_yasg',
-
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
-    'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf',
+
 ]
 
 # SYSTEM APPLICATION
