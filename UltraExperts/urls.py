@@ -12,7 +12,6 @@ from dj_rest_auth.views import PasswordChangeView,LogoutView
 from django.conf import settings
 from dj_rest_auth import registration
 
-from UltraExperts.settings import PLATEFORM
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
@@ -55,7 +54,7 @@ urlpatterns+=[
    path("account/",include("allauth.urls")),
    path("verification/",UserEmailVerification.as_view(),name="verification"),
    path("file/upload/",FileUploadView.as_view(),name="upload"),
-   path('social/',include('rest_framework_social_oauth2.urls')),
+   path('auth/',include('rest_framework_social_oauth2.urls')),
    path("mobile_reset_password/",MobileResetPassword.as_view(),name="mobile_password_reset"),
    path("mobile_verification/",MobileVerificationApi.as_view(),name="mobile_verification"),
 
@@ -72,3 +71,4 @@ urlpatterns+=[
    path("search/",include("search.urls"))
 
 ]
+

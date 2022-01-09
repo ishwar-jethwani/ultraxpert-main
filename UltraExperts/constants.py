@@ -4,6 +4,7 @@ from decouple import config
 DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config("SECRET_KEY")
 BASE_URL = config("BASE_URL")
+ADMIN_SITE_HEADER = config("ADMIN_SITE_HEADER")
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
 S3_BUCKET_NAME = config("S3_BUCKET_NAME")

@@ -115,12 +115,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'UltraExperts.urls'
-AUTHENTICATION_BACKENDS = [
-    'allauth.account.auth_backends.AuthenticationBackend',
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.google.GoogleOAuth2',
-]
+)
 
 TEMPLATES = [
     {
@@ -210,9 +211,7 @@ LOGIN_REDIRECT_URL = "/user/user_plan_selection/"
 OLD_PASSWORD_FIELD_ENABLED = True
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'jwt-auth'
-
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-
 SITE_ID = 1
 
 REST_AUTH_SERIALIZERS = {
@@ -261,6 +260,10 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
+
+
+
+
 #social auth
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
@@ -301,23 +304,13 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AWS_QUERYSTRING_AUTH = False
-PLATEFORM = "AWS"
-if PLATEFORM == "HEROKU":
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-    MEDIA_URL = f'/http://%s.s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/' % AWS_STORAGE_BUCKET_NAME
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_DEFAULT_ACL = None
-    REGION_NAME = os.environ['REGION_NAME']
-else:
-    AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
-    AWS_STORAGE_BUCKET_NAME =S3_BUCKET_NAME
-    MEDIA_URL = f'/http://%s.s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/' % AWS_STORAGE_BUCKET_NAME
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_DEFAULT_ACL = None
-    REGION_NAME = REGION_NAME
+AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME =S3_BUCKET_NAME
+MEDIA_URL = f'/http://%s.s3.amazonaws.com/{AWS_STORAGE_BUCKET_NAME}/media/' % AWS_STORAGE_BUCKET_NAME
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_DEFAULT_ACL = None
+REGION_NAME = REGION_NAME
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -327,7 +320,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # ckeditor configuration
-ADMIN_SITE_HEADER = "UltraExpert"
+ADMIN_SITE_HEADER = ADMIN_SITE_HEADER 
 
 CKEDITOR_CONFIGS = {
     'default': {
