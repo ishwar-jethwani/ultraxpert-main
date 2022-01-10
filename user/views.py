@@ -151,6 +151,10 @@ class ServiceDetail(generics.RetrieveAPIView):
     serializer_class = ServicesSerializer
     lookup_field = "service_id"
     queryset = Services.objects.all()
+
+class ServiceList(generics.ListAPIView):
+    serializer_class = ServicesSerializer
+    queryset = Services.objects.all()
     
 
 class UserPlanAPIView(generics.ListAPIView):
