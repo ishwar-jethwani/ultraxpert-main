@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
 
-from .models import Keywords, User,Profile,Category,SocialMedia,Services, UserPlans
+from .models import Comment, Keywords, User,Profile,Category,SocialMedia,Services, UserPlans
 from activity.models import Order
 from activity.serializers import OrderSerializer
 from rest_framework.response import Response
@@ -69,4 +69,9 @@ class KeywordSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Keywords
         fields = ["name"]
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ["comment","reply","timestamp"]
 

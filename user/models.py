@@ -192,7 +192,18 @@ class BankDetail(models.Model):
     
 
 class Comment(models.Model):
-    pass
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    service = models.ForeignKey(Services,on_delete=models.CASCADE,blank=True,null=True)
+    comment = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)
+    timestamp = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    reply = models.ForeignKey("self",related_name="comment_reply",blank=True,null=True,on_delete=models.PROTECT,verbose_name="Reply")
+
+    def __str__(self) -> str:
+        return self.user.user_id
+
+    class Meta:
+        ordering = ["-timestamp"]
+
 
 
 

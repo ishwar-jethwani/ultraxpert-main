@@ -20,6 +20,7 @@ urlpatterns = [
     path("user_plan_selection/",UserPlanSelect.as_view(),name="user_plan_selection"),
     path("service/read-update-delete/<str:pk>/",ServiceRetriveUpdateDelete.as_view(),name="service-read-update-delete"),
     path("delete/",UserDelete.as_view(),name="delete"),
+    path("comment/",CommentAPIView.as_view(),name="comment"),
     
 
 ]

@@ -208,6 +208,18 @@ class ExpertDetailView(APIView):
         return Response(profile,status=status.HTTP_200_OK)
 
 
+class CommentAPIView(APIView):
+    permission_classes = [IsGETOrIsAuthenticated]
+    serializer_class = ServicesSerializer
 
+    def get(self,request,service_id):
+        data = Comment.objects.filter(service__service_id=service_id)
+        serialize = CommentSerializer(data)
+        return Response({"status":"ok","data":serialize.data})
+    
+    def post(self,request):
+        pass
+
+    
 
         
