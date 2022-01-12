@@ -22,8 +22,6 @@ import json
 
 
 
-
-
 class UserPlanSelect(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
@@ -80,14 +78,17 @@ class AutoCompleteAPIView(APIView):
     def get(self,request):
         user = User.objects.all()
         for i in user:
+
+            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+            service_obj  = Services.objects.filter(user__user_id=i.user_id)
+            service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
+            profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
+            data = service_res.data+profile_res.data
             if i.is_expert==True:
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                service_obj  = Services.objects.filter(user__user_id=i.user_id)
-                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
-                profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
-                return Response(service_res.data,profile_res.data)
-            else:
-                return Response([])
+                return Response(data,status=200)
+
+
+
 
 
 
