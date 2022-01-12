@@ -75,3 +75,14 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ["comment","reply","timestamp"]
 
+
+class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["first_name","last_name"]
+
+class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["service_name","description"]
+    

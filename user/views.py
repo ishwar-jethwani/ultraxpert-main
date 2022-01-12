@@ -75,6 +75,20 @@ class Expert_View(APIView):
         return Response({"experts":expert_list})
 
 
+class AutoCompleteAPIView(APIView):
+
+    def get(self,request):
+        user = User.objects.all()
+        for i in user:
+            if i.is_expert==True:
+                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+                service_obj  = Services.objects.filter(user__user_id=i.user_id)
+                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
+                profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
+                return Response(service_res.data,profile_res.data)
+            else:
+                return Response([])
+
 
 
 class UserDelete(APIView):
