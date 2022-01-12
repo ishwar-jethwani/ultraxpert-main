@@ -84,5 +84,5 @@ class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
 class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ["service_name","description"]
+        fields = ["service_name","description"] 
     

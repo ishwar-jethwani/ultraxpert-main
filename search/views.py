@@ -39,6 +39,19 @@ class SearchView(APIView):
         return Response({"msg":"we could not find any profile releted to this keyword or category"})
 
 
+class SearchAPIView(APIView):
+    def post(self,request):
+        try:
+            search = request.GET.get("search")
+            data = Search(query=search)
+            data.save()
+        except Exception as e:
+            print(e)
+            return Response({"msg":"somthing went wrong","error":e},status=500)
+
+    
+
+
 class ES_ExpertSearch(APIView):
     def get(self,request):
         search = request.GET.get("search")
@@ -49,6 +62,7 @@ class ES_ExpertSearch(APIView):
         except Exception as e:
             print(e)
             return Response({"status":"ok","data":"Not Found!"})
+
 
 
 class ES_ServiceSearch(APIView):
