@@ -76,16 +76,20 @@ class Expert_View(APIView):
 class AutoCompleteAPIView(APIView):
 
     def get(self,request):
-        user = User.objects.all()
-        for i in user:
+        try:
+            user = User.objects.all()
+            for i in user:
 
-            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-            service_obj  = Services.objects.filter(user__user_id=i.user_id)
-            service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
-            profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
-            data = service_res.data+profile_res.data
-            if i.is_expert==True:
-                return Response(data,status=200)
+                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+                service_obj  = Services.objects.filter(user__user_id=i.user_id)
+                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
+                profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
+                data = service_res.data+profile_res.data
+                if i.is_expert==True:
+                    return Response(data,status=200)
+        except Exception as e:
+            print(e)
+            return Response({"error":e},status=500)
 
 
 
