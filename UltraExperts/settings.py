@@ -22,8 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
-ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com']
+#ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com','ultraxpert-frontend.herokuapp.com']
 
 if DEBUG == False:
     SECURE_SSL_REDIRECT = True
@@ -143,8 +143,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000"]
+#CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert-frontend.herokuapp.com",]
 #CORS_ORIGIN_ALLOWED_ALL = True
 
 CORS_ALLOW_METHODS = [
