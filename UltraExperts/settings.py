@@ -143,7 +143,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
-#CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert-frontend.herokuapp.com",]
 #CORS_ORIGIN_ALLOWED_ALL = True
 
