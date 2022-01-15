@@ -93,9 +93,6 @@ class AutoCompleteAPIView(APIView):
 
 
 
-
-
-
 class UserDelete(APIView):
     permission_classes = [IsAuthenticated]
     serializer_class   = UserSerilizer
@@ -114,32 +111,7 @@ class Profile_View(generics.RetrieveUpdateAPIView):
         user = self.request.user
         return Profile.objects.filter(profile=user)
 
-class SocialMedia_view(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def post(self,request):
-        data = request.data
-        users = User.objects.all()
-        for user in users:
-            if request.user.user_id == user.user_id:
-                created = SocialMedia.objects.create(
-                    user = request.user,
-                    icon = data["icon"],
-                    plateform_name = data["plateform_name"],
-                    link = data["link"]
-                )
-                serialize = SocialMediaSerializer(created)
-                data = json.dumps(serialize.data)
-                resp = json.loads(data)
-                if created:
-                    return Response(resp,status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-class SocialMediaLinks(APIView):
-    def get(self,request,user_id):
-        social_obj = SocialMedia.objects.filter(user__user_id=user_id)
-        serialize = SocialMediaSerializer(social_obj,many=True)
-        return Response(serialize.data,status=status.HTTP_200_OK)
 
 class CategoryAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -194,22 +166,12 @@ class UserUpdateAPI(generics.RetrieveUpdateAPIView):
 class ExpertDetailView(APIView):
     def get(self,request,pk):
         user = User.objects.get(pk=pk)
-
         profile_obj = Profile.objects.filter(profile__is_expert=True,profile=user)
-        social_obj = SocialMedia.objects.filter(user=user)
         service_obj = Services.objects.filter(user=user)
         rating_obj  = Ratings.objects.filter(rating_on__profile=user)
         rating_res = RatingSerializer(rating_obj,many=True)
         profile_res = ProfileSerializer(profile_obj,many=True)
-        social_res  = SocialMediaSerializer(social_obj,many=True)
         service_res = ServicesSerializer(service_obj,many=True)
-        # user_profiles = json.dumps(profile_res.data)
-        # profiles = json.loads(user_profiles)
-        # user_services = json.dumps(service_res.data)
-        # services = json.loads(user_services)
-        # user_social_links = json.dumps(social_res.data)
-        # social_links = json.loads(user_social_links)
-
         data = json.dumps(rating_res.data)
         stars = json.loads(data)
         avg_list = list()
@@ -222,9 +184,22 @@ class ExpertDetailView(APIView):
             avg = 0.0
             count= len(avg_list)
 
-        profile = {"expert profile":{"personal_detail":profile_res.data,"social":social_res.data,"sevices":service_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+        profile = {"expert profile":{"personal_detail":profile_res.data,"sevices":service_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
         return Response(profile,status=status.HTTP_200_OK)
 
+
+class BankDetailCreate(generics.CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = BankSerializer
+    def get_queryset(self):
+        return BankDetail.objects.filter(user=self.request.user)
+
+class BankDetailRead(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = BankSerializer
+    lookup_field = "id"
+    def get_queryset(self):
+        return BankDetail.objects.filter(user=self.request.user)
 
 class CommentAPIView(APIView):
     permission_classes = [IsGETOrIsAuthenticated]

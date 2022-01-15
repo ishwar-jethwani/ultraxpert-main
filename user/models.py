@@ -71,21 +71,9 @@ class UserPlans(models.Model):
 
 
 
-class SocialMedia(models.Model):
-    user    = models.ForeignKey(User,on_delete=models.CASCADE)
-    icon    = models.CharField(max_length=100,verbose_name="icon",blank=True,null=True)
-    plateform_name = models.CharField(max_length=30,verbose_name="Plateform Name",blank=True,null=True)
-    link    = models.URLField(verbose_name="Link",blank=True,null=True)
 
 
-    def __str__(self) -> str:
-        return self.link
 
-
-Services_type = (
-    ("duration based service","duration based service"),
-    ("delivery based service","delivery based service")
-)
 class Category(models.Model):
     name    = models.CharField(max_length=200)
     slug    = models.SlugField()
@@ -111,7 +99,7 @@ class Services(models.Model):
     )
     user            = models.ForeignKey(User,on_delete=models.CASCADE)
     service_id      = models.CharField(max_length=20,verbose_name="Service ID",unique=True,blank=True)
-    service_type    = models.CharField(max_length=50,verbose_name="Service Type",choices=Services_type,blank=True,null=True)
+    service_type    = models.CharField(max_length=50,verbose_name="Service Type",blank=True,null=True)
     service_img     = models.URLField(blank=True,null=True)
     category        = models.ForeignKey(Category,on_delete=models.CASCADE,null=True)
     service_name    = models.CharField(max_length=100,verbose_name="Title",blank=True,null=True)

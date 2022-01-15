@@ -1,12 +1,6 @@
-from django.db import models
-from django.db.models import fields
 from rest_framework import serializers
+from .models import *
 
-from .models import Comment, Keywords, User,Profile,Category,SocialMedia,Services, UserPlans
-from activity.models import Order
-from activity.serializers import OrderSerializer
-from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -14,11 +8,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = "__all__"
 
-
-class SocialMediaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SocialMedia
-        fields = "__all__"
 
 
 class ServicesSerializer(serializers.ModelSerializer):
@@ -85,4 +74,10 @@ class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ["service_name","description"] 
+
+
+class BankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BankDetail
+        fields = ["account_holder","bank_name","account_numbe","ifsc_code"]
     
