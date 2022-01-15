@@ -79,5 +79,5 @@ class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
 class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankDetail
-        fields = ["account_holder","bank_name","account_numbe","ifsc_code"]
+        fields = ["account_holder","bank_name","account_number","ifsc_code"]
     
