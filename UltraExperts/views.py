@@ -124,8 +124,7 @@ class CustomLoginView(LoginView):
         message = "Hi %s! Welcome to UltraXpert" % email
         htmly = get_template("welcome.html")
         htmly = htmly.render({"username":email})
-
-
+        User.objects.filter(email=email).update(is_verified=True)
         send_mail(
             from_email = None,
             recipient_list = [email],
@@ -143,27 +142,29 @@ class CustomLoginView(LoginView):
 class UserEmailVerification(APIView):
     gen_otp = random.randint(100000,999999)
     def get(self,request):
-        user = User.objects.get(user_id=request.user.user_id)
         email = request.data["email"]
-        html = get_template("email.html")
-        html_data = html.render({"otp":self.gen_otp,"username":email})
-        send_mail(
-            from_email = None,
-            recipient_list = [email],
-            subject="UltraXpert Email Varification",
-            html_message=html_data
-        )
-        return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
+        user = User.objects.filter(email=email)
+        if user.exists():
+            return Response({"msg":"email address is already exist please try with diferent email address"},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            html = get_template("email.html")
+            html_data = html.render({"otp":self.gen_otp,"username":email})
+            send_mail(
+                from_email = None,
+                recipient_list = [email],
+                subject="UltraXpert Email Varification",
+                html_message=html_data
+            )
+            return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
     
 
     def post(self,request):
-        user = User.objects.filter(user_id=request.user.user_id)
         data = request.data
         otp = data["otp"]
         if str(otp) == str(self.gen_otp):
-            user.update(is_verified=True)
             return Response({"msg":"email is verified"},status=status.HTTP_200_OK)
-        return Response({"msg":"you have entered wrong otp"}) # raise error ok 
+        else:
+            raise ValidationError(detail="You have enterd wrong otp", code=400) # raise error ok 
 
 
 # forgot password
