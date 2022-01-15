@@ -48,8 +48,13 @@ class SearchAPIView(APIView):
         except Exception as e:
             print(e)
             return Response({"msg":"somthing went wrong","error":e},status=500)
+    def get(self,request):
+        data = Search.objects.all()
+        serialize = SearchSerializer(data,many=True)
+        if serialize:
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
 
-    
+
 
 
 class ES_ExpertSearch(APIView):
@@ -58,7 +63,7 @@ class ES_ExpertSearch(APIView):
         try:
             expert = ExpertsDocument.search().query("query_string", query=search)
             serialize = ExpertDocumentSerializer(expert,many=True)
-            return Response({"status":"ok","data":serialize.data})
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"status":"ok","data":"Not Found!"})
@@ -71,7 +76,7 @@ class ES_ServiceSearch(APIView):
         try:
             service = ServiceDocument.search().query("query_string", query=search)
             serialize = ExpertDocumentSerializer(service,many=True)
-            return Response({"status":"ok","data":serialize.data})
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"status":"ok","data":"Not Found!"})

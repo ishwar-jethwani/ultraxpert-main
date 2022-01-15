@@ -221,13 +221,13 @@ class GetResponse(APIView):
         payment_data = PaymentStatus.objects.create(order_no=order_id,response=data)
         if payment_data:
             payment_created = PaymantStatusSerializer(payment_data)
-            return Response(data=payment_created.data)
+            return Response(data=payment_created.data,status=status.HTTP_201_CREATED)
 
     def get(self,request):
         order_no = request.data["payload"]["payment"]["entity"]["order_id"]
         data = PaymentStatus.objects.get(order_no=order_no)
         payment_created = PaymantStatusSerializer(data)
-        return Response(data = payment_created.data) 
+        return Response(data = payment_created.data,status=status.HTTP_200_OK) 
 
 
 # refund 
@@ -249,16 +249,16 @@ class RefundAPIView(APIView):
             refund_id = refund["id"]
             save_refund = RefundStatus(refund_id=refund_id,response=refund).save()
             if save_refund:
-                return Response({"msg":"amount is refunded sucessfully","data":refund})
+                return Response({"msg":"amount is refunded sucessfully","data":refund},status=status.HTTP_200_OK)
         else:
-            return Response({"msg":"amount is refunded sucessfully","data":refund})
+            return Response({"msg":"amount is not refunded sucessfully","data":refund})
 
 
 class InvoiceAPIView(APIView):
     def post(self,request):
         data = request.data
         invoice = razorpay_client.invoice.create(data=data)
-        return response(invoice)
+        return response(invoice,status=status.HTTP_200_OK)
 
 
 

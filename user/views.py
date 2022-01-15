@@ -86,10 +86,10 @@ class AutoCompleteAPIView(APIView):
                 profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
                 data = service_res.data+profile_res.data
                 if i.is_expert==True:
-                    return Response(data,status=200)
+                    return Response(data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
-            return Response({"error":e},status=500)
+            return Response({"error":e},status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -139,7 +139,7 @@ class SocialMediaLinks(APIView):
     def get(self,request,user_id):
         social_obj = SocialMedia.objects.filter(user__user_id=user_id)
         serialize = SocialMediaSerializer(social_obj,many=True)
-        return Response(serialize.data)
+        return Response(serialize.data,status=status.HTTP_200_OK)
 
 class CategoryAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -233,7 +233,7 @@ class CommentAPIView(APIView):
     def get(self,request,service_id):
         data = Comment.objects.filter(service__service_id=service_id)
         serialize = CommentSerializer(data)
-        return Response({"status":"ok","data":serialize.data})
+        return Response(data=serialize.data,status=status.HTTP_200_OK)
     
     def post(self,request):
         pass

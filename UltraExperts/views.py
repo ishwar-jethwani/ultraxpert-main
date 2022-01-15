@@ -144,7 +144,7 @@ class UserEmailVerification(APIView):
     def get(self,request):
         user = User.objects.get(user_id=request.user.user_id)
         email = user.email
-        return Response({"msg":"email has been sent"})
+        return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
     
 
     def post(self,request):
@@ -153,7 +153,7 @@ class UserEmailVerification(APIView):
         otp = data["otp"]
         if str(otp) == str(self.gen_otp):
             user.update(is_verified=True)
-            return Response({"msg":"email is verified"})
+            return Response({"msg":"email is verified"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"}) # raise error ok 
 
 
@@ -173,7 +173,7 @@ class ResetPassword(APIView):
             message = f"This is you otp:{self.gen_otp} to reset your password"
 
             )
-            return Response({"msg":"email has been sent"})
+            return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
         return Response({"msg":"email is failed to send"})
 
     def post(self,request):
@@ -185,7 +185,7 @@ class ResetPassword(APIView):
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
-                return Response({"msg":"password is set sucessfully"})
+                return Response({"msg":"password is set sucessfully"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
 #  password reste by mobile otp
@@ -197,7 +197,7 @@ class MobileResetPassword(APIView):
         self.user = User.objects.get(mobile=user_mobile)
         mobile = self.user.mobile
         if user_mobile == mobile:
-            return Response({"msg":"msg has been sent"})
+            return Response({"msg":"msg has been sent"},status=status.HTTP_200_OK)
         return Response({"msg":"msg is failed to send"})
 
     def post(self,request):
@@ -209,7 +209,7 @@ class MobileResetPassword(APIView):
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
-                return Response({"msg":"password is set sucessfully"})
+                return Response({"msg":"password is set sucessfully"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
 
@@ -228,7 +228,7 @@ class MobileVerificationApi(APIView):
         otp = data["otp"]
         if str(otp) == str(self.gen_otp):
             user.update(is_verified=True)
-            return Response({"msg":"mobile is verified"})
+            return Response({"msg":"mobile is verified"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
 
