@@ -262,10 +262,6 @@ class InvoiceAPIView(APIView):
 
 
 
-        
-
-
-    
 
 
 # payment_id = "<PAYMENT_ID>"

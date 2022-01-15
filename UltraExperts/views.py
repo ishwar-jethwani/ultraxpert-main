@@ -137,13 +137,22 @@ class CustomLoginView(LoginView):
         return orginal_response 
 
 
+
+
 #email otp verification
 class UserEmailVerification(APIView):
-    permission_classes = [IsAuthenticated]
     gen_otp = random.randint(100000,999999)
     def get(self,request):
         user = User.objects.get(user_id=request.user.user_id)
-        email = user.email
+        email = request.data["email"]
+        html = get_template("email.html")
+        html_data = html.render({"otp":self.gen_otp,"username":email})
+        send_mail(
+            from_email = None,
+            recipient_list = [email],
+            subject="UltraXpert Email Varification",
+            html_message=html_data
+        )
         return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
     
 
