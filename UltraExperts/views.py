@@ -141,7 +141,7 @@ class CustomLoginView(LoginView):
 #email otp verification
 class UserEmailVerification(APIView):
     gen_otp = random.randint(1000,9999)
-    def get(self,request):
+    def post(self,request):
         email = request.data["email"]
         user = User.objects.filter(email=email)
         if user.exists():
