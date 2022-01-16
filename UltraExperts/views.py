@@ -153,7 +153,8 @@ class UserEmailVerification(APIView):
                 from_email = None,
                 recipient_list = [email],
                 subject="UltraXpert Email Varification",
-                html_message=html_data
+                html_message=html_data,
+                message="You are most Welcome"
             )
             return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
     
