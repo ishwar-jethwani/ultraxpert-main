@@ -1,3 +1,4 @@
+from decouple import config
 from email import message
 import email
 from django.shortcuts import render
@@ -28,6 +29,8 @@ from django.middleware import csrf
 from django.contrib.auth import authenticate
 from django.conf import settings
 from rest_framework import status
+import jwt
+
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
 SECRET_KEY = AWS_SECRET_ACCESS_KEY
@@ -149,6 +152,8 @@ class UserEmailVerification(APIView):
         else:
             html = get_template("email.html")
             html_data = html.render({"otp":self.gen_otp,"username":email})
+            key = config("KEY_FOR_OTP")
+            encoded_value = jwt.encode({"otp":self.gen_otp},key,algorithm="HS256")
             send_mail(
                 from_email = None,
                 recipient_list = [email],
@@ -156,7 +161,7 @@ class UserEmailVerification(APIView):
                 html_message=html_data,
                 message="You are most Welcome"
             )
-            return Response({"msg":"email has been sent","otp":self.gen_otp},status=status.HTTP_200_OK)
+            return Response({"msg":"email has been sent","value":encoded_value},status=status.HTTP_200_OK)
     
 
     # def post(self,request):
