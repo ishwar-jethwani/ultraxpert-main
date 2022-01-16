@@ -140,7 +140,7 @@ class CustomLoginView(LoginView):
 
 #email otp verification
 class UserEmailVerification(APIView):
-    gen_otp = random.randint(100000,999999)
+    gen_otp = random.randint(1000,9999)
     def get(self,request):
         email = request.data["email"]
         user = User.objects.filter(email=email)
@@ -156,16 +156,16 @@ class UserEmailVerification(APIView):
                 html_message=html_data,
                 message="You are most Welcome"
             )
-            return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
+            return Response({"msg":"email has been sent","otp":self.gen_otp},status=status.HTTP_200_OK)
     
 
-    def post(self,request):
-        data = request.data
-        otp = data["otp"]
-        if str(otp) == str(self.gen_otp):
-            return Response({"msg":"email is verified"},status=status.HTTP_200_OK)
-        else:
-            raise ValidationError(detail="You have enterd wrong otp", code=400) # raise error ok 
+    # def post(self,request):
+    #     data = request.data
+    #     otp = data["otp"]
+    #     if str(otp) == str(self.gen_otp):
+    #         return Response({"msg":"email is verified"},status=status.HTTP_200_OK)
+    #     else:
+    #         raise ValidationError(detail="You have enterd wrong otp", code=400) # raise error ok 
 
 
 # forgot password
