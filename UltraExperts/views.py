@@ -34,12 +34,6 @@ BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
 
 client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
 
-def get_tokens_for_user(user):
-    refresh = RefreshToken.for_user(user)
-    return {
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
-    }
 
 
 def privacy(request):
@@ -56,16 +50,6 @@ class CustomLoginView(LoginView):
         orginal_response = super().get_response()
         mydata = self.get_user()
         orginal_response.data.update(mydata)
-        data = get_tokens_for_user(self.request.user)
-        orginal_response.set_cookie(
-            key = settings.SIMPLE_JWT['AUTH_COOKIE'], 
-            value = data["access"],
-            expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-            secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-            httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
-            samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-        )
-        csrf.get_token(self.request)
         email = mydata["email"]
         subject = "Ultra Creation Sending Email"
         message = "Hi %s! Welcome to UltraXpert" % email
