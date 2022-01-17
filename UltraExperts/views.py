@@ -2,14 +2,12 @@ from decouple import config
 from email import message
 import email
 from django.shortcuts import render
-from requests.api import post
 from rest_framework_simplejwt.tokens import Token
 from UltraExperts.serializers import UserSerilizer
 from dj_rest_auth.views import LoginView,PasswordResetConfirmView
 from user.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from datetime import datetime
 import random
 from .settings import AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME
 from botocore.client import Config
@@ -19,8 +17,6 @@ from .files import *
 from rest_framework.validators import ValidationError
 from django.template.loader import get_template
 from django.core.mail import send_mail
-import requests
-import json
 from twilio.rest import Client
 from .constants import TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
@@ -45,61 +41,9 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
-# class LoginView(APIView):
-#     def post(self, request, format=None):
-#         data = request.data
-#         response = Response()        
-#         email = data.get('email', None) 
-#         password = data.get('password', None)
-#         user = authenticate(email=email, password=password)
-#         if user is not None:
-#             if user.is_active:
-#                 data = get_tokens_for_user(user)
-#                 response.set_cookie(
-#                     key = settings.SIMPLE_JWT['AUTH_COOKIE'], 
-#                     value = data["access"],
-#                     expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-#                     secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
-#                     httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
-#                     samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
-#                 )
-#                 csrf.get_token(request)
-#                 response.data = {"Success" : "Login successfully","data":data}
-#                 return response
-#             else:
-#                 return Response({"No active" : "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
-#         else:
-#             return Response({"Invalid" : "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
-
-
-
-
-
 
 def privacy(request):
     return render(request,"privacy.html")
-
-# def set_cookie(response, key, value):
-#     if days_expire is None:
-#         max_age = 365 * 24 * 60 * 60  # one year
-#     else:
-#         max_age = days_expire * 24 * 60 * 60
-#     expires = datetime.datetime.strftime(
-#         datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age),
-#         "%a, %d-%b-%Y %H:%M:%S GMT",
-#     )
-#     response.set_cookie(
-#         key,
-#         value,
-#         max_age=max_age,
-#         expires=expires,
-#         domain=settings.SESSION_COOKIE_DOMAIN,
-#         secure=settings.SESSION_COOKIE_SECURE or None,
-#     )
-
-    
-
-
 
 
 class CustomLoginView(LoginView):
@@ -206,7 +150,7 @@ class ResetPassword(APIView):
 
 #  password reste by mobile otp
 class MobileResetPassword(APIView):
-    gen_otp = random.randint(100000, 999999)
+    gen_otp = random.randint(1000, 9999)
     user = User()
     def get(self,request):
         user_mobile = request.data["mobile_number"]
@@ -232,20 +176,38 @@ class MobileResetPassword(APIView):
 
 # mobile verification
 class MobileVerificationApi(APIView):
-    permission_classes = [IsAuthenticated]
-    gen_otp = random.randint(100000,999999)
-    def get(self,request):
-        user = request.user
-        mobile = user.mobile
-        return Response({"msg":"msg is failed to send"})
+    gen_otp = random.randint(1000,9999)
     def post(self,request):
-        user = User.objects.filter(user_id=request.user.user_id)
-        data = request.data
-        otp = data["otp"]
-        if str(otp) == str(self.gen_otp):
-            user.update(is_verified=True)
-            return Response({"msg":"mobile is verified"},status=status.HTTP_200_OK)
-        return Response({"msg":"you have entered wrong otp"})
+        mobile = request.data["mobile"]
+        user = User.objects.filter(mobile=mobile)
+        if user.exists():
+            return Response({"msg":"mobile number is already exist please try with diferent mobile number"},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            key = config("KEY_FOR_OTP")
+            encoded_value = jwt.encode({"otp":self.gen_otp},key,algorithm="HS256")
+            try:
+                client.messages.create(to="+91"+mobile, from_="+19124915017",
+                                    body="Thank you for visiting and we need lititle more information to complete your registration plese enter the {} to verify your mobile number ".format(self.gen_otp))
+            except TwilioRestException as e:
+                print(e)
+            return Response({"msg":"msg is failed to send","value":encoded_value},status=status.HTTP_200_OK)
+
+    # def post(self,request):
+    #     user = User.objects.filter(user_id=request.user.user_id)
+    #     data = request.data
+    #     otp = data["otp"]
+    #     if str(otp) == str(self.gen_otp):
+    #         user.update(is_verified=True)
+    #         return Response({"msg":"mobile is verified"},status=status.HTTP_200_OK)
+    #     return Response({"msg":"you have entered wrong otp"})
+
+# Download the helper library from https://www.twilio.com/docs/python/install
+
+
+
+
+
+
 
 
 
