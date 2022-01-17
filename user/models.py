@@ -129,6 +129,11 @@ class Services(models.Model):
 
 
 class Profile(models.Model):
+    gender =(
+        ("Male","Male"),
+        ("Female","Female"),
+        ("Other","Other")
+    )
     first_name          = models.CharField(max_length=25,verbose_name="First Name",blank=True,null=True)
     last_name           = models.CharField(max_length=25,verbose_name="Last Name",blank=True,null=True)
     profile             = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -138,6 +143,8 @@ class Profile(models.Model):
     title               = models.CharField(max_length=100,verbose_name="Title",blank=True,null=True)
     description         = RichTextField(verbose_name="Expert brief",blank=True,null=True)
     profile_img         = models.URLField(blank=True)
+    gender              = models.CharField(max_length=10,verbose_name="Gender",choices=gender,blank=True,null=True)
+    country             = models.CharField(max_length=100,verbose_name="Country",blank=True,null=True)
     keywords            = models.ManyToManyField(Keywords,blank=True)
     categories          = models.ManyToManyField(Category,blank=True)
     user_plan           = models.ForeignKey(UserPlans,on_delete=models.CASCADE,null=True)
