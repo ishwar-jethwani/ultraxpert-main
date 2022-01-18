@@ -1,3 +1,4 @@
+from xmlrpc.client import TRANSPORT_ERROR
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
@@ -76,7 +77,7 @@ class UserPlans(models.Model):
 
 class Category(models.Model):
     name    = models.CharField(max_length=200)
-    slug    = models.SlugField()
+    slug    = models.SlugField(blank=True,null=True)
     parent  = models.ForeignKey('self',blank=True, null=True ,related_name='children',on_delete=models.CASCADE)
 
     class Meta:
@@ -165,6 +166,7 @@ class Profile(models.Model):
         
     def get_absolute_url(self):
         return reverse("profile",kwargs={"username":self.profile.username})
+    
 
     class Meta:
         ordering = ["pk"]

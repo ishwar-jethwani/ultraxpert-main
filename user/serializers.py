@@ -2,11 +2,17 @@ from rest_framework import serializers
 from .models import *
 
 
+class KeywordSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Keywords
+        fields = ["name"]
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = "__all__"
+
+  
 
 
 
@@ -40,7 +46,7 @@ class ServicesSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = "__all__"
+        fields = ["id","name"]
         
 class PlanSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,10 +60,6 @@ class UserPlanSerilizer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class KeywordSerilizer(serializers.ModelSerializer):
-    class Meta:
-        model = Keywords
-        fields = ["name"]
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
