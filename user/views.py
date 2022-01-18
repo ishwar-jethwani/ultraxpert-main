@@ -184,7 +184,7 @@ class ExpertDetailView(APIView):
             avg = 0.0
             count= len(avg_list)
 
-        profile = {"expert profile":{"personal_detail":profile_res.data,"sevices":service_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+        profile = {"expert_profile":{"personal_detail":profile_res.data,"sevices":service_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
         return Response(profile,status=status.HTTP_200_OK)
 
 
