@@ -90,13 +90,6 @@ class OrderHistory(APIView):
 
 
 
-
-
-
-
-
-
-
 class PaymentConfirmationApiView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()

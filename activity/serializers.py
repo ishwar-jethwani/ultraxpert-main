@@ -23,6 +23,7 @@ class ProjectRequestSerializer(serializers.ModelSerializer):
         return request
 
 class RatingSerializer(serializers.ModelSerializer):
+    date_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Ratings
         fields = '__all__'
@@ -30,6 +31,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class OrderHistorySerializer(serializers.ModelSerializer):
+    order_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Order
         fields = "__all__"
@@ -45,6 +47,7 @@ class OrderHistorySerializer(serializers.ModelSerializer):
             return instance
 
 class OrderStatusSerializer(serializers.ModelSerializer):
+    order_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Order
         fields = "__all__"
@@ -57,6 +60,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
     
 class OrderSerializer(serializers.ModelSerializer):
+    order_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Order
         fields = ["user","service_id","price"]
@@ -74,7 +78,6 @@ class ServiceBookingSerializer(OrderSerializer):
     def update(self,instance, validated_data):
         data = self.context["request"].data
         if data["status"] == "booked":
-            instance.ordered = True
             instance.save()
             receipt = Order.objects.create(
                     user = self.context["request"].user,
@@ -89,6 +92,7 @@ class ServiceBookingSerializer(OrderSerializer):
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
+    date_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Subscriptions
         fields = "__all__"

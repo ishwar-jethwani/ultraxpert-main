@@ -1,3 +1,4 @@
+from re import T
 from xmlrpc.client import TRANSPORT_ERROR
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -72,11 +73,9 @@ class UserPlans(models.Model):
 
 
 
-
-
-
 class Category(models.Model):
     name    = models.CharField(max_length=200)
+    img     = models.URLField(null=True,blank=True)
     slug    = models.SlugField(blank=True,null=True)
     parent  = models.ForeignKey('self',blank=True, null=True ,related_name='children',on_delete=models.CASCADE)
 
@@ -111,7 +110,6 @@ class Services(models.Model):
     currency        = models.CharField(max_length=10,verbose_name="Currency",choices=currency_take,default="INR",blank=True,null=True)
     date_created    = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     tags            = models.CharField(max_length=200,verbose_name="Keywords",blank=True,null=True)
-    ordered         = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.service_name

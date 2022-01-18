@@ -7,6 +7,8 @@ from .models import *
 
 
 class EventReadSerializer(serializers.ModelSerializer):
+    date_created = serializers.DateTimeField(format="%c")
+    date_updated = serializers.DateTimeField(format="%c")
     class Meta:
         model = EventScheduleTime
         fields = "__all__"

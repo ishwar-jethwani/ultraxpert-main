@@ -5,7 +5,7 @@ from .models import *
 class KeywordSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Keywords
-        fields = ["name"]
+        fields = ["id","name"]
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,13 +13,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
   
-
+    
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id","name","img"]
 
 
 class ServicesSerializer(serializers.ModelSerializer):
+    date_created  = serializers.DateTimeField(format="%c")
     class Meta:
         model = Services
-        fields = "__all__"
+        fields = ["service_id","service_img","service_name","description","delivery_date","price","currency","tags"]
         read_only = ["user"]
 
     def __init__(self, *args, **kwargs):
@@ -42,19 +47,9 @@ class ServicesSerializer(serializers.ModelSerializer):
             service = Services.objects.create(**validated_data, user=user)
             return service
     
-    
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ["id","name"]
-        
-class PlanSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserPlans
-        fields = "__all__"
-    
 
 class UserPlanSerilizer(serializers.ModelSerializer):
+    date_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = UserPlans
         fields = "__all__"
@@ -62,6 +57,7 @@ class UserPlanSerilizer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    timestamp = serializers.DateTimeField(format="%c")
     class Meta:
         model = Comment
         fields = ["comment","reply","timestamp"]
