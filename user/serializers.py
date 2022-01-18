@@ -24,7 +24,7 @@ class ServicesSerializer(serializers.ModelSerializer):
     date_created  = serializers.DateTimeField(format="%c")
     class Meta:
         model = Services
-        fields = ["service_id","service_img","service_name","description","delivery_date","price","currency","tags"]
+        fields = ["service_id","service_img","service_name","description","delivery_date","price","currency","tags","date_created"]
         read_only = ["user"]
 
     def __init__(self, *args, **kwargs):
