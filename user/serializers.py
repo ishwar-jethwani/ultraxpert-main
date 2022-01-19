@@ -17,7 +17,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     keywords = KeywordSerilizer()
     class Meta:
         model = Profile
-        fields = ["first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
+        fields = ["id","first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
 
 
 class ServicesSerializer(serializers.ModelSerializer):
