@@ -2,29 +2,31 @@ from rest_framework import serializers
 from .models import *
 
 
+
 class KeywordSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Keywords
         fields = ["id","name"]
-
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = "__all__"
-
-  
-    
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id","name","img"]
 
+class ProfileSerializer(serializers.ModelSerializer):
+    categories = CategorySerializer()
+    keywords = KeywordSerilizer()
+    class Meta:
+        model = Profile
+        fields = ["first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
+
 
 class ServicesSerializer(serializers.ModelSerializer):
+    category = CategorySerializer()
     date_created  = serializers.DateTimeField(format="%c")
+
     class Meta:
         model = Services
-        fields = ["service_id","service_img","service_name","description","delivery_date","price","currency","tags","date_created"]
+        fields = ["service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]
         read_only = ["user"]
 
     def __init__(self, *args, **kwargs):

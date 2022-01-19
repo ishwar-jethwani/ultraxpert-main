@@ -7,21 +7,6 @@ from user.models import *
 
 @registry.register_document
 class ExpertsDocument(Document):
-    categories = fields.ObjectField(
-        properties = {
-            "name":fields.TextField(),
-            "parent":fields.ObjectField(
-                properties={
-                    "name":fields.TextField()
-                }
-            )
-        }
-    )
-    keywords = fields.ObjectField(
-        properties = {
-            "name":fields.TextField()
-        }
-    )
     description = fields.TextField()
 
     class Index:
@@ -41,20 +26,9 @@ class ExpertsDocument(Document):
             "education",
             "experience"
         ]
-        related_models = [Category,Keywords]
 
 @registry.register_document
 class ServiceDocument(Document):
-    category = fields.ObjectField(
-        properties = {
-            'name':fields.TextField(),
-            'parent':fields.ObjectField(
-                properties={
-                    'name':fields.TextField()
-                }
-            )
-        }
-    )
     description = fields.TextField()
     class Index:
         name = 'services'
@@ -71,6 +45,5 @@ class ServiceDocument(Document):
             'service_name',
             'price'
         ]
-        related_models = [Category]
 
     
