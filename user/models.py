@@ -81,15 +81,10 @@ class Category(models.Model):
 
     class Meta:
         unique_together = ('slug', 'parent',)    
-        verbose_name_plural = "categories"     
+        verbose_name_plural = "categories" 
+    def __str__(self) -> str:
+        return self.name
 
-    def __str__(self):                           
-        full_path = [self.name]                  
-        k = self.parent
-        while k is not None:
-            full_path.append(k.name)
-            k = k.parent
-        return ' -> '.join(full_path[::-1])
 
 class Services(models.Model):
     currency_take = (
