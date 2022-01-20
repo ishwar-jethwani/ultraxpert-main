@@ -131,20 +131,27 @@ class ServiceCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         return Services.objects.filter(user=self.request.user)
     
-class ServiceRetriveUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+class ServiceUpdate(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
-    lookup_field = "pk"
+    lookup_field = "service_id"
+    def get_queryset(self):
+        return Services.objects.filter(user=self.request.user)
+
+class ServiceDelete(generics.DestroyAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ServicesSerializer
+    lookup_field = "service_id"
     def get_queryset(self):
         return Services.objects.filter(user=self.request.user)
 
 class ServiceDetail(generics.RetrieveAPIView):
-    serializer_class = ServicesSerializer
+    serializer_class = ServiceShowSerializer
     lookup_field = "service_id"
     queryset = Services.objects.all()
 
 class ServiceList(generics.ListAPIView):
-    serializer_class = ServicesSerializer
+    serializer_class = ServiceShowSerializer
     queryset = Services.objects.all()
     
 

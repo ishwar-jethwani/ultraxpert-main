@@ -16,6 +16,7 @@ from .constants import *
 import os
 from datetime import datetime,timedelta
 from elasticsearch import RequestsHttpConnection
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -174,11 +175,11 @@ CORS_ALLOW_HEADERS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'UltraXpert',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': config("DATABASE"),
+        'USER': config("USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': config("HOST"),
+        'PORT': config("PORT"),
     }
 }
 

@@ -23,14 +23,19 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["id","first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
 
 
-class ServicesSerializer(serializers.ModelSerializer):
+class ServiceShowSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     date_created  = serializers.DateTimeField(format="%c")
     user = UserSerilizer()
-
     class Meta:
         model = Services
         fields = ["user","service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]
+
+
+class ServicesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Services
+        fields = "__all__"
         read_only = ["user"]
 
     def __init__(self, *args, **kwargs):
