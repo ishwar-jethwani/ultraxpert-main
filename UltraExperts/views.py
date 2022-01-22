@@ -2,6 +2,7 @@ from decouple import config
 from email import message
 import email
 from django.shortcuts import render
+from elasticsearch import serializer
 from rest_framework_simplejwt.tokens import Token
 from UltraExperts.serializers import UserSerilizer
 from dj_rest_auth.views import LoginView,PasswordResetConfirmView
@@ -26,6 +27,8 @@ from django.contrib.auth import authenticate
 from django.conf import settings
 from rest_framework import status
 import jwt
+from rest_framework import generics
+from .serializers import *
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
@@ -66,6 +69,10 @@ class CustomLoginView(LoginView):
 
         return orginal_response 
 
+
+class MobileUserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer = MobileUserSerializer()
 
 
 
