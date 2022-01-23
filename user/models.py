@@ -78,12 +78,12 @@ class UserPlans(models.Model):
 class Category(models.Model):
     name    = models.CharField(max_length=200)
     img     = models.URLField(null=True,blank=True)
-    slug    = models.SlugField(blank=True,null=True)
-    parent  = models.ForeignKey('self',blank=True, null=True ,related_name='children',on_delete=models.CASCADE)
+    number  = models.PositiveIntegerField(null=True,blank=True)
+
 
     class Meta:
-        unique_together = ('slug', 'parent',)    
         verbose_name_plural = "categories" 
+        ordering = ["number"]
     def __str__(self) -> str:
         return self.name
 
