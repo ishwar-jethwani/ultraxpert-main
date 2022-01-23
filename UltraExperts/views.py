@@ -28,7 +28,6 @@ from django.contrib.auth import authenticate,login
 from django.conf import settings
 from rest_framework import status
 import jwt
-from rest_framework import generics
 from .serializers import *
 
 
