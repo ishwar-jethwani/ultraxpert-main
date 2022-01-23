@@ -47,6 +47,9 @@ class User(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    def __str__(self) -> str:
+        return self.user_id
+
 
     class Meta:
         verbose_name = ('user')
