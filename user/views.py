@@ -231,7 +231,7 @@ class CommentAPIView(APIView):
 #             for data in file_data:
 #                 data["name"]
 #                 data["img"]
-#                 model = Category(name=data["name"],img=data["img"])
+#                 model = Category(name=data["name"],img=data["img"],number=data["number"])
 #                 data_list.append(model)
 #         created = Category.objects.bulk_create(data_list)
 #         if created:
