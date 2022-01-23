@@ -33,7 +33,7 @@ class Keywords(models.Model):
 
 class User(AbstractBaseUser,PermissionsMixin):
     user_id     = models.CharField(max_length=10,unique=True,blank=True,null=True)
-    username    = models.CharField(max_length=50,unique=True,verbose_name="username",blank=True,null=True)
+    username    = models.CharField(max_length=50,verbose_name="username",blank=True,null=True)
     is_staff    = models.BooleanField(default=False)
     is_superuser= models.BooleanField(default=False)
     is_active   = models.BooleanField(('active'), default=True)

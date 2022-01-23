@@ -76,13 +76,14 @@ class MobileUserCreate(APIView):
         mobile = request.data["mobile"]
         password1 = request.data["password1"]
         password2 = request.data["password2"]
+        username = request.data["username"]
         if password1==password2:
             password = password2
             user = User.objects.filter(mobile=mobile)
             if user.exists():
                 return Response({"msg":"user is already exist"},status=status.HTTP_400_BAD_REQUEST)
             else:
-                user_register = User.objects.create_mobile_user(mobile,password)
+                user_register = User.objects.create_mobile_user(mobile,password,username)
                 serialize = UserSerilizer(user_register)
                 if user_register:
                     return Response({"msg":"user is sucessfully created","user":serialize.data},status=status.HTTP_201_CREATED)
@@ -208,6 +209,7 @@ class MobileLogin(APIView):
     def post(self,request):
         mobile = request.data["mobile"]
         password = request.data["password"]
+
         user=authenticate(mobile=mobile,password=password)
         if user.is_active:
             login(request, user)

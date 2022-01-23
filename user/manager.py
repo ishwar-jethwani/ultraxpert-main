@@ -19,11 +19,11 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
-    def create_mobile_user(self,mobile,password,**extra_fields):
+    def create_mobile_user(self,mobile,password,username,**extra_fields):
         if not mobile:
             raise ValueError('The given phone must be set')
         self.mobile = mobile
-        user = self.model(mobile=mobile,**extra_fields)
+        user = self.model(mobile=mobile,username=username,**extra_fields)
         user.set_password(password)
         user.save()
         return user
