@@ -203,7 +203,7 @@ class MobileVerificationApi(APIView):
                 print(e)
             return Response({"msg":"msg is failed to send","value":encoded_value},status=status.HTTP_200_OK)
 
-
+# mobile login
 class MobileLogin(APIView):
     def post(self,request):
         mobile = request.data["mobile"]
@@ -215,15 +215,6 @@ class MobileLogin(APIView):
         else:
             return Response({"msg":"invelid creadential"},status=status.HTTP_200_OK)
         
-
-
-
-
-
-
-
-
-
 
 
 class FileUploadView(APIView):

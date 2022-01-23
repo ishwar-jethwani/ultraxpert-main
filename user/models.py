@@ -149,7 +149,7 @@ class Profile(models.Model):
 
 
     def __str__(self) -> str:
-        return self.profile.username
+        return self.profile.user_id
 
     def set_keyword(self, x):
         self.keywords = json.dumps(x)
