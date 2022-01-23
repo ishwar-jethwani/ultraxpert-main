@@ -6,7 +6,7 @@ from .views import *
 
 urlpatterns = [
     path("",Expert_View.as_view(),name="home"),
-    path("expert/<str:pk>/",ExpertDetailView.as_view(),name="user_detail"),
+    path("expert/<user_id>/",ExpertDetailView.as_view(),name="user_detail"),
     path("update/<str:user_id>/",UserUpdateAPI.as_view(),name="user_update"),
     path("profile/<str:pk>/",Profile_View.as_view(),name="profile"),
     path("category-select/",CategoryAPIView.as_view(),name="category"),

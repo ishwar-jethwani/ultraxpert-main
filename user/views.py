@@ -48,7 +48,6 @@ class UserPlanSelect(APIView):
         return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
 class Expert_View(APIView):
-
     def get(self,request):
         user = User.objects.all()
         expert_list = []
@@ -86,6 +85,7 @@ class AutoCompleteAPIView(APIView):
             profile_data = profile_res.data
             service_data = service_res.data
             data = profile_data+service_data
+
             return Response(data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
@@ -171,8 +171,8 @@ class UserUpdateAPI(generics.RetrieveUpdateAPIView):
 
 
 class ExpertDetailView(APIView):
-    def get(self,request,pk):
-        user = User.objects.get(pk=pk)
+    def get(self,request,user_id):
+        user = User.objects.get(user_id=user_id)
         profile_obj = Profile.objects.filter(profile__is_expert=True,profile=user)
         service_obj = Services.objects.filter(user=user)
         rating_obj  = Ratings.objects.filter(rating_on__profile=user)
