@@ -1,6 +1,7 @@
 from decouple import config
 from email import message
 import email
+from django.http import response
 from django.shortcuts import render
 from elasticsearch import serializer
 from rest_framework_simplejwt.tokens import Token
@@ -23,7 +24,7 @@ from .constants import TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.middleware import csrf
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login
 from django.conf import settings
 from rest_framework import status
 import jwt
@@ -70,9 +71,28 @@ class CustomLoginView(LoginView):
         return orginal_response 
 
 
-class MobileUserCreate(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = MobileUserSerializer
+class MobileUserCreate(APIView):
+    def post(self,request):
+        mobile = request.data["mobile"]
+        password1 = request.data["password1"]
+        password2 = request.data["password2"]
+        if password1==password2:
+            password = password2
+            user = User.objects.filter(mobile=mobile)
+            if user.exists():
+                return Response({"msg":"user is already exist"},status=status.HTTP_400_BAD_REQUEST)
+            else:
+                user_register = User.objects.create_mobile_user(mobile,password)
+                serialize = UserSerilizer(user_register)
+                if user_register:
+                    return Response({"msg":"user is sucessfully created","user":serialize.data},status=status.HTTP_201_CREATED)
+                else:
+                    return Response({"msg":"invelid request"},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"msg":"password is not match"},status=status.HTTP_400_BAD_REQUEST)
+        
+        
+
 
 
 
@@ -183,16 +203,18 @@ class MobileVerificationApi(APIView):
                 print(e)
             return Response({"msg":"msg is failed to send","value":encoded_value},status=status.HTTP_200_OK)
 
-    # def post(self,request):
-    #     user = User.objects.filter(user_id=request.user.user_id)
-    #     data = request.data
-    #     otp = data["otp"]
-    #     if str(otp) == str(self.gen_otp):
-    #         user.update(is_verified=True)
-    #         return Response({"msg":"mobile is verified"},status=status.HTTP_200_OK)
-    #     return Response({"msg":"you have entered wrong otp"})
 
-# Download the helper library from https://www.twilio.com/docs/python/install
+class MobileLogin(APIView):
+    def post(self,request):
+        mobile = request.data["mobile"]
+        password = request.data["password"]
+        user=authenticate(mobile=mobile,password=password)
+        if user.is_active:
+            login(request, user)
+        else:
+            return Response({"msg":"invelid creadential"},status=status.HTTP_200_OK)
+        
+
 
 
 

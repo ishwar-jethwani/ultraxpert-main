@@ -23,9 +23,9 @@ class CustomUserManager(BaseUserManager):
         if not mobile:
             raise ValueError('The given phone must be set')
         self.mobile = mobile
-        user = self.model(mobile=mobile, **extra_fields)
+        user = self.model(mobile=mobile,**extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        user.save()
         return user
 
     def create_expert(self, email, password, **extra_fields):
