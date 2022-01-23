@@ -78,18 +78,15 @@ class AutoCompleteAPIView(APIView):
 
     def get(self,request):
         try:
-            user = User.objects.all()
-            for i in user:
-
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                service_obj = Services.objects.filter(user__user_id=i.user_id)
-                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
-                profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
-                profile_data = profile_res.data
-                service_data = service_res.data
-                data = profile_data+service_data
-                if i.is_expert==True:
-                    return Response(data,status=status.HTTP_200_OK)
+            user = User.objects.filter(is_expert=True)
+            profile_obj = Profile.objects.filter(profile__in=list(user))
+            service_obj = Services.objects.filter(user__in=list(user))
+            service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
+            profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
+            profile_data = profile_res.data
+            service_data = service_res.data
+            data = profile_data+service_data
+            return Response(data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"error":e},status=status.HTTP_400_BAD_REQUEST)

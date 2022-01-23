@@ -75,14 +75,26 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        return {
+            "name":f"{instance.first_name} {instance.last_name}",
+            "description":instance.description
+        }
     class Meta:
         model = Profile
         fields = ["first_name","last_name"]
 
 class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        return {
+            "name":instance.service_name,
+            "description":instance.description
+        }
     class Meta:
         model = Services
-        fields = ["service_name","description"] 
+
+    
+
 
 
 class BankSerializer(serializers.ModelSerializer):
