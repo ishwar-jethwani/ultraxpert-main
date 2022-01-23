@@ -113,7 +113,7 @@ class UserEmailVerification(APIView):
             send_mail(
                 from_email = None,
                 recipient_list = [email],
-                subject="UltraXpert Email Varification",
+                subject="UltraXpert Email Verification",
                 html_message=html_data,
                 message="You are most Welcome"
             )
