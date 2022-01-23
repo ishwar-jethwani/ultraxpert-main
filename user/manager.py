@@ -19,6 +19,15 @@ class CustomUserManager(BaseUserManager):
         user.save()
         return user
 
+    def create_mobile_user(self,mobile,password,**extra_fields):
+        if not mobile:
+            raise ValueError('The given phone must be set')
+        self.mobile = mobile
+        user = self.model(mobile=mobile, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
     def create_expert(self, email, password, **extra_fields):
         """
         Create and save a SuperUser with the given email and password.

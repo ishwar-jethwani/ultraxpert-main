@@ -44,7 +44,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     is_verified = models.BooleanField(default=False)
 
     objects = CustomUserManager()
-    USERNAME_FIELD = 'mobile'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def __str__(self) -> str:
