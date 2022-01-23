@@ -37,16 +37,18 @@ class User(AbstractBaseUser,PermissionsMixin):
     is_staff    = models.BooleanField(default=False)
     is_superuser= models.BooleanField(default=False)
     is_active   = models.BooleanField(('active'), default=True)
-    mobile      = PhoneNumberField(blank=True,null=True)
-    email       = models.EmailField(('email address'),unique=True)
+    mobile      = PhoneNumberField(blank=True,null=True,unique=True)
+    email       = models.EmailField(('email address'),unique=True,blank=True,null=True)
     date_joined = models.DateTimeField(('date_joined'),auto_now_add=True,blank=True,null=True)
     is_expert   = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
 
-
     objects = CustomUserManager()
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = []
+
+    def __str__(self) -> str:
+        return self.user_id
 
     class Meta:
         verbose_name = ('user')

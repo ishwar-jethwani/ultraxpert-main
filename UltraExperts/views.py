@@ -72,7 +72,7 @@ class CustomLoginView(LoginView):
 
 class MobileUserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer = MobileUserSerializer()
+    serializer_class = MobileUserSerializer
 
 
 
@@ -177,7 +177,7 @@ class MobileVerificationApi(APIView):
             key = config("KEY_FOR_OTP")
             encoded_value = jwt.encode({"otp":self.gen_otp},key,algorithm="HS256")
             try:
-                client.messages.create(to="+91"+mobile, from_="+19124915017",
+                client.messages.create(to=mobile, from_="+19124915017",
                                     body="Thank you for visiting and we need lititle more information to complete your registration plese enter the {} to verify your mobile number ".format(self.gen_otp))
             except TwilioRestException as e:
                 print(e)
