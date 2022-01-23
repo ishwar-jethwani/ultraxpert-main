@@ -86,6 +86,7 @@ class AutoCompleteAPIView(APIView):
                 service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
                 profile_res =ProfileAutoCompleteSerializer(profile_obj,many=True)
                 data = service_res.data+profile_res.data
+                print(data)
                 if i.is_expert==True:
                     return Response(data,status=status.HTTP_200_OK)
         except Exception as e:
