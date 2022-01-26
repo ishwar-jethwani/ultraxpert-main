@@ -54,9 +54,9 @@ class RatingView(APIView):
         serialize = RatingSerializer(reviews_obj,many=True)
         return Response(serialize.data)
 
-    def post(self,request,pk):
+    def post(self,request,user_id):
         data = request.data
-        profile = Profile.objects.get(pk=pk)
+        profile = Profile.objects.get(profile__user_id=user_id)
         point = float(data["star"])
         if point>5.0:
             point = 5.0
