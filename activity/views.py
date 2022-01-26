@@ -48,8 +48,8 @@ class AcceptAndRejectProjectRequest(APIView):
 class RatingView(APIView):
     permission_classes = [IsGETOrIsAuthenticated]
 
-    def get(self,request,pk):
-        profile = Profile.objects.get(pk=pk)
+    def get(self,request,user_id):
+        profile = Profile.objects.get(profile__user_id=user_id)
         reviews_obj = Ratings.objects.filter(rating_on=profile)
         serialize = RatingSerializer(reviews_obj,many=True)
         return Response(serialize.data)
