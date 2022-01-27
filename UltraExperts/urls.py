@@ -52,14 +52,19 @@ urlpatterns+=[
    path("reset/",ResetPassword.as_view(),name="reset_password"),
    path("change/",PasswordChangeView.as_view(),name="change_password"),
    path("account/",include("allauth.urls")),
+   path('auth/',include('rest_framework_social_oauth2.urls')),
    path("verification/",UserEmailVerification.as_view(),name="verification"),
    path("file/upload/",FileUploadView.as_view(),name="upload"),
-   path('auth/',include('rest_framework_social_oauth2.urls')),
    path("mobile_reset_password/",MobileResetPassword.as_view(),name="mobile_password_reset"),
    path("mobile_verification/",MobileVerificationApi.as_view(),name="mobile_verification"),
    path("mobile_register/",MobileUserCreate.as_view(),name="mobile_register"),
    path("mobile_login/",MobileLogin.as_view(),name="mobile_login"),
 
+
+]
+urlpatterns+=[
+      path("facebook/", FacebookLogin.as_view(), name='fb_login'),
+      # path("google/",GoogleLogin.as_view(),name="google_login")
 ]
 
 # Sysytem Application

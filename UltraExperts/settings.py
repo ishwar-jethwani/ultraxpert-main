@@ -69,11 +69,9 @@ INSTALLED_APPS+=[
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.twitter',
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
-
 ]
 
 # SYSTEM APPLICATION
@@ -85,7 +83,7 @@ INSTALLED_APPS+=[
     "chat",
     "events",
     "payment",
-    "search"
+    "search",
 
 ]
 
@@ -222,8 +220,7 @@ REST_AUTH_SERIALIZERS = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication', 
     ],
 }
 

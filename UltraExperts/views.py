@@ -1,34 +1,27 @@
 from decouple import config
-from email import message
-import email
-from django.http import response
 from django.shortcuts import render
-from elasticsearch import serializer
-from rest_framework_simplejwt.tokens import Token
 from UltraExperts.serializers import UserSerilizer
-from dj_rest_auth.views import LoginView,PasswordResetConfirmView
+from dj_rest_auth.views import LoginView
 from user.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import random
 from .settings import AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME
-from botocore.client import Config
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser,ParseError
 from .files import *
 from rest_framework.validators import ValidationError
 from django.template.loader import get_template
 from django.core.mail import send_mail
 from twilio.rest import Client
-from .constants import TWILIO_AUTH_ID,TWILIO_SECRET_KEY
+from .constants import BASE_URL, TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.middleware import csrf
 from django.contrib.auth import authenticate,login
-from django.conf import settings
 from rest_framework import status
 import jwt
 from .serializers import *
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
@@ -239,3 +232,15 @@ class FileUploadView(APIView):
             },
             status=201,
         )
+
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+
+
+# class GoogleLogin(SocialLoginView):
+#     adapter_class = GoogleOAuth2Adapter
+#     callback_url = BASE_URL+"/accounts/google/login/callback/"
+#     client_class = OAuth2Client
