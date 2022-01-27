@@ -75,7 +75,7 @@ class ES_ServiceSearch(APIView):
         search = request.GET.get("search")
         try:
             service = ServiceDocument.search().query("query_string", query=search)
-            serialize = ExpertDocumentSerializer(service,many=True)
+            serialize = ServiceDocumentSerializer(service,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)

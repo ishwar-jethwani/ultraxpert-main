@@ -21,10 +21,13 @@ class ExpertsDocument(Document):
         fields = [
             "first_name",
             "last_name",
+            "profile_img",
+            "gender",
             "is_online",
             "title",
             "education",
-            "experience"
+            "experience",
+            "country"
         ]
 
 @registry.register_document
@@ -42,6 +45,7 @@ class ServiceDocument(Document):
         fields = [
             'service_id',
             'service_type',
+            "service_img",
             'service_name',
             'price'
         ]
