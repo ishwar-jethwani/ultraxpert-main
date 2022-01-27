@@ -34,6 +34,7 @@ django-oauth-toolkit==1.5.0
 django-phone-field==1.8.1
 django-phonenumber-field==5.2.0
 django-rest-auth==0.9.5
+django-rest-framework-social-oauth2==1.1.0
 django-storages==1.11.1
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.7.2
@@ -85,6 +86,8 @@ ruamel.yaml==0.17.10
 ruamel.yaml.clib==0.2.6
 s3transfer==0.5.0
 six==1.16.0
+social-auth-app-django==5.0.0
+social-auth-core==4.2.0
 sqlparse==0.4.1
 twilio==7.4.0
 typing-extensions==3.10.0.0
