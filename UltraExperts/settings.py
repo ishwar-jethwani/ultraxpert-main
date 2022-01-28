@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
 #ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com','ultraxpert-frontend.herokuapp.com',ultraxpert-front.herokuapp.com]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.ngrok.io','UltraExperts.herokuapp.com','ultraxpert-front.herokuapp.com']
 
 if DEBUG == False:
     SECURE_SSL_REDIRECT = True
