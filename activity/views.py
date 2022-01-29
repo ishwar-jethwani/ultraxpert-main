@@ -60,9 +60,9 @@ class RatingView(APIView):
         point = float(data["star"])
         if point>5.0:
             point = 5.0
-            created = Ratings.objects.create(user_name=request.user,review=data["review"],star_rating=point,rating_on=profile)
+            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile)
         else:
-            created = Ratings.objects.create(user_name=request.user,review=data["review"],star_rating=point,rating_on=profile)
+            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile)
         if created:
 
             pass

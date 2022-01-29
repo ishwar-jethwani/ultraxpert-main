@@ -33,13 +33,14 @@ pre_save.connect(pre_save_create_request_id, sender=Project_Request)
 
 class Ratings(models.Model):
     user_name = models.ForeignKey(User,on_delete=models.CASCADE)
+    short_title = models.CharField(max_length=100,blank=True,null=True)
     review =  RichTextField(blank=True,null=True)
     star_rating = models.PositiveIntegerField(verbose_name="Start Rating",validators=[MaxValueValidator(5)],null=True)
     rating_on = models.ForeignKey(Profile,on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True,verbose_name="Created Date",blank=True,null=True)
 
     def __str__(self) -> str:
-        return self.user_name.username
+        return self.user_name.user_id
     
     class Meta:
         ordering = ["pk"]

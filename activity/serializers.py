@@ -22,12 +22,17 @@ class ProjectRequestSerializer(serializers.ModelSerializer):
         )
         return request
 
+class RatingUserserializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["user_id","username","is_expert"]
+
 class RatingSerializer(serializers.ModelSerializer):
+    user_name = RatingUserserializer()
     date_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Ratings
         fields = '__all__'
-        depth = 1
 
 
 class OrderHistorySerializer(serializers.ModelSerializer):
