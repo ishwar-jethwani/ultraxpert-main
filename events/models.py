@@ -1,3 +1,4 @@
+from statistics import mode
 from user.models import Services, User, UserPlans
 from django.db import models
 from .utils import * 
@@ -57,6 +58,7 @@ class EventScheduleTime(models.Model):
     start_time  = models.CharField(max_length=255,verbose_name="start time",blank=True,null=True)
     end_time    = models.CharField(max_length=255,verbose_name="start time",blank=True,null=True)
     timezone    = models.CharField(max_length=255,verbose_name="timeZone",default="Asia/Kuwait",blank=True,null=True)
+    booked      = models.BooleanField(default=False)
     schedule    = models.ForeignKey(EventSchedule,models.CASCADE)
 
     def __str__(self) -> str:

@@ -21,7 +21,7 @@ class EventScheduleTimeCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = EventScheduleTime
-        fields = ['start_time', 'end_time','timezone']
+        fields = ['start_time', 'end_time','timezone','booked']
 
 
 class EventScheduleCreateSerializer(serializers.ModelSerializer):
@@ -67,4 +67,21 @@ class EventCreateSerializer(serializers.ModelSerializer):
                         EventScheduleTime.objects.create(**timing, schedule=schedule_instance)
 
         return instance
+
+    # def update(self, validated_data):
+    #     schedules = validated_data.pop("schedules", [])
+    #     instance = Event.objects.create(**validated_data)
+        
+        
+    #     # checking the length of schedules list
+    #     if len(schedules) > 0:
+    #         for schedule in schedules:
+    #             timings = schedule.pop('timings')
+    #             schedule_instance = EventSchedule.objects.(**schedule, event=instance)
+
+    #             if len(timings) > 0:
+    #                 for timing in timings:
+    #                     EventScheduleTime.objects.create(**timing, schedule=schedule_instance)
+
+    #     return instance
 
