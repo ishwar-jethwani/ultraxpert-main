@@ -23,7 +23,9 @@ from .serializers import *
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
@@ -200,19 +202,23 @@ class MobileVerificationApi(APIView):
 
 # mobile login
 class MobileLogin(APIView):
-    authentication_classes = [JWTAuthentication]
+    user_dict = dict()
     def post(self,request):
         mobile = request.data["mobile"]
         password = request.data["password"]
         user=authenticate(mobile=mobile,password=password)
+        print(user)
         if user is not None:
             if user.is_active:
-                data = login(request,user)
-                return Response(data,status=status.HTTP_200_OK)   
+                data = RefreshToken.for_user(user)
+                serialize = UserSerilizer(user)
+                self.user_dict.update(serialize.data)
+                self.user_dict.update({"access_token":str(data)})
+                self.user_dict.update({"refresh_token":str(data.access_token)})
+                return Response(self.user_dict,status=status.HTTP_200_OK)   
         else:
             return Response({"msg":"invelid creadential"},status=status.HTTP_400_BAD_REQUEST)
         
-
 
 class FileUploadView(APIView):
     parser_class = [FileUploadParser]

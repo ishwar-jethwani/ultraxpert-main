@@ -115,11 +115,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'UltraExperts.urls'
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'UltraExperts.backends.MobileAuthenticationBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
 )
 
 TEMPLATES = [
