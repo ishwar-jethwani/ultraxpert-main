@@ -1,5 +1,6 @@
 from decouple import config
 from django.shortcuts import render
+from UltraExperts.backends import MobileAuthenticationBackend
 from UltraExperts.serializers import UserSerilizer
 from dj_rest_auth.views import LoginView
 from user.models import User
@@ -22,6 +23,7 @@ from .serializers import *
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
@@ -198,16 +200,15 @@ class MobileVerificationApi(APIView):
 
 # mobile login
 class MobileLogin(APIView):
+    authentication_classes = [JWTAuthentication]
     def post(self,request):
         mobile = request.data["mobile"]
         password = request.data["password"]
-
         user=authenticate(mobile=mobile,password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
-                serialize = UserSerilizer(user)
-                return Response(serialize.data,status=status.HTTP_200_OK)
+                data = login(request,user)
+                return Response(data,status=status.HTTP_200_OK)   
         else:
             return Response({"msg":"invelid creadential"},status=status.HTTP_400_BAD_REQUEST)
         

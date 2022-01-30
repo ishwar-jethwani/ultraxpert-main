@@ -9,4 +9,4 @@ class MobileAuthenticationBackend(ModelBackend):
             if user.check_password(password) is True:
                 return user
         except user.DoseNotExist:
-            return user.DoseNotExist()
+            return None
