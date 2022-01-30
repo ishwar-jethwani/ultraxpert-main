@@ -115,6 +115,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'UltraExperts.urls'
 AUTHENTICATION_BACKENDS = (
+    'UltraExperts.backends.MobileAuthenticationBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',

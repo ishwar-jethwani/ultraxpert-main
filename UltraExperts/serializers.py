@@ -1,25 +1,51 @@
-from dataclasses import field
 from rest_framework import serializers
 from user.models import User
+from django.contrib.auth import authenticate
+
 
 class UserSerilizer(serializers.ModelSerializer):
     class Meta:
         fields = ["pk","user_id","is_expert","is_verified","username","email","mobile"]
         model = User
+    
 
-# class MobileUserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ["mobile","password"]
-#         extra_kwargs = {"password":{"write_only":True}}
-#     def create(self, validated_data):
-#         password = validated_data.pop("password")
-#         password1 = self.context["request"].data["password1"]
-#         if password==password1:
-#             user = User(**validated_data)
-#             user.set_password(password)
-#             user.save()
-#             return user
+
+
+
+
+
+
+
+
+# class MobileUserSerializer(serializers.Serializer):
+#     mobile = serializers.CharField()
+#     password = serializers.CharField(
+#         style={'input_type': 'password'}, trim_whitespace=False)
+#     def validate(self, attrs):
+#         mobile = attrs.get('mobile')
+#         password = attrs.get('password')
+
+#         if mobile and password:
+#             if User.objects.filter(mobile=mobile).exists():
+#                 user = authenticate(request=self.context.get('request'),
+#                                     mobile=mobile, password=password)
+                
+#             else:
+#                 msg = {'detail': 'mobile number is not registered.',
+#                        'register': False}
+#                 raise serializers.ValidationError(msg)
+
+#             if not user:
+#                 msg = {
+#                     'detail': 'Unable to log in with provided credentials.', 'register': True}
+#                 raise serializers.ValidationError(msg, code='authorization')
+
+#         else:
+#             msg = 'Must include "username" and "password".'
+#             raise serializers.ValidationError(msg, code='authorization')
+
+#         attrs['user'] = user
+#         return attrs
             
         
         

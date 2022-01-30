@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 from twilio.rest import Client
 from .constants import BASE_URL, TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import login
 from rest_framework import status
 import jwt
 from .serializers import *
@@ -203,10 +203,13 @@ class MobileLogin(APIView):
         password = request.data["password"]
 
         user=authenticate(mobile=mobile,password=password)
-        if user.is_active:
-            login(request, user)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                serialize = UserSerilizer(user)
+                return Response(serialize.data,status=status.HTTP_200_OK)
         else:
-            return Response({"msg":"invelid creadential"},status=status.HTTP_200_OK)
+            return Response({"msg":"invelid creadential"},status=status.HTTP_400_BAD_REQUEST)
         
 
 
