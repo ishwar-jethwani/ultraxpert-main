@@ -69,6 +69,8 @@ INSTALLED_APPS+=[
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.linkedin',
     'oauth2_provider',
     'social_django',
     'rest_framework_social_oauth2',
@@ -116,11 +118,11 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'UltraExperts.urls'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'UltraExperts.backends.MobileAuthenticationBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'UltraExperts.backends.MobileAuthenticationBackend',
 )
 
 TEMPLATES = [
@@ -193,12 +195,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # authentication
 AUTH_USER_MODEL = 'user.User'
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 ACCOUNT_EMAIL_VARIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 LOGIN_REDIRECT_URL = "/user/user_plan_selection/"
 OLD_PASSWORD_FIELD_ENABLED = True
@@ -372,6 +373,23 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+# SOCIALACCOUNT_PROVIDERS = {
+#     "google": {
+#         "APP": {
+#             "client_id": "123",
+#             "secret": "456",
+#             "key": ""
+#         },
+#         "SCOPE": [
+#             "profile",
+#             "email",
+#         ],
+#         "AUTH_PARAMS": {
+#             "access_type": "online",
+#         }
+#     }
+# }
 
 CKEDITOR_UPLOAD_PATH = '/upload/'
 

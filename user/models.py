@@ -49,7 +49,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     def __str__(self) -> str:
         return self.user_id
 
-
+    
     class Meta:
         verbose_name = ('user')
         verbose_name_plural = ('users')

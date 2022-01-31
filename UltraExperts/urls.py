@@ -64,7 +64,11 @@ urlpatterns+=[
 ]
 urlpatterns+=[
       path("facebook/", FacebookLogin.as_view(), name='fb_login'),
-      # path("google/",GoogleLogin.as_view(),name="google_login")
+      path("google/",GoogleLogin.as_view(),name="google_login"),
+      path("linkedin/",LinkedInLogin.as_view(),name="linkedin_login"),
+      path("twitter/",TwitterLogin.as_view(),name="twitter_login"),
+      
+
 ]
 
 # Sysytem Application
