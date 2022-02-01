@@ -1,3 +1,4 @@
+from turtle import st
 from django.utils import translation
 from rest_framework import status
 from rest_framework import generics
@@ -137,7 +138,27 @@ class EventCreateAPIView(CreateAPIView):
     serializer_class = EventCreateSerializer
 
 class GetEventAPIView(APIView):
-    pass
+    def post(self,request,service_id):
+        day = request.data["date"]
+        event = Event.objects.filter(releted_service__service_id=service_id)
+        list_of_event = event.values_list("event_id",flat=True)
+        event_day = EventSchedule.objects.filter(event__event_id__in=list(list_of_event),day=day)
+        list_of_event_schedule =  event_day.values_list("pk",flat=True)
+        slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
+        print(slots)
+        serialize = EventReadSerializer(slots,many=True)
+        if serialize:
+            return Response(serialize.data,status=status.HTTP_200_OK)
+
+
+
+
+        
+
+
+
+
+    
 
 
 
