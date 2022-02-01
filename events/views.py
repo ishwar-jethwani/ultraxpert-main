@@ -1,35 +1,12 @@
-from turtle import st
-from django.utils import translation
 from rest_framework import status
-from rest_framework import generics
-from user.models import Services
-from events.models import Event
-from django.shortcuts import render
-from django.views import generic
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .constant import *
-from enum import Enum
-import requests
-import datetime
-from datetime import timedelta
-import base64
-import pytz
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-from gcsa.google_calendar import GoogleCalendar
-from beautiful_date import day,weeks,months
-from gcsa.reminders import EmailReminder, PopupReminder
-import urllib.parse as urlparse
-from urllib.parse import parse_qs
-from rest_framework.validators import ValidationError
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
-from rest_framework.generics import CreateAPIView,RetrieveAPIView
-from activity.models import Order,Subscriptions
-import json
-import webbrowser
+from rest_framework.generics import CreateAPIView
 from activity.serializers import *
+from .models import *
 
 
 # def base64_encode(message):
