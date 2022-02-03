@@ -72,11 +72,38 @@ class RatingView(APIView):
 
 
 
-class Place_Order(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = SlotBookingSerializer
-    queryset = Event.objects.all()
-    lookup_field = "event_id"
+# class Place_Order(generics.UpdateAPIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = SlotBookingSerializer
+#     queryset = Event.objects.all()
+#     lookup_field = "event_id"
+
+
+class Place_Order(APIView):
+    permission_classes= [IsAuthenticated]
+    def post(self,request,service_id):
+        user = request.user
+        event_id = request.data["event_id"]
+        service  = Services.objects.get(service_id=service_id)
+        event_slot = EventScheduleTime.objects.get(id=event_id)
+        order = Order.objects.create(user=user,service_id=service.service_id,slot=event_slot,service_obj=service,price=service.price,order_on=service.user)
+        if order:
+            serialize = OrderSerializer(order)
+            return Response(serialize.data,status=status.HTTP_200_OK)
+        else:
+            return Response({"msg":"somthing went wrong"},status=status.HTTP_200_OK)
+        
+
+
+
+
+
+        
+
+
+
+
+
 
 
 class OrderHistory(APIView):

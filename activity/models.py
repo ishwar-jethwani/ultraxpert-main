@@ -64,7 +64,6 @@ class Order(models.Model):
     service_obj = models.ForeignKey("user.Services",related_name="Services",on_delete=models.CASCADE,null=True)
     price  = models.DecimalField(max_digits=10,decimal_places=2,verbose_name="Price",blank=True)
     order_on = models.ForeignKey("user.User",related_name="User",verbose_name="username",on_delete=models.CASCADE)
-    paid = models.BooleanField(default=False,blank=True,null=True)
     status = models.CharField(max_length=50,choices=stages,default="booked",blank=True,null=True)
 
     def __str__(self) -> str:

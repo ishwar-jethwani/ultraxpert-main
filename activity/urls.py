@@ -6,7 +6,7 @@ from .views import *
 
 urlpatterns = [
     path("rating/<user_id>/",RatingView.as_view(),name="rating"),
-    path("book_service/<str:event_id>/",Place_Order.as_view(),name="order_place"),
+    path("book_service/<str:service_id>/",Place_Order.as_view(),name="order_place"),
     path("order_history/",OrderHistory.as_view(),name="order_history"),
 
 
