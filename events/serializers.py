@@ -18,7 +18,7 @@ class EventScheduleTimeCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = EventScheduleTime
-        fields = ['start_time', 'end_time','timezone','booked']
+        fields = ['start_time','end_time','timezone','booked']
 
 
 class EventScheduleCreateSerializer(serializers.ModelSerializer):

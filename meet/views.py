@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from UltraExperts.constants import VIDEOSDK_API_KEY
 from meet.models import Meeting
+from meet.serializers import MeetingSerializer
 from user.models import User,Services,Profile, UserPlans
 from rest_framework.response import Response
 from UltraExperts.settings import BASE_URL
@@ -30,10 +31,9 @@ class MeetingAPI(APIView):
                 )
                 if meet:
                     meeting_id = meet.meeting_id
-                    service_serialize = ServiceShowSerializer(meet.service)
-                    profile_serialize = ProfileSerializer(consumer)
+                    serialize = MeetingSerializer(meet)
                     get_meet(self.request,meeting_id)
-                    return Response({"url":f'{BASE_URL}/{meeting_id}/',"service_name":meet.service_name,"expert":profile_serialize.data,"service":service_serialize.data},status=status.HTTP_200_OK)
+                    return Response({"url":f'{BASE_URL}/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
             else:
                 return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
