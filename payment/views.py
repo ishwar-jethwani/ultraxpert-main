@@ -217,8 +217,9 @@ class GetResponse(APIView):
     def post(self,request):
         data = request.data
         order_id = data["payload"]["payment"]["entity"]["order_id"]
+        status = data["payload"]["payment"]["entity"]["status"]
         print("response",data)
-        payment_data = PaymentStatus.objects.create(order_no=order_id,response=data)
+        payment_data = PaymentStatus.objects.create(order_no=order_id,response=data,status=status)
         if payment_data:
             payment_created = PaymantStatusSerializer(payment_data)
             return Response(data=payment_created.data,status=status.HTTP_201_CREATED)

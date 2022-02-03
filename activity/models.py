@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
 from rest_framework import status
+from events.models import EventScheduleTime
 from user.models import User,Profile,Services
 from django.core.validators import  MaxValueValidator
 from .utils import *
@@ -59,6 +60,7 @@ class Order(models.Model):
     user = models.ForeignKey(User,verbose_name="User",on_delete=models.PROTECT)
     order_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     service_id = models.CharField(max_length=100,verbose_name="Service ID",blank=True,null=True)
+    slot = models.ForeignKey(EventScheduleTime,null=True,blank=True,on_delete=models.CASCADE)
     service_obj = models.ForeignKey("user.Services",related_name="Services",on_delete=models.CASCADE,null=True)
     price  = models.DecimalField(max_digits=10,decimal_places=2,verbose_name="Price",blank=True)
     order_on = models.ForeignKey("user.User",related_name="User",verbose_name="username",on_delete=models.CASCADE)

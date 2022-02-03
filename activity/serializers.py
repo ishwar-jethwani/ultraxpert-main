@@ -1,9 +1,9 @@
-from django.db.models import fields
-from rest_framework import request, serializers
+from rest_framework import serializers
 from .models import *
 from user.serializers import *
 from payment.models import PaymentStatus
-import requests
+from events.models import *
+
 
 class ProjectRequestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,14 +68,14 @@ class OrderSerializer(serializers.ModelSerializer):
     order_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Order
-        fields = ["user","service_id","price"]
+        fields = ["user","service_id","price","slot"]
 
     
 
 
-class ServiceBookingSerializer(OrderSerializer):
+class SlotBookingSerializer(OrderSerializer):
     class Meta:
-        model = Services
+        model = EventScheduleTime
         fields = OrderSerializer.Meta.fields
 
 
@@ -86,11 +86,11 @@ class ServiceBookingSerializer(OrderSerializer):
             instance.save()
             receipt = Order.objects.create(
                     user = self.context["request"].user,
-                    service_id = instance.service_id,
-                    service_obj = instance,
-                    price = instance.price,
-                    order_on = instance.user
-
+                    service_id = instance.schedule.event.releted_service.service_id,
+                    service_obj = instance.schedule.event.releted_service,
+                    price = instance.schedule.event.releted_service.price,
+                    order_on = instance.schedule.event.releted_service.user,
+                    slot = instance
             )
             if receipt:
                 return receipt

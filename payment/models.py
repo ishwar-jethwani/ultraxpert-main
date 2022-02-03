@@ -1,5 +1,7 @@
 from django.db import models
 from rest_framework import response
+
+from activity.models import Order
 from .utils import *
 from django.db.models.signals import pre_save
 
@@ -10,6 +12,7 @@ class PaymentStatus(models.Model):
     order_no = models.CharField(max_length=20,verbose_name="order_no",blank=True,null=True)
     response = models.JSONField(verbose_name="response",blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    status = models.CharField(max_length=50,verbose_name="status",blank=True,null=True)
 
     def __str__(self) -> str:
         return self.order_no

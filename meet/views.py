@@ -8,6 +8,7 @@ from user.models import User,Services,Profile, UserPlans
 from rest_framework.response import Response
 from UltraExperts.settings import BASE_URL
 from rest_framework import status
+from user.serializers import ProfileSerializer, ServiceShowSerializer
 
 
 
@@ -20,17 +21,21 @@ class MeetingAPI(APIView):
         consumer = Profile.objects.get(profile=user)
         if consumer.profile.is_expert==True:
             if consumer.user_plan>0:
+                service = Services.objects.get(user=consumer.profile)
                 title = Services.objects.get(user=consumer.profile).service_name
                 meet = Meeting.objects.create(
                     expert = consumer.profile,
-                    service_name = title
+                    service_name = title,
+                    service = service
                 )
                 if meet:
                     meeting_id = meet.meeting_id
-                    meeting_space = get_meet(self.request,meeting_id)
-                    return Response({"url":f'{BASE_URL}/{meeting_id}/'},status=status.HTTP_200_OK)
+                    service_serialize = ServiceShowSerializer(meet.service)
+                    profile_serialize = ProfileSerializer(consumer)
+                    get_meet(self.request,meeting_id)
+                    return Response({"url":f'{BASE_URL}/{meeting_id}/',"service_name":meet.service_name,"expert":profile_serialize.data,"service":service_serialize.data},status=status.HTTP_200_OK)
             else:
-                return Response({"res":0,"msg":"you dont have meeting"})
+                return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
 def get_meet(request,meeting_id):
     data = Meeting.objects.get(meeting_id=meeting_id)

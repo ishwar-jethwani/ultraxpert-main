@@ -127,6 +127,23 @@ class GetEventAPIView(APIView):
         if serialize:
             return Response(serialize.data,status=status.HTTP_200_OK)
 
+class BookedStatusChangeAPI(APIView):
+    def post(self,request):
+        slot_id = request.data["slot_id"]
+        payment_id = request.data["payment_id"]
+        payment = PaymentStatus.objects.get(payment_id=payment_id)
+        if payment.status=="authorized":
+            slot = EventScheduleTime.objects.get(id=slot_id)
+            slot.booked = True
+            slot.save(update_fields=['booked'])
+            return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
+        return Response({"msg":"Somthing Went Wrong while booking the slot"},status=status.HTTP_200_OK)
+
+        
+
+
+
+        
 
 
 

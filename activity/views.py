@@ -74,9 +74,9 @@ class RatingView(APIView):
 
 class Place_Order(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class = ServiceBookingSerializer
-    queryset = Services.objects.all()
-    lookup_field = "service_id"
+    serializer_class = SlotBookingSerializer
+    queryset = Event.objects.all()
+    lookup_field = "event_id"
 
 
 class OrderHistory(APIView):

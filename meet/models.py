@@ -7,7 +7,8 @@ from django.db.models.signals import pre_save
 class Meeting(models.Model):
         meeting_id = models.CharField(max_length=20,verbose_name="Meeting ID",unique=True,blank=True)
         expert = models.ForeignKey(User,on_delete=models.PROTECT)
-        service_name = models.CharField(max_length=200,verbose_name="Service Name",blank=True,null=True)
+        service = models.ForeignKey(Services,on_delete=models.CASCADE,verbose_name="Service Name",blank=True,null=True)
+        service_name = models.CharField(max_length=100,verbose_name="service_name",blank=True,null=True)
         date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
         class Meta:
