@@ -86,7 +86,7 @@ class Place_Order(APIView):
         event_id = request.data["event_id"]
         service  = Services.objects.get(service_id=service_id)
         event_slot = EventScheduleTime.objects.get(id=event_id)
-        order = Order.objects.create(user=user,service_id=service.service_id,slot=event_slot,service_obj=service,price=service.price,order_on=service.user)
+        order = Order.objects.create(user=user,service_id=service.service_id,slot=event_slot,service_obj=service,price=service.price,order_on=service.user,status="booked")
         if order:
             serialize = OrderSerializer(order)
             return Response(serialize.data,status=status.HTTP_200_OK)
