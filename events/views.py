@@ -133,9 +133,8 @@ class BookedStatusChangeAPI(APIView):
         payment_id = request.data["payment_id"]
         payment = PaymentStatus.objects.filter(payment_id=payment_id)
         if payment.first().status=="authorized":
-            slot = EventScheduleTime.objects.get(id=slot_id)
-            slot.booked = True
-            slot.save(update_fields=['booked'])
+            slot = EventScheduleTime.objects.filter(id=slot_id)
+            slot.update(booked=True)
             return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
         return Response({"msg":"Somthing Went Wrong while booking the slot"},status=status.HTTP_200_OK)
 
