@@ -122,7 +122,7 @@ class GetEventAPIView(APIView):
         event_day = EventSchedule.objects.filter(event__event_id__in=list(list_of_event),day=day)
         list_of_event_schedule =  event_day.values_list("pk",flat=True)
         slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
-        slots = slots.filter(booked=True)
+        slots = slots.filter(booked=False)
         serialize = EventReadSerializer(slots,many=True)
         if serialize:
             return Response(serialize.data,status=status.HTTP_200_OK)
