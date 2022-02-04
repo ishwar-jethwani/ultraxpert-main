@@ -260,7 +260,7 @@ class InvoiceAPIView(APIView):
     def post(self,request):
         data = request.data
         invoice = razorpay_client.invoice.create(data=data)
-        return response(invoice,status=status.HTTP_200_OK)
+        return Response(invoice,status=status.HTTP_200_OK)
 
 
 
