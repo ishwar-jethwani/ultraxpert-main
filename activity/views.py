@@ -88,8 +88,6 @@ class OrderHistory(APIView):
         return Response(order_list.data)
 
 
-
-
 class PaymentConfirmationApiView(generics.UpdateAPIView):
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
@@ -109,7 +107,6 @@ class ExpertGotOrder(generics.ListAPIView):
     serializer_class = OrderHistorySerializer
     def get_queryset(self):
         return Order.objects.filter(order_on=self.request.user)
-
 
 
 class SubscriptionView(generics.ListAPIView):

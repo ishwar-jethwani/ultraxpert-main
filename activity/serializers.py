@@ -78,8 +78,6 @@ class SlotBookingSerializer(OrderSerializer):
         model = EventScheduleTime
         fields = OrderSerializer.Meta.fields
 
-
-
     def update(self,instance, validated_data):
         data = self.context["request"].data
         if data["status"] == "booked":
