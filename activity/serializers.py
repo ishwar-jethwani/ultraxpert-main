@@ -65,33 +65,39 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
     
 class OrderSerializer(serializers.ModelSerializer):
+    user = UserSerilizer()
+    order_on = UserSerilizer()
+    service_obj = ServiceShowSerializer()
     order_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = Order
-        fields = ["user","service_id","price","slot"]
+        fields = "__all__"
+        depth = 2
 
     
 
 
-class SlotBookingSerializer(OrderSerializer):
-    class Meta:
-        model = EventScheduleTime
-        fields = OrderSerializer.Meta.fields
+# class SlotBookingSerializer(OrderSerializer):
+#     class Meta:
+#         model = EventScheduleTime
+#         fields = OrderSerializer.Meta.fields
 
-    def update(self,instance, validated_data):
-        data = self.context["request"].data
-        if data["status"] == "booked":
-            instance.save()
-            receipt = Order.objects.create(
-                    user = self.context["request"].user,
-                    service_id = instance.schedule.event.releted_service.service_id,
-                    service_obj = instance.schedule.event.releted_service,
-                    price = instance.schedule.event.releted_service.price,
-                    order_on = instance.schedule.event.releted_service.user,
-                    slot = instance
-            )
-            if receipt:
-                return receipt
+
+
+#     def update(self,instance, validated_data):
+#         data = self.context["request"].data
+#         if data["status"] == "booked":
+#             instance.save()
+#             receipt = Order.objects.create(
+#                     user = self.context["request"].user,
+#                     service_id = instance.schedule.event.releted_service.service_id,
+#                     service_obj = instance.schedule.event.releted_service,
+#                     price = instance.schedule.event.releted_service.price,
+#                     order_on = instance.schedule.event.releted_service.user,
+#                     slot = instance
+#             )
+#             if receipt:
+#                 return receipt
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):

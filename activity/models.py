@@ -49,11 +49,9 @@ class Ratings(models.Model):
     
 class Order(models.Model):
     stages = (
+        ("pending","pending"),
         ("booked","booked"),
-        ("confirmed","confirmed"),
-        ("delivered","delivered"),
-        ("cancelled","cancelled"),
-        ("refunded","refunded"),
+        ("cancelled","cancelled")
 
     )
     order_id = models.CharField(max_length=10,verbose_name="Order Id",unique=True,blank=True)
@@ -65,7 +63,7 @@ class Order(models.Model):
     price  = models.DecimalField(max_digits=10,decimal_places=2,verbose_name="Price",blank=True)
     order_on = models.ForeignKey("user.User",related_name="User",verbose_name="username",on_delete=models.CASCADE)
     paid = models.BooleanField(default=False,blank=True,null=True)
-    status = models.CharField(max_length=50,choices=stages,default="booked",blank=True,null=True)
+    status = models.CharField(max_length=50,choices=stages,default="pending",blank=True,null=True)
 
     def __str__(self) -> str:
         return self.order_id
