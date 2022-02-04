@@ -9,6 +9,7 @@ from user.models import User,Services,Profile, UserPlans
 from rest_framework.response import Response
 from UltraExperts.settings import BASE_URL
 from rest_framework import status
+from events.models import EventScheduleTime
 
 
 
@@ -19,13 +20,16 @@ class MeetingAPI(APIView):
     def post(self,request):
         user = request.user
         service_id = request.data["service_id"]
+        event_id = request.data["slot_id"]
         consumer = Profile.objects.get(profile=user)
         service = Services.objects.get(service_id=service_id)
+        event = EventScheduleTime.objects.get(id=event_id)
         title = service.service_name
         meet = Meeting.objects.create(
             user = consumer.profile,
             service_name = title,
-            service = service
+            service = service,
+            event = event
         )
         if meet:
             meeting_id = meet.meeting_id
