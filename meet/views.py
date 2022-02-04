@@ -9,7 +9,6 @@ from user.models import User,Services,Profile, UserPlans
 from rest_framework.response import Response
 from UltraExperts.settings import BASE_URL
 from rest_framework import status
-from user.serializers import ProfileSerializer, ServiceShowSerializer
 
 
 
