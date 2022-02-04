@@ -21,22 +21,20 @@ class MeetingAPI(APIView):
         user = request.user
         service_id = request.data["service_id"]
         consumer = Profile.objects.get(profile=user)
-        if consumer.profile.is_expert==True:
-            if consumer.user_plan:
-                service = Services.objects.get(service_id=service_id)
-                title = service.service_name
-                meet = Meeting.objects.create(
-                    expert = consumer.profile,
-                    service_name = title,
-                    service = service
-                )
-                if meet:
-                    meeting_id = meet.meeting_id
-                    serialize = MeetingSerializer(meet)
-                    get_meet(self.request,meeting_id)
-                    return Response({"url":f'{BASE_URL}/meet/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
-            else:
-                return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
+        service = Services.objects.get(service_id=service_id)
+        title = service.service_name
+        meet = Meeting.objects.create(
+            expert = consumer.profile,
+            service_name = title,
+            service = service
+        )
+        if meet:
+            meeting_id = meet.meeting_id
+            serialize = MeetingSerializer(meet)
+            get_meet(self.request,meeting_id)
+            return Response({"url":f'{BASE_URL}/meet/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
+        else:
+            return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
 def get_meet(request,meeting_id):
     data = Meeting.objects.get(meeting_id=meeting_id)
