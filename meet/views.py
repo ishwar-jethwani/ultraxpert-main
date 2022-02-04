@@ -39,6 +39,14 @@ class MeetingAPI(APIView):
         else:
             return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
+    def get(self,request):
+        user = request.user
+        meetings = Meeting.objects.filter(user=user)
+        serialize = MeetingSerializer(meetings,many=True)
+        return Response(serialize.data,status=status.HTTP_200_OK)
+    
+
+
 def get_meet(request,meeting_id):
     data = Meeting.objects.get(meeting_id=meeting_id)
     title = data.service_name
