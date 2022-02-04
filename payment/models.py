@@ -1,9 +1,5 @@
 from django.db import models
-from rest_framework import response
 
-from activity.models import Order
-from .utils import *
-from django.db.models.signals import pre_save
 
 
 
@@ -27,9 +23,4 @@ class RefundStatus(models.Model):
 
 
 
-def pre_save_create_payment_id(sender, instance, *args, **kwargs):
-    if not instance.payment_id:
-        instance.payment_id= unique_payment_id_generator(instance)
 
-
-pre_save.connect(pre_save_create_payment_id, sender=PaymentStatus)
