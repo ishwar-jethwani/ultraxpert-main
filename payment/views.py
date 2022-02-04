@@ -58,7 +58,7 @@ class ServiceOrderCreate(APIView):
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
     permission_classes = [IsAuthenticated]
-    def get(self,request,order_id):
+    def post(self,request,order_id):
         
         try:
             order = Order.objects.get(order_id=order_id)
