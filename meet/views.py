@@ -34,7 +34,7 @@ class MeetingAPI(APIView):
                     meeting_id = meet.meeting_id
                     serialize = MeetingSerializer(meet)
                     get_meet(self.request,meeting_id)
-                    return Response({"url":f'{BASE_URL}/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
+                    return Response({"url":f'{BASE_URL}/meet/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
             else:
                 return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
