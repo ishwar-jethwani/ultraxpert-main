@@ -17,13 +17,14 @@ from user.serializers import ProfileSerializer, ServiceShowSerializer
 class MeetingAPI(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self,request):
+    def post(self,request):
         user = request.user
+        service_id = request.data["service_id"]
         consumer = Profile.objects.get(profile=user)
         if consumer.profile.is_expert==True:
             if consumer.user_plan:
-                service = Services.objects.get(user=consumer.profile)
-                title = Services.objects.get(user=consumer.profile).service_name
+                service = Services.objects.get(service_id=service_id)
+                title = service.service_name
                 meet = Meeting.objects.create(
                     expert = consumer.profile,
                     service_name = title,
