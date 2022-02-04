@@ -23,7 +23,7 @@ class MeetingAPI(APIView):
         service = Services.objects.get(service_id=service_id)
         title = service.service_name
         meet = Meeting.objects.create(
-            expert = consumer.profile,
+            user = consumer.profile,
             service_name = title,
             service = service
         )
