@@ -136,6 +136,9 @@ class BookedStatusChangeAPI(APIView):
             slot = EventScheduleTime.objects.filter(id=slot_id)
             slot.update(booked=True)
             return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
+        return Response({"msg":"not booked"},status=status.HTTP_400_BAD_REQUEST)
+
+            
         
 
         
