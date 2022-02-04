@@ -21,7 +21,7 @@ class MeetingAPI(APIView):
         user = request.user
         consumer = Profile.objects.get(profile=user)
         if consumer.profile.is_expert==True:
-            if consumer.user_plan>0:
+            if consumer.user_plan:
                 service = Services.objects.get(user=consumer.profile)
                 title = Services.objects.get(user=consumer.profile).service_name
                 meet = Meeting.objects.create(
