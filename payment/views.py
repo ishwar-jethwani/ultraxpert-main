@@ -63,7 +63,7 @@ class ServiceOrderCreate(APIView):
         try:
             order = Order.objects.get(order_id=order_id)
             payload = {
-            "amount": int(order.service_obj.price),
+            "amount": int(order.service_obj.price)*100,
             "currency": order.service_obj.currency,
             "receipt": "Recept"+"-"+order.order_id,
             }
