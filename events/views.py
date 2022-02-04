@@ -131,8 +131,8 @@ class BookedStatusChangeAPI(APIView):
     def post(self,request):
         slot_id = request.data["slot_id"]
         payment_id = request.data["payment_id"]
-        payment = PaymentStatus.objects.get(payment_id=payment_id)
-        if payment.status=="authorized":
+        payment = PaymentStatus.objects.filter(payment_id=payment_id)
+        if payment.first().status=="authorized":
             slot = EventScheduleTime.objects.get(id=slot_id)
             slot.booked = True
             slot.save(update_fields=['booked'])
