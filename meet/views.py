@@ -21,7 +21,9 @@ class MeetingAPI(APIView):
         user = request.user
         service_id = request.data["service_id"]
         event_id = request.data["slot_id"]
+        expert_id = request.data["expert_id"]
         consumer = Profile.objects.get(profile=user)
+        expert = Profile.objects.get(profile__user_id=expert_id)
         service = Services.objects.get(service_id=service_id)
         event = EventScheduleTime.objects.get(id=event_id)
         title = service.service_name
@@ -29,6 +31,7 @@ class MeetingAPI(APIView):
             user = consumer.profile,
             service_name = title,
             service = service,
+            expert = expert,
             event = event
         )
         if meet:
@@ -45,6 +48,18 @@ class MeetingAPI(APIView):
         serialize = MeetingSerializer(meetings,many=True)
         return Response(serialize.data,status=status.HTTP_200_OK)
     
+class ExpertMeeting(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        user = request.user
+        if user.is_expert == True:
+            meetings = Meeting.objects.filter(expert__profile=user)
+            serialize = MeetingSerializer(meetings)
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
+        return Response({"msg":"somthing went worng"},status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 def get_meet(request,meeting_id):

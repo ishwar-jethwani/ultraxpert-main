@@ -1,6 +1,6 @@
 from UltraExperts.serializers import UserSerilizer
 from rest_framework.serializers import ModelSerializer
-from user.serializers import ServiceShowSerializer
+from user.serializers import ProfileSerializer, ServiceShowSerializer
 from events.serializers import EventReadSerializer
 from rest_framework import serializers
 
@@ -9,6 +9,7 @@ class MeetingSerializer(ModelSerializer):
     user= UserSerilizer()
     service = ServiceShowSerializer()
     event = EventReadSerializer()
+    expert = ProfileSerializer()
     date_time = serializers.DateTimeField(format="%c")
 
     class Meta:
