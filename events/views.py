@@ -7,6 +7,7 @@ from .serializers import *
 from rest_framework.generics import CreateAPIView
 from activity.serializers import *
 from .models import *
+from collections import defaultdict
 
 
 # def base64_encode(message):
@@ -127,8 +128,14 @@ class GetEventAPIView(APIView):
         slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
         slots = slots.filter(booked=False)
         serialize = EventReadSerializer(slots,many=True)
+        result = defaultdict(list)
+        for i in range(len(serialize.data)):
+            current = serialize.data[i]
+            for key, value in current.items():
+                for j in range(len(value)):
+                    result[key].append(value[j])
         if serialize:
-            return Response(serialize.data,status=status.HTTP_200_OK)
+            return Response(result,status=status.HTTP_200_OK)
 
 class BookedStatusChangeAPI(APIView):
     def post(self,request):
