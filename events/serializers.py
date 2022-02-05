@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from collections import defaultdict
 
 
 
@@ -9,7 +10,19 @@ class EventReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventScheduleTime
         fields = "__all__"
-        depth = 2
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        event_date = instance.schedule.day
+        event_start_time = instance.start_time
+        event_end_time = instance.end_time
+        timezone = instance.timezone
+        booked = instance.booked
+        data_dict = {
+            event_date:[{"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]
+        }
+        return data_dict
+
+
 
 
 class EventScheduleTimeCreateSerializer(serializers.ModelSerializer):
