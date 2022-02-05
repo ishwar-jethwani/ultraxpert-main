@@ -115,11 +115,14 @@ class EventCreateAPIView(CreateAPIView):
     serializer_class = EventCreateSerializer
 
 class GetEventAPIView(APIView):
-    def post(self,request,service_id):
-        day = request.data["date"]
+    def get(self,request,service_id):
         event = Event.objects.filter(releted_service__service_id=service_id)
         list_of_event = event.values_list("event_id",flat=True)
-        event_day = EventSchedule.objects.filter(event__event_id__in=list(list_of_event),day=day)
+        event = EventSchedule.objects.filter(event__event_id__in=list(list_of_event))
+        if request.GET.get("date") is not None:
+            event_day = event.filter(day=request.GET.get("date"))
+        else:
+            event_day = event
         list_of_event_schedule =  event_day.values_list("pk",flat=True)
         slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
         slots = slots.filter(booked=False)
