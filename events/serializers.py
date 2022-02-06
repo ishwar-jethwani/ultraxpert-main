@@ -29,16 +29,16 @@ class EventReadSerializer(serializers.ModelSerializer):
 
         data_dict = {
             
-            "event_id":event_id,
+            "event_data":{"event_id":event_id,
             "event_name":event_name,
             "description":discription,
             "notify_before":notify_before,
             "notify_before_time":notify_before_time,
             "notify_after":notify_after,
             "notify_after_time":notify_after_time,
-            
+            "date_created":date_created},
             event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}],
-            "date_created":date_created
+            
         }
         return data_dict
 
