@@ -129,17 +129,20 @@ class GetEventAPIView(APIView):
         slots = slots.filter(booked=False)
         serialize = EventReadSerializer(slots,many=True)
         result = defaultdict(list)
+        slot_dict =  defaultdict(list)
+        result_list = list()
         for i in range(len(serialize.data)):
             current = serialize.data[i]
-            current = dict(current)
-            print(current)
-            for key,value in current.items():
-                if type(current[key])==list:
-                    for j in range(len(value)):
-                        result[key].append(value[j])
-
+            for main_key,val in current.items():
+                if main_key == "slots":
+                    for key, value in current["slots"].items():
+                        for j in range(len(value)):
+                            slot_dict[key].append(value[j])
+                    result.update({"slots":slot_dict})
+                else:
+                    result.update({main_key:val})
         if serialize:
-            return Response(serialize.data,status=status.HTTP_200_OK)
+            return Response(result,status=status.HTTP_200_OK)
 
 class BookedStatusChangeAPI(APIView):
     def post(self,request):

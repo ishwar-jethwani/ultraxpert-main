@@ -28,9 +28,18 @@ class EventReadSerializer(serializers.ModelSerializer):
         date_created = datetime.datetime.strftime(instance.schedule.event.date_created,"%c")
 
         data_dict = {
-            event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]
-            },
-    
+            
+            "event_id":event_id,
+            "event_name":event_name,
+            "description":discription,
+            "notify_before":notify_before,
+            "notify_before_time":notify_before_time,
+            "notify_after":notify_after,
+            "notify_after_time":notify_after_time,
+            "date_created":date_created,
+            "slots":{event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]},
+            
+        }
         return data_dict
 
 
