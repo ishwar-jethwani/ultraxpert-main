@@ -131,14 +131,15 @@ class GetEventAPIView(APIView):
         result = defaultdict(list)
         for i in range(len(serialize.data)):
             current = serialize.data[i]
-            for key, value in current.items():
-                if type(value)==list:
+            current = dict(current)
+            print(current)
+            for key,value in current.items():
+                if type(current[key])==list:
                     for j in range(len(value)):
                         result[key].append(value[j])
-                else:
-                    result[key]=value
+
         if serialize:
-            return Response(result,status=status.HTTP_200_OK)
+            return Response(serialize.data,status=status.HTTP_200_OK)
 
 class BookedStatusChangeAPI(APIView):
     def post(self,request):
