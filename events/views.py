@@ -132,8 +132,11 @@ class GetEventAPIView(APIView):
         for i in range(len(serialize.data)):
             current = serialize.data[i]
             for key, value in current.items():
-                for j in range(len(value)):
-                    result[key].append(value[j])
+                if type(value)==list:
+                    for j in range(len(value)):
+                        result[key].append(value[j])
+                else:
+                    result[key]=value
         if serialize:
             return Response(result,status=status.HTTP_200_OK)
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import *
-from collections import defaultdict
+import datetime
 
 
 
@@ -17,8 +17,25 @@ class EventReadSerializer(serializers.ModelSerializer):
         event_end_time = instance.end_time
         timezone = instance.timezone
         booked = instance.booked
+        event_id = instance.schedule.event.event_id
+        event_name = instance.schedule.event.event_name
+        discription = instance.schedule.event.discription
+        notify_before = instance.schedule.event.notify_before
+        notify_before_time = instance.schedule.event.notify_before_time
+        notify_after = instance.schedule.event.notify_after
+        notify_after_time = instance.schedule.event.notify_after_time
+        date_created = datetime.datetime.strftime(instance.schedule.event.date_created,"%c")
+
         data_dict = {
-            event_date:[{"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]
+            "event_id":event_id,
+            "event_name":event_name,
+            "description":discription,
+            "notify_before":notify_before,
+            "notify_before_time":notify_before_time,
+            "notify_after":notify_after,
+            "notify_after_time":notify_after_time,
+            event_date:[{"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}],
+            "date_created":date_created
         }
         return data_dict
 
