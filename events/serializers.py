@@ -37,7 +37,7 @@ class EventReadSerializer(serializers.ModelSerializer):
             "notify_after":notify_after,
             "notify_after_time":notify_after_time,
             "date_created":date_created},
-            event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}],
+            "slots":{event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]},
             
         }
         return data_dict
