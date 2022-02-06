@@ -7,7 +7,7 @@ from django.db.models.signals import pre_save
 
 class Meeting(models.Model):
         meeting_id = models.CharField(max_length=20,verbose_name="Meeting ID",unique=True,blank=True)
-        user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+        user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,verbose_name="Customer")
         service = models.ForeignKey(Services,on_delete=models.CASCADE,verbose_name="Service",blank=True,null=True)
         expert = models.ForeignKey(Profile,on_delete=models.CASCADE,verbose_name="Expert",blank=True,null=True)
         event = models.ForeignKey(EventScheduleTime,on_delete=models.CASCADE,verbose_name="Meeteing Event",blank=True,null=True)
