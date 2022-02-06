@@ -12,6 +12,7 @@ class EventReadSerializer(serializers.ModelSerializer):
         fields = "__all__"
     def to_representation(self, instance):
         data = super().to_representation(instance)
+        id=instance.pk,
         event_date = instance.schedule.day
         event_start_time = instance.start_time
         event_end_time = instance.end_time
@@ -27,6 +28,7 @@ class EventReadSerializer(serializers.ModelSerializer):
         date_created = datetime.datetime.strftime(instance.schedule.event.date_created,"%c")
 
         data_dict = {
+            
             "event_id":event_id,
             "event_name":event_name,
             "description":discription,
@@ -34,7 +36,8 @@ class EventReadSerializer(serializers.ModelSerializer):
             "notify_before_time":notify_before_time,
             "notify_after":notify_after,
             "notify_after_time":notify_after_time,
-            event_date:[{"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}],
+            
+            event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}],
             "date_created":date_created
         }
         return data_dict
