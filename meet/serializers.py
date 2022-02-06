@@ -8,7 +8,6 @@ from .models import *
 class MeetingSerializer(ModelSerializer):
     user= UserSerilizer()
     service = ServiceShowSerializer()
-    event = EventReadSerializer()
     expert = ProfileSerializer()
     date_time = serializers.DateTimeField(format="%c")
 
