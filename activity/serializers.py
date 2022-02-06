@@ -60,6 +60,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.status = validated_data.get("status", instance.status)
+        instance.paid = True
         instance.save()
         return instance
 
