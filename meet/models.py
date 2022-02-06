@@ -21,8 +21,6 @@ class Meeting(models.Model):
             return self.meeting_id
 
 
-
-
 def pre_save_create_meeting_id(sender, instance, *args, **kwargs):
     if not instance.meeting_id:
         instance.meeting_id= unique_meeting_id_generator(instance)

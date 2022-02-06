@@ -54,9 +54,12 @@ class OrderHistorySerializer(serializers.ModelSerializer):
 
 class OrderStatusSerializer(serializers.ModelSerializer):
     order_created = serializers.DateTimeField(format="%c")
+    service_obj = ServiceShowSerializer()
+    user = UserSerilizer()
     class Meta:
         model = Order
         fields = "__all__"
+        depth = 2
 
     def update(self, instance, validated_data):
         instance.status = validated_data.get("status", instance.status)

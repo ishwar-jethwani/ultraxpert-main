@@ -37,8 +37,7 @@ class MeetingAPI(APIView):
         if meet:
             meeting_id = meet.meeting_id
             serialize = MeetingSerializer(meet)
-            get_meet(self.request,meeting_id)
-            return Response({"url":f'{BASE_URL}/meet/{meeting_id}/',"meet_data":serialize.data},status=status.HTTP_200_OK)
+            return Response({"meet_data":serialize.data},status=status.HTTP_200_OK)
         else:
             return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
@@ -52,9 +51,10 @@ class ExpertMeeting(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
         user = request.user
+        print(user)
         if user.is_expert == True:
             meetings = Meeting.objects.filter(expert__profile=user)
-            serialize = MeetingSerializer(meetings)
+            serialize = MeetingSerializer(meetings,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         return Response({"msg":"somthing went worng"},status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,25 +62,25 @@ class ExpertMeeting(APIView):
 
 
 
-def get_meet(request,meeting_id):
-    data = Meeting.objects.get(meeting_id=meeting_id)
-    title = data.service_name
-    user = request.user
-    try:
-        consumer = Profile.objects.get(profile=user)
-        name = "".join(f'{consumer.first_name} {consumer.last_name}')
-    except:
-        return redirect("login")
-    key = ""
-    try:
-        key = os.environ["API_KEY"]
-    except KeyError:
-        key = VIDEOSDK_API_KEY
+# def get_meet(request,meeting_id):
+#     data = Meeting.objects.get(meeting_id=meeting_id)
+#     title = data.service_name
+#     user = request.user
+#     try:
+#         consumer = Profile.objects.get(profile=user)
+#         name = "".join(f'{consumer.first_name} {consumer.last_name}')
+#     except:
+#         return redirect("login")
+#     key = ""
+#     try:
+#         key = os.environ["API_KEY"]
+#     except KeyError:
+#         key = VIDEOSDK_API_KEY
     
-    context = {
-        "API_KEY":str(key),
-        "name":name,
-        "meeting_id":str(meeting_id),
-        "title":str(title)
-    }
-    return render(request,"meet.html",context)
+#     context = {
+#         "API_KEY":str(key),
+#         "name":name,
+#         "meeting_id":str(meeting_id),
+#         "title":str(title)
+#     }
+#     return render(request,"meet.html",context)
