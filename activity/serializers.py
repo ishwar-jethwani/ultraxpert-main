@@ -44,8 +44,9 @@ class OrderHistorySerializer(serializers.ModelSerializer):
 
     def update(self,instance, validated_data):
         transaction = PaymentStatus.objects.get(payment_id=instance.payment_id)
-        if transaction.response["payload"]["payment"]["entity"]["status"] == "authorized":
+        if transaction.response["payload"]["payment"]["entity"]["status"] == "authorized" or "captured":
             instance.paid = True
+            instance.save(update_fields=["paid"])
             admins = User.objects.all().filter(is_superuser=True)
             for admin in admins:
                 pass

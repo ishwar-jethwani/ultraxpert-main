@@ -157,6 +157,7 @@ class ResetPassword(APIView):
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
+                self.user.save()
                 return Response({"msg":"password is set sucessfully"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
@@ -181,6 +182,7 @@ class MobileResetPassword(APIView):
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
+                self.user.save()
                 return Response({"msg":"password is set sucessfully"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
