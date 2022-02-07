@@ -68,22 +68,21 @@ class MeetingValidation(APIView):
     def get(self,request,meeting_id):
         user = request.user
         meeting = Meeting.objects.get(meeting_id=meeting_id)
-        if user.is_expert==True:
-            if meeting.expert.profile==user:
-                token = RefreshToken.for_user(user)
-                access_token = token.access_token
-                access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
-                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
-            else:
-                return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+        print(meeting)
+        if meeting.expert.profile==user:
+            token = RefreshToken.for_user(user)
+            access_token = token.access_token
+            access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
+            return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
+        elif meeting.user==user:
+            token = RefreshToken.for_user(user)
+            access_token = token.access_token
+            access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
+            return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
         else:
-            if meeting.user==user:
-                token = RefreshToken.for_user(user)
-                access_token = token.access_token
-                access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
-                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
-            else:
-                return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+
+
 
             
         
