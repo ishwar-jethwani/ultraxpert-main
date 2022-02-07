@@ -69,7 +69,7 @@ class MeetingValidation(APIView):
         user = request.user
         meeting = Meeting.objects.get(meeting_id=meeting_id)
         if user.is_expert==True:
-            if meeting.expert==user:
+            if meeting.expert.profile==user:
                 token = RefreshToken.for_user(user)
                 access_token = token.access_token
                 access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
