@@ -18,6 +18,7 @@ class EventReadSerializer(serializers.ModelSerializer):
         event_end_time = instance.end_time
         timezone = instance.timezone
         booked = instance.booked
+        duration = instance.duration
         event_id = instance.schedule.event.event_id
         event_name = instance.schedule.event.event_name
         discription = instance.schedule.event.discription
@@ -37,7 +38,7 @@ class EventReadSerializer(serializers.ModelSerializer):
             "notify_after":notify_after,
             "notify_after_time":notify_after_time,
             "date_created":date_created,
-            "slots":{event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"booked":booked}]},
+            "slots":{event_date:[{"id":int(id[0]),"start_time":event_start_time,"end_time":event_end_time,"timezone":timezone,"duration":duration,"booked":booked}]},
             
         }
         return data_dict
@@ -51,7 +52,7 @@ class EventScheduleTimeCreateSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = EventScheduleTime
-        fields = ['start_time','end_time','timezone','booked']
+        fields = ['start_time','end_time','timezone','duration','booked']
 
 
 class EventScheduleCreateSerializer(serializers.ModelSerializer):

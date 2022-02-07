@@ -58,6 +58,7 @@ class EventScheduleTime(models.Model):
     start_time  = models.CharField(max_length=255,verbose_name="start time",blank=True,null=True)
     end_time    = models.CharField(max_length=255,verbose_name="start time",blank=True,null=True)
     timezone    = models.CharField(max_length=255,verbose_name="timeZone",blank=True,null=True)
+    duration    = models.PositiveIntegerField(blank=True,null=True)
     booked      = models.BooleanField(default=False)
     schedule    = models.ForeignKey(EventSchedule,models.CASCADE)
 
