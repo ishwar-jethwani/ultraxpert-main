@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from UltraExperts.settings import BASE_URL
 from rest_framework import status
 from events.models import EventScheduleTime
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
@@ -49,6 +50,9 @@ class MeetingAPI(APIView):
     
 class ExpertMeeting(APIView):
     permission_classes = [IsAuthenticated]
+
+
+
     def get(self,request):
         user = request.user
         print(user)
@@ -58,7 +62,32 @@ class ExpertMeeting(APIView):
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         return Response({"msg":"somthing went worng"},status=status.HTTP_400_BAD_REQUEST)
 
+class MeetingValidation(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request,meeting_id):
+        user = request.user
+        meeting = Meeting.objects.get(meeting_id=meeting_id)
+        if user.is_expert==True:
+            if meeting.expert==user:
+                token = RefreshToken.for_user(user)
+                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
+            else:
+                return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            if meeting.user==user:
+                token = RefreshToken.for_user(user)
+                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
+            else:
+                return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
 
+            
+        
+
+
+
+
+
+    
 
 
 
