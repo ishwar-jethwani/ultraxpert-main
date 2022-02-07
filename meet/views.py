@@ -67,20 +67,23 @@ class MeetingValidation(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request,meeting_id):
         user = request.user
-        meeting = Meeting.objects.get(meeting_id=meeting_id)
-        print(meeting)
-        if meeting.expert.profile==user:
-            token = RefreshToken.for_user(user)
-            access_token = token.access_token
-            access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
-            return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
-        elif meeting.user==user:
-            token = RefreshToken.for_user(user)
-            access_token = token.access_token
-            access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
-            return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
-        else:
-            return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            meeting = Meeting.objects.get(meeting_id=meeting_id)
+            print(meeting)
+            if meeting.expert.profile==user:
+                token = RefreshToken.for_user(user)
+                access_token = token.access_token
+                access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
+                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
+            elif meeting.user==user:
+                token = RefreshToken.for_user(user)
+                access_token = token.access_token
+                access_token.set_exp(lifetime=timedelta(minutes=meeting.event.duration))
+                return Response({"msg":"Success","token":str(token.access_token)},status=status.HTTP_200_OK)
+            else:
+                return Response({"msg":"Bad Request"},status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({"msg":"Meeting is not defined"},status=status.HTTP_404_NOT_FOUND)
 
 
 
