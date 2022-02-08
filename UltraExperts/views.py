@@ -107,7 +107,7 @@ class UserEmailVerification(APIView):
             return Response({"msg":"email address is already exist please try with diferent email address"},status=status.HTTP_400_BAD_REQUEST)
         else:
             html = get_template("email.html")
-            html_data = html.render({"otp":self.gen_otp,"username":email})
+            html_data = html.render({"otp":self.gen_otp})
             key = config("KEY_FOR_OTP")
             encoded_value = jwt.encode({"otp":self.gen_otp},key,algorithm="HS256")
             send_mail(
