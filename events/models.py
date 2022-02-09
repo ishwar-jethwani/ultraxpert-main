@@ -20,8 +20,8 @@ class Event(models.Model):
 )
 
     event_id = models.CharField(max_length=20,verbose_name="Event ID",unique=True,blank=True)
-    event_name = models.CharField(max_length=100,verbose_name="Event Name",blank=True)
-    discription = models.CharField(max_length=500,verbose_name="Discription",blank=True)
+    event_name = models.CharField(max_length=100,verbose_name="Event Name",blank=True,null=True)
+    discription = models.CharField(max_length=500,verbose_name="Discription",blank=True,null=True)
     expert = models.ForeignKey(User,on_delete=models.CASCADE)
     releted_service = models.ForeignKey(Services,on_delete=models.CASCADE,blank=True,null=True)
     notify_before = models.BooleanField(default=False)

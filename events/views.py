@@ -8,6 +8,7 @@ from rest_framework.generics import CreateAPIView
 from activity.serializers import *
 from .models import *
 from collections import defaultdict
+from datetime import datetime,date
 
 
 # def base64_encode(message):
@@ -126,11 +127,16 @@ class GetEventAPIView(APIView):
             event_day = event
         list_of_event_schedule =  event_day.values_list("pk",flat=True)
         slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
+        current_time = datetime.now()
         slots = slots.filter(booked=False)
-        serialize = EventReadSerializer(slots,many=True)
+        time_slots = list()
+        for slot in slots:
+            date_time_obj = datetime.strptime(slot.schedule.day+"/"+slot.start_time,"%d/%m/%Y/%H:%M")
+            if current_time<=date_time_obj:
+                time_slots.append(slot)
+        serialize = EventReadSerializer(time_slots,many=True)
         result = defaultdict(list)
         slot_dict =  defaultdict(list)
-        result_list = list()
         for i in range(len(serialize.data)):
             current = serialize.data[i]
             for main_key,val in current.items():
