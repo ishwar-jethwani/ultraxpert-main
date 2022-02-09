@@ -86,6 +86,7 @@ INSTALLED_APPS+=[
     "events",
     "payment",
     "search",
+    "vault",
 
 ]
 

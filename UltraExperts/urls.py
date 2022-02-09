@@ -79,7 +79,8 @@ urlpatterns+=[
    path("events/",include("events.urls")),
    path("payments/",include("payment.urls")),
    path("meet/",include('meet.urls')),
-   path("search/",include("search.urls"))
+   path("search/",include("search.urls")),
+   path("vault/",include("vault.urls"))
 
 ]
 

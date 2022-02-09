@@ -21,6 +21,12 @@ class RefundStatus(models.Model):
     response = models.JSONField(verbose_name="Refund Response",blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
+    def __str__(self) -> str:
+        return self.refund_id
+
+    class Meta:
+        ordering = ["-date_created"]
+
 
 
 
