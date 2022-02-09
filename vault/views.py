@@ -6,29 +6,29 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from user.models import *
 
-class CreateCustomer(APIView):
-    endpoint = "customers"
+class CreateVirtualAccount(APIView):
+    endpoint2 = "virtual_accounts"
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
-    url = PAYMANT_BASE_URL+endpoint
+    url = PAYMANT_BASE_URL+endpoint2
     permission_classes = [IsAuthenticated]
     def post(self,request):
-        
-        user = Profile.objects.get(profile=request.user)
-        try:  
-            res = requests.request("GET",url=self.url,auth=self.auth)
-            for emails in res.json()["items"]:
-                if emails["email"]==user.profile.email:
-                    return Response({"res":1,"msg":"you are our old customer",
-                                    "data":{"name":str(user.first_name)+str(user.last_name),"email":str(user.profile.email),"contact":str(user.mobile_number)}})
-            else:
-                payload={
-                            "name":str(user.first_name),
-                            "email":str(user.profile.email),
-                            "contact":str(user.mobile_number),
-                            }
-                res = requests.request("POST",url=self.url,auth=self.auth,data=payload)
+        user = request.user
+        payload = {
+                "receivers": {
+                    "types": [
+                        "bank_account"
+                    ]
+                },
+                "allowed_payers": 
+                [{
+                    "type": "bank_account",
+                    "bank_account": {
+                    "ifsc": "UTIB0000013",
+                    "account_number": "914010012345679"
+                    }
+                }],
+                "customer_id":str(user.user_id) ,
+        }
+        res = requests.request("POST",url=self.url,auth=self.auth,data=payload)
+        return Response({"data":res.json()})
 
-                return Response({"data":res.json()})
-        except Exception as e:
-                print(e)
-                return Response({"res":0,"msg":"somthing went wrong"})
