@@ -134,14 +134,17 @@ class ResetPassword(APIView):
     gen_otp = random.randint(100000,999999)
     user = User()
     def get(self,request):
-        user_email = request.data["email"]
+        user_email = request.GET.get("email")
         self.user = User.objects.get(email=user_email)
         email = self.user.email
         if user_email == email:
+            html = get_template("reset.html")
+            html_data = html.render({"otp":self.gen_otp})
             send_mail(
             from_email = None,
             recipient_list = [email],
             subject ="Reset Your Password",
+            html_message=html_data,
             message = f"This is you otp:{self.gen_otp} to reset your password"
 
             )
@@ -166,7 +169,7 @@ class MobileResetPassword(APIView):
     gen_otp = random.randint(1000, 9999)
     user = User()
     def get(self,request):
-        user_mobile = request.data["mobile_number"]
+        user_mobile = request.GET.get("mobile_number")
         self.user = User.objects.get(mobile=user_mobile)
         mobile = self.user.mobile
         if user_mobile == mobile:
