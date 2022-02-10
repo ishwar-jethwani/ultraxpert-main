@@ -13,6 +13,7 @@ class CreateVirtualAccount(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request):
         user = request.user
+        bank_account = BankDetail.objects.get(user=user)
         payload = {
                 "receivers": {
                     "types": [
@@ -23,8 +24,8 @@ class CreateVirtualAccount(APIView):
                 [{
                     "type": "bank_account",
                     "bank_account": {
-                    "ifsc": "UTIB0000013",
-                    "account_number": "914010012345679"
+                    "ifsc": f"{bank_account.ifsc_code}",
+                    "account_number": f"{bank_account.account_number}"
                     }
                 }],
                 "customer_id":str(user.user_id) ,
