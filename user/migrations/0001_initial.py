@@ -153,7 +153,7 @@ class Migration(migrations.Migration):
                 ('account_number', models.CharField(blank=True, max_length=20, null=True, verbose_name='Account_number')),
                 ('ifsc_code', models.CharField(blank=True, max_length=100, null=True, verbose_name='IFSC Code')),
                 ('timestamp', models.DateTimeField(auto_now_add=True, null=True, verbose_name='Creted On')),
-                ('user', models.ForeignKey(default=0,on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'ordering': ['-timestamp'],
