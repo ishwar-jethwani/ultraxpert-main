@@ -136,20 +136,22 @@ class ResetPassword(APIView):
     def get(self,request):
         user_email = request.GET.get("email")
         self.user = User.objects.get(email=user_email)
-        email = self.user.email
-        if user_email == email:
-            html = get_template("reset.html")
-            html_data = html.render({"otp":self.gen_otp})
-            send_mail(
-            from_email = None,
-            recipient_list = [email],
-            subject ="Reset Your Password",
-            html_message=html_data,
-            message = f"This is you otp:{self.gen_otp} to reset your password"
-
-            )
-            return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
-        return Response({"msg":"email is failed to send"})
+        if self.user:
+            email = self.user.email
+            if user_email == email:
+                html = get_template("reset.html")
+                html_data = html.render({"otp":self.gen_otp})
+                send_mail(
+                from_email = None,
+                recipient_list = [email],
+                subject ="Reset Your Password",
+                html_message=html_data,
+                message = f"This is you otp:{self.gen_otp} to reset your password"
+                )
+                return Response({"msg":"email has been sent"},status=status.HTTP_200_OK)
+            return Response({"msg":"email is failed to send"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response({"msg":"You Are Not In Our Database"},status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self,request):
         data = request.data
