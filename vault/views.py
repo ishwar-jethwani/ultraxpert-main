@@ -13,7 +13,7 @@ class CreateVirtualAccount(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request):
         user = request.user
-        bank_account = BankDetail.objects.get(user=user)
+        bank_account = BankDetail.objects.filter(user=user).first()
         payload = {
                 "receivers": {
                     "types": [
