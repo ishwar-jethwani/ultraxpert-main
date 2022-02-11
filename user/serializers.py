@@ -101,4 +101,10 @@ class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = BankDetail
         fields = ["user","account_holder","bank_name","account_number","ifsc_code"]
+        def create(self, validated_data):
+            validated_data.pop("user")
+            user = self.context["request"].user
+            if user.is_expert == True:
+                service = BankDetail.objects.create(**validated_data, user=user)
+                return service
     
