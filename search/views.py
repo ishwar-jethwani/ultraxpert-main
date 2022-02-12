@@ -24,19 +24,15 @@ class ExpertServicesSearchView(generics.ListAPIView):
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
     search_fields = ["service_name"]
 
-class SearchView(APIView):
+class CategorySearchView(APIView):
     def get(self,request):
-        data = request.data["serach"]
-        try:
-            keyword = Keywords.objects.get(name=data)
-            related_expert = Profile.objects.filter(keywords=keyword)
-        except:
-            category = Category.objects.get(name=data)
-            related_expert = Profile.objects.filter(categories=category)
-        serialize = ProfileSerializer(related_expert,many=True)
+        data = request.GET.get("search")
+        category = Category.objects.get(name=data)
+        related_service = Services.objects.filter(category=category)
+        serialize = ServiceShowSerializer(related_service,many=True)
         if serialize:
             return Response(serialize.data,status=status.HTTP_200_OK)
-        return Response({"msg":"we could not find any profile releted to this keyword or category"})
+        return Response({"msg":"we could not find any profile releted to this category"})
 
 
 class SearchAPIView(APIView):
