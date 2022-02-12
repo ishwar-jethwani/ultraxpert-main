@@ -8,6 +8,9 @@ from user.models import *
 @registry.register_document
 class ExpertsDocument(Document):
     description = fields.TextField()
+    profile = fields.ObjectField(properties={
+        "user_id":fields.KeywordField()
+    })
 
     class Index:
         name = "experts"
