@@ -47,6 +47,19 @@ class CreateVirtualAccount(APIView):
     client = razorpay.Client(auth=(RAZOR_KEY_ID,RAZOR_KEY_SECRET))
     permission_classes = [IsAuthenticated]
 
+    def get(self,request):
+        user = request.user
+        customer_id = create_customer(user)
+        customer_id = customer_id["cust_id"]
+        virtual_account = VirtualAccount.objects.filter(cust_id=customer_id)
+        if virtual_account.exists():
+            virtual_account_id = virtual_account.first().virual_account_id
+            res =self.client.virtual_account.fetch(virtual_account_id=virtual_account_id)
+            return Response(res,status=status.HTTP_200_OK)
+        else:
+            return Response({"msg":"You Dont have virtual account"},status=status.HTTP_400_BAD_REQUEST)
+
+
     def post(self,request):
         user = request.user
         customer_id = create_customer(user)
@@ -78,5 +91,5 @@ class CreateVirtualAccount(APIView):
             serialize = RazorPayVirtualAccountSerializer(virtual_account_create)
             return Response(serialize.data,status=status.HTTP_201_CREATED)
         else:
-            return Response({"data":res},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
 
