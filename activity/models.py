@@ -81,6 +81,7 @@ class Subscriptions(models.Model):
     plan = models.ForeignKey(UserPlans,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    paid = models.BooleanField(default=False,blank=True,null=True)
 
     def __str__(self) -> str:
         return self.subs_id

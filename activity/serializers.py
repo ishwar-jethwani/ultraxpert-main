@@ -112,3 +112,9 @@ class SubscriptionSerializer(serializers.ModelSerializer):
         model = Subscriptions
         fields = "__all__"
         depth = 1
+    
+    def update(self, instance, validated_data):
+        instance.status = validated_data.get("status", instance.status)
+        instance.paid = True
+        instance.save()
+        return instance

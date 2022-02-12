@@ -1,5 +1,4 @@
-from os import name
-from django.urls import path,include
+from django.urls import path
 from .views import *
 
 
@@ -14,7 +13,8 @@ urlpatterns = [
     path("order_status/<str:order_id>/",OrderStatusUpdateApiView.as_view(),name="order_status"),
     path("get_subscreption/",SubscriptionView.as_view(),name="subscreption"),
     path("your_orders/",ExpertGotOrder.as_view(),name="your_orders"),
-    path("transaction/",Transaction.as_view(),name="transaction")
+    path("transaction/",Transaction.as_view(),name="transaction"),
+    path("subs_status_update/",SubscriptonStatusUpdateApiView.as_view(),name="subs_status_update")
 
 
 ]

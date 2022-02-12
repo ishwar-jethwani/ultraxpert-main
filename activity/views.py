@@ -129,7 +129,12 @@ class SubscriptionView(generics.ListAPIView):
     serializer_class = SubscriptionSerializer
     def get_queryset(self):
         return Subscriptions.objects.filter(user=self.request.user)
-    
+
+class SubscriptonStatusUpdateApiView(generics.RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Subscriptions.objects.all()
+    serializer_class = SubscriptionSerializer
+    lookup_field = "subs_id" 
 
 class Transaction(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
