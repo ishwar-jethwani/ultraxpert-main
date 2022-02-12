@@ -14,6 +14,7 @@ urlpatterns = [
     path("order_status/<str:order_id>/",OrderStatusUpdateApiView.as_view(),name="order_status"),
     path("get_subscreption/",SubscriptionView.as_view(),name="subscreption"),
     path("your_orders/",ExpertGotOrder.as_view(),name="your_orders"),
+    path("transaction/",Transaction.as_view(),name="transaction")
 
 
 ]

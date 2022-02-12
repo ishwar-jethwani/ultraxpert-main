@@ -94,18 +94,6 @@ class Place_Order(APIView):
             return Response({"msg":"somthing went wrong"},status=status.HTTP_200_OK)
         
 
-
-
-
-
-        
-
-
-
-
-
-
-
 class OrderHistory(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
@@ -142,6 +130,14 @@ class SubscriptionView(generics.ListAPIView):
     def get_queryset(self):
         return Subscriptions.objects.filter(user=self.request.user)
     
+
+class Transaction(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = OrderSerializer
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user,paid=True)
+
+
 
 
     
