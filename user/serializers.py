@@ -2,7 +2,7 @@ from dataclasses import field
 from statistics import mode
 from rest_framework import serializers
 from .models import *
-from UltraExperts.serializers import UserSerilizer
+from UltraExperts.serializers import *
 
 
 class KeywordSerilizer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     categories = CategorySerializer()
     keywords = KeywordSerilizer()
-    profile = UserSerilizer()
+    profile = OrderUserSerilizer()
     class Meta:
         model = Profile
         fields = ["id","first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
@@ -26,7 +26,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ServiceShowSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     date_created  = serializers.DateTimeField(format="%c")
-    user = UserSerilizer()
+    user = OrderUserSerilizer()
     class Meta:
         model = Services
         fields = ["user","service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]

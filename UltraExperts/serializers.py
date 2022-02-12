@@ -1,14 +1,16 @@
 from rest_framework import serializers
 from user.models import User
-from django.contrib.auth import authenticate
 
 
 class UserSerilizer(serializers.ModelSerializer):
     class Meta:
-        fields = ["pk","user_id","is_expert","is_verified","username"]
+        fields = ["pk","user_id","is_expert","is_verified","username","email","mobile"]
         model = User
     
-
+class OrderUserSerilizer(serializers.ModelSerializer):
+    class Meta:
+        fields = ["pk","user_id","is_expert","is_verified","username"]
+        model = User
 
 
 

@@ -5,6 +5,7 @@ from payment.models import PaymentStatus
 from events.models import *
 
 
+
 class ProjectRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project_Request
@@ -70,8 +71,8 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
     
 class OrderSerializer(serializers.ModelSerializer):
-    user = UserSerilizer()
-    order_on = UserSerilizer()
+    user = OrderUserSerilizer()
+    order_on = OrderUserSerilizer()
     service_obj = ServiceShowSerializer()
     order_created = serializers.DateTimeField(format="%c")
     class Meta:
