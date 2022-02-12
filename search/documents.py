@@ -36,6 +36,9 @@ class ExpertsDocument(Document):
 @registry.register_document
 class ServiceDocument(Document):
     description = fields.TextField()
+    category = fields.ObjectField(properties={
+        "name":fields.KeywordField()
+    })
     class Index:
         name = 'services'
         settings = {

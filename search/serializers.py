@@ -26,6 +26,7 @@ class ServiceDocumentSerializer(DocumentSerializer):
             "service_id",
             "service_name",
             "service_img",
+            "category",
             "price",
             "tags",
             "title"
