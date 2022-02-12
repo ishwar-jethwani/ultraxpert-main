@@ -135,7 +135,7 @@ class Transaction(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user,paid=True)
+        return Order.objects.filter(order_on=self.request.user,paid=True)
 
 
 
