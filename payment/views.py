@@ -47,6 +47,29 @@ class ServiceOrderCreate(APIView):
             return Response({"res":0,"msg":"somthing went wrong"})
 
 
+class CreateMeetingOrder(APIView):
+    endpoint = "orders" 
+    auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
+    url = PAYMANT_BASE_URL+endpoint
+    permission_classes = [IsAuthenticated]
+    def post(self,request,subs_id):
+        
+        try:
+            meeting_order = Subscriptions.objects.get(subs_id=subs_id)
+            payload = {
+            "amount": int(meeting_order.plan.plan_price)*100,
+            "currency": meeting_order.plan.currency,
+            "receipt": "Recept"+"-"+meeting_order.subs_id,
+            }
+            order_creted = requests.request("POST",url=self.url,auth=self.auth,data=payload)
+            return Response(order_creted.json())
+                
+        except Exception as e:
+            print(e)
+            return Response({"res":0,"msg":"somthing went wrong"})
+
+
+
 class PaymentLink(APIView):
     endpoint = "payment_links"
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
