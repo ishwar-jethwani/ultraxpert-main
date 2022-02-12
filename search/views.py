@@ -47,8 +47,11 @@ class SearchAPIView(APIView):
     def get(self,request):
         data = Search.objects.all()
         serialize = SearchSerializer(data,many=True)
-        if serialize:
-            return Response(data=serialize.data,status=status.HTTP_200_OK)
+        search_list = list()
+        for query in serialize.data:
+            search_list.append(query["query"])
+        search_set = set(search_list)
+        return Response(data=search_set,status=status.HTTP_200_OK)
 
 
 
