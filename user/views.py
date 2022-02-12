@@ -30,7 +30,6 @@ class UserPlanSelect(APIView):
         serialize = UserPlanSerilizer(data,many=True)
         return Response(data=serialize.data,status=status.HTTP_200_OK)
     def post(self,request):
-        print("come inpost request")
         user = request.user
         plan = request.data["select_plan"]
         plan_selection = UserPlans.objects.get(pk=plan)
