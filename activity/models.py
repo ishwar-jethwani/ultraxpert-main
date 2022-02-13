@@ -67,7 +67,8 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return self.order_id
-
+    class Meta:
+        ordering = ["-order_created"]
 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
@@ -86,7 +87,8 @@ class Subscriptions(models.Model):
     def __str__(self) -> str:
         return self.subs_id
 
-
+    class Meta:
+        ordering = ["-date_created"]
 
 
 
