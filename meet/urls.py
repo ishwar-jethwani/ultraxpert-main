@@ -6,5 +6,5 @@ urlpatterns = [
     path("expert_meeting/",ExpertMeeting.as_view(),name="expert_meetings"),
     path("validation/<str:meeting_id>/",MeetingValidation.as_view(),name="meeting_validation"),
     path("meeting_vault/",MeetingContainer.as_view(),name="meeting_vault"),
-    path("book_quike_meeting/",M)
+    path("book_quike_meeting/",MeetingQuikeJoin.as_view(),name="book_quike_meeting")
 ]
