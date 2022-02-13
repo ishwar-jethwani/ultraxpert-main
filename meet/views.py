@@ -99,6 +99,8 @@ class ExpertMeeting(APIView):
                     if meeting_credit.meet_60<=0:
                         meet.add_meeting_btn = True
                         meet.join_btn = False
+                    else:
+                        meet.add_meeting_btn = False 
                 else:
                     meet.join_btn = False
                 meet.save(update_fields=["join_btn","add_meeting_btn"])
