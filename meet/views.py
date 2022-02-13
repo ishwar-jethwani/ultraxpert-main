@@ -60,9 +60,11 @@ class MeetingAPI(APIView):
             meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                 meet.join_btn = True
+            elif current_time>=meet_date_end_time_obj:
+                meet.rating_btn = True
             else:
                 meet.join_btn = False
-            meet.save(update_fields=["join_btn"])
+            meet.save(update_fields=["join_btn","rating_btn"])
         serialize = MeetingSerializer(meetings,many=True)
         return Response(serialize.data,status=status.HTTP_200_OK)
     
