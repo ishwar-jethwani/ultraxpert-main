@@ -20,7 +20,6 @@ class MeetingSerializer(ModelSerializer):
 class MeetingContainerSerializer(ModelSerializer):
     user= OrderUserSerilizer()
     date_created = serializers.DateTimeField(format="%c")
-    date_updated = serializers.DateTimeField(format="%c")
     class Meta:
         model = MeetingTypeCount
         fields = "__all__"

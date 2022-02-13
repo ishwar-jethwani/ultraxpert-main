@@ -87,18 +87,18 @@ class MeetingContainer(APIView):
         user = request.user  
         meeting_buyed = MeetingTypeCount.objects.create(user=user,meet_45=0,meet_30=3,meet_60=0) 
         serilize = MeetingContainerSerializer(meeting_buyed)
-        if serilize.is_valid():
-            return Response(data=serilize.data,status=status.HTTP_201_CREATED)
+        if serilize:
+            return Response(serilize.data,status=status.HTTP_201_CREATED)
         else:
-            return Response(data={"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
     def get(self,request):
         user = request.user
         meeting_container = MeetingTypeCount.objects.get(user=user)
         serilize = MeetingContainerSerializer(meeting_container)
-        if serilize.is_valid():
-            return Response(data=serilize.data,status=status.HTTP_200_OK)
+        if serilize:
+            return Response(serilize.data,status=status.HTTP_200_OK)
         else:
-            return Response(data={"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
         
     def put(self,request):
         user = request.user
@@ -121,12 +121,12 @@ class MeetingContainer(APIView):
                 meeting_container.meet_30=no_of_meeting+meeting
                 meeting_container.save(updated_fields=["meet_30"])
             serialize = MeetingContainerSerializer(meeting_container)
-            if serialize.is_valid():
-                return Response(data=serialize.data,status=status.HTTP_200_OK)
+            if serialize:
+                return Response(serialize.data,status=status.HTTP_200_OK)
             else:
-                return Response(data={"msg":"data is not valid"},status=status.HTTP_200_OK)
+                return Response({"msg":"data is not valid"},status=status.HTTP_200_OK)
         else:
-            return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
+            return Response({"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
         
             
