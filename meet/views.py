@@ -33,7 +33,7 @@ class MeetingAPI(APIView):
             event = event
         )
         if meet:
-            meetings = MeetingTypeCount.objects.get(expert__profile=user)
+            meetings = MeetingTypeCount.objects.get(user=meet.expert.profile)
             if meet.event.duration==30:
                 meeting_30=meetings.meet_30
                 meetings.meet_30 = meeting_30-1
