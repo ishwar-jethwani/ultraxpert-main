@@ -36,13 +36,16 @@ class MeetingAPI(APIView):
         if meet:
             meetings = MeetingTypeCount.objects.get(user=user)
             if meet.event.duration==30:
-                meetings.meet_30=-1
+                meeting_30=meetings.meet_30
+                meetings.meet_30 = meeting_30-1
                 meetings.save(update_fields=["meet_30"])
             elif meet.event.duration==45:
-                meetings.meet_45=-1
+                meeting_45=meetings.meet_45
+                meetings.meet_45 = meeting_45-1
                 meetings.save(update_fields=["meet_45"])
             elif meet.event.duration==60:
-                meetings.meet_45=-1
+                meeting_60 = meetings.meet_60
+                meetings.meet_60 = meeting_60-1
                 meetings.save(update_fields=["meet_60"])
             serialize = MeetingSerializer(meet)
             return Response({"meet_data":serialize.data},status=status.HTTP_200_OK)
