@@ -81,24 +81,22 @@ class ExpertMeeting(APIView):
                 meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
                 if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                     meet.join_btn = True
-                    if meet.event.duration == 30:
-                        if meeting_credit.meet_30<=0:
-                            meet.add_meeting_btn = True
-                            meet.join_btn = False
-                        else:
-                            meet.add_meeting_btn = False
-                    elif meet.event.duration == 45:
-                        if meeting_credit.meet_45<=0:
-                            meet.add_meeting_btn = True
-                            meet.join_btn = False
-                        else:
-                            meet.add_meeting_btn = False 
-                    elif meet.event.duration == 60:
-                        if meeting_credit.meet_60<=0:
-                            meet.add_meeting_btn = True
-                            meet.join_btn = False
-                        else:
-                            meet.add_meeting_btn = False 
+                if meet.event.duration == 30:
+                    if meeting_credit.meet_30<=0:
+                        meet.add_meeting_btn = True
+                        meet.join_btn = False
+                    else:
+                        meet.add_meeting_btn = False
+                elif meet.event.duration == 45:
+                    if meeting_credit.meet_45<=0:
+                        meet.add_meeting_btn = True
+                        meet.join_btn = False
+                    else:
+                        meet.add_meeting_btn = False 
+                elif meet.event.duration == 60:
+                    if meeting_credit.meet_60<=0:
+                        meet.add_meeting_btn = True
+                        meet.join_btn = False
                 else:
                     meet.join_btn = False
                 meet.save(update_fields=["join_btn","add_meeting_btn"])
