@@ -2,7 +2,7 @@ import os
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from UltraExperts.constants import VIDEOSDK_API_KEY
-from meet.models import Meeting, MeetingTypeCount
+from meet.models import Meeting, MeetingTypeCount,MeetingRefundContainer
 from meet.serializers import MeetingSerializer,MeetingContainerSerializer
 from payment.models import PaymentStatus
 from user.models import User,Services,Profile, UserPlans
@@ -33,6 +33,7 @@ class MeetingAPI(APIView):
             event = event
         )
         if meet:
+            refund_meeting = MeetingRefundContainer.objects.create(meeting=meet)
             meetings = MeetingTypeCount.objects.get(user=meet.expert.profile)
             if meet.event.duration==30:
                 meeting_30=meetings.meet_30
@@ -197,6 +198,42 @@ class MeetingQuikeJoin(APIView):
             return Response(serialize.data,status=status.HTTP_200_OK)
         return Response(serialize.data,status=status.HTTP_400_BAD_REQUEST)
 
+class JoinedMeeting(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        meeting_id = request.data["meeting_id"]
+        user = request.user
+        query_set = MeetingRefundContainer.objects.filter(meeting__expert__profile=user,meeting__meeting_id=meeting_id)
+        meeting_credit = MeetingTypeCount.objects.get(user=query_set.first().meeting.expert.profile)
+        meet_date_start_time_obj = datetime.strptime(query_set.first().meeting.event.schedule.day+"/"+query_set.first().meeting.event.start_time,"%d/%m/%Y/%H:%M")
+        meet_date_end_time_obj = datetime.strptime(query_set.first().meeting.event.schedule.day+"/"+query_set.first().meeting.event.end_time,"%d/%m/%Y/%H:%M")
+        current_time = datetime.now()
+        if query_set.exists():
+            if current_time>=meet_date_end_time_obj:
+                if query_set.first().meeting.event.duration==30:
+                    meeting_30 = meeting_credit.meet_30
+                    meeting_credit.meet_30=meeting_30+1
+                elif query_set.first().meeting.event.duration==45:
+                    meeting_45 = meeting_credit.meet_45
+                    meeting_credit.meet_45=meeting_45+1
+                elif query_set.first().meeting.event.duration==60:
+                    meeting_60 = meeting_credit.meet_60
+                    meeting_credit.meet_60=meeting_60+1
+                return Response({"msg":"meeting is successfully refunded"},status=status.HTTP_200_OK)
+            else:
+                query_set.delete()
+                return Response({"msg":"meeting is successfully joined"},status=status.HTTP_200_OK)
+        else:
+            return Response({"msg":"meeting is not available"},status=status.HTTP_200_OK)
+
+
+
+
+
+
+        
+
+        
 
         
 
