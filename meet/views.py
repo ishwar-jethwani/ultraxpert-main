@@ -85,6 +85,8 @@ class ExpertMeeting(APIView):
                     else:
                         if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                             meet.join_btn = True
+                        else:
+                            meet.add_meeting_btn = False
                         meet.add_meeting_btn = False
                 elif meet.event.duration == 45:
                     if meeting_credit.meet_45<=0:
@@ -93,6 +95,8 @@ class ExpertMeeting(APIView):
                     else:
                         if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                             meet.join_btn = True
+                        else:
+                            meet.add_meeting_btn = False
                         meet.add_meeting_btn = False 
                 elif meet.event.duration == 60:
                     if meeting_credit.meet_60<=0:
@@ -101,6 +105,8 @@ class ExpertMeeting(APIView):
                     else:
                         if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                             meet.join_btn = True
+                        else:
+                            meet.add_meeting_btn = False
                         meet.add_meeting_btn = False 
                 else:
                     meet.join_btn = False
