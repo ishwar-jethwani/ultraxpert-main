@@ -1,3 +1,6 @@
+from pyexpat import model
+from statistics import mode
+from turtle import back
 from django.db import models
 from events.models import EventScheduleTime
 
@@ -20,6 +23,19 @@ class Meeting(models.Model):
         def __str__(self):
             return self.meeting_id
 
+class MeetingTypeCount(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    meet_45 = models.PositiveIntegerField(blank=True,null=True)
+    meet_30 = models.PositiveIntegerField(blank=True,null=True)
+    meet_60 = models.PositiveIntegerField(blank=True,null=True)
+    date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    date_updated = models.DateTimeField(auto_now=True,blank=True,null=True)
+
+    def __str__(self) -> str:
+        return self.user.user_id
+
+    class Meta:
+        ordering = ["-date_updated"]
 
 def pre_save_create_meeting_id(sender, instance, *args, **kwargs):
     if not instance.meeting_id:
