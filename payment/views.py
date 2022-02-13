@@ -53,11 +53,12 @@ class CreateMeetingOrder(APIView):
     url = PAYMANT_BASE_URL+endpoint
     permission_classes = [IsAuthenticated]
     def post(self,request,subs_id):
+        meetings = int(request.data["meetings"])
         
         try:
             meeting_order = Subscriptions.objects.get(subs_id=subs_id)
             payload = {
-            "amount": int(meeting_order.plan.plan_price)*100,
+            "amount": int(meeting_order.plan.plan_price)*100*meetings,
             "currency": meeting_order.plan.currency,
             "receipt": "Recept"+"-"+meeting_order.subs_id,
             }
