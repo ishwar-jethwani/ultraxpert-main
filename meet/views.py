@@ -21,20 +21,19 @@ class MeetingAPI(APIView):
         service_id = request.data["service_id"]
         event_id = request.data["slot_id"]
         expert_id = request.data["expert_id"]
-        consumer = Profile.objects.get(profile=user)
         expert = Profile.objects.get(profile__user_id=expert_id)
         service = Services.objects.get(service_id=service_id)
         event = EventScheduleTime.objects.get(id=event_id)
         title = service.service_name
         meet = Meeting.objects.create(
-            user = consumer.profile,
+            user = user,
             service_name = title,
             service = service,
             expert = expert,
             event = event
         )
         if meet:
-            meetings = MeetingTypeCount.objects.get(user=user)
+            meetings = MeetingTypeCount.objects.get(expert__profile=user)
             if meet.event.duration==30:
                 meeting_30=meetings.meet_30
                 meetings.meet_30 = meeting_30-1
