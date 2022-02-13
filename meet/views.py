@@ -34,7 +34,16 @@ class MeetingAPI(APIView):
             event = event
         )
         if meet:
-            meeting_id = meet.meeting_id
+            meetings = MeetingTypeCount.objects.get(user=user)
+            if meet.event.duration==30:
+                meetings.meet_30=-1
+                meetings.save(update_fields=["meet_30"])
+            elif meet.event.duration==45:
+                meetings.meet_45=-1
+                meetings.save(update_fields=["meet_45"])
+            elif meet.event.duration==60:
+                meetings.meet_45=-1
+                meetings.save(update_fields=["meet_60"])
             serialize = MeetingSerializer(meet)
             return Response({"meet_data":serialize.data},status=status.HTTP_200_OK)
         else:
@@ -111,15 +120,15 @@ class MeetingContainer(APIView):
             if meeting_plan ==1:
                 no_of_meeting = meeting_container.meet_60
                 meeting_container.meet_60=no_of_meeting+meeting
-                meeting_container.save(updated_fields=["meet_60"])
+                meeting_container.save(update_fields=["meet_60"])
             elif meeting_plan ==2:
                 no_of_meeting = meeting_container.meet_45
                 meeting_container.meet_45=no_of_meeting+meeting
-                meeting_container.save(updated_fields=["meet_45"])
+                meeting_container.save(update_fields=["meet_45"])
             elif meeting_plan ==3:
                 no_of_meeting = meeting_container.meet_30
                 meeting_container.meet_30=no_of_meeting+meeting
-                meeting_container.save(updated_fields=["meet_30"])
+                meeting_container.save(update_fields=["meet_30"])
             serialize = MeetingContainerSerializer(meeting_container)
             if serialize:
                 return Response(serialize.data,status=status.HTTP_200_OK)
