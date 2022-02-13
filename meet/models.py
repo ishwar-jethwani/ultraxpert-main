@@ -1,6 +1,3 @@
-from pyexpat import model
-from statistics import mode
-from turtle import back
 from django.db import models
 from events.models import EventScheduleTime
 
