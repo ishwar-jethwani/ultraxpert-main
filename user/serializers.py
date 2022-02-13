@@ -29,7 +29,7 @@ class ServiceShowSerializer(serializers.ModelSerializer):
     user = OrderUserSerilizer()
     class Meta:
         model = Services
-        fields = ["user","service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]
+        fields = ["user","id","service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]
 
 
 class ServicesSerializer(serializers.ModelSerializer):
