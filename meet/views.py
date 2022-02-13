@@ -100,7 +100,7 @@ class MeetingContainer(APIView):
         else:
             return Response(data={"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
         
-    def update(self,request):
+    def put(self,request):
         user = request.user
         meeting_plan = int(request.data["select_plan"])
         meeting = request.data["meetings"]
