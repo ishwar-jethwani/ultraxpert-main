@@ -75,7 +75,7 @@ class ExpertMeeting(APIView):
         current_time = datetime.now()
         if user.is_expert == True:
             meetings = Meeting.objects.filter(expert__profile=user)
-            meeting_credit = MeetingTypeCount.objects.filter(user=user)
+            meeting_credit = MeetingTypeCount.objects.get(user=user)
             for meet in meetings:
                 meet_date_start_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.start_time,"%d/%m/%Y/%H:%M")
                 meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
