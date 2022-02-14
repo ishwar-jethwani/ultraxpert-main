@@ -16,7 +16,7 @@ from django.core.mail import send_mail
 from twilio.rest import Client
 from .constants import BASE_URL, TWILIO_AUTH_ID,TWILIO_SECRET_KEY
 from twilio.base.exceptions import TwilioRestException
-from django.contrib.auth import login
+from django.contrib.auth import authenticate
 from rest_framework import status
 import jwt
 from .serializers import *
