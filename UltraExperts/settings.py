@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     #elastic search
     'django_elasticsearch_dsl',
     'django_elasticsearch_dsl_drf',
+    'django.contrib.sitemaps',
 ]
 
 # social authenticaton application

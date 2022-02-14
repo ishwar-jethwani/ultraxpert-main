@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path,include
 from allauth.account.views import confirm_email
-from rest_auth.views import PasswordResetConfirmView
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required
 from rest_framework import permissions
@@ -10,8 +9,8 @@ from drf_yasg import openapi
 from django.urls import path
 from dj_rest_auth.views import PasswordChangeView,LogoutView
 from django.conf import settings
-from dj_rest_auth import registration
-
+from .sitemaps import StaticViewSitemap
+from django.contrib.sitemaps.views import sitemap
 
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
@@ -46,7 +45,7 @@ urlpatterns = [
 #Authentication
 
 urlpatterns+=[
-   path("register/",include('dj_rest_auth.registration.urls')),
+   path("register/",include('dj_rest_auth.registration.urls'),name="register"),
    path("login/",CustomLoginView.as_view(),name="login"),
    path("logout/",LogoutView.as_view(),name="logout"),
    path("reset/",ResetPassword.as_view(),name="reset_password"),
@@ -83,4 +82,16 @@ urlpatterns+=[
    path("vault/",include("vault.urls"))
 
 ]
+
+sitemaps = {
+    'static': StaticViewSitemap,
+}
+
+
+
+urlpatterns+=[
+   path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+         name='sitemap')
+]
+
 
