@@ -138,7 +138,7 @@ class GlobalCheckAPI(APIView):
             if booked_start_date_time_obj+timedelta(minutes=15)<=slot_start_date_time and slot_end_date_time<=booked_end_date_time_obj+timedelta(minutes=15):
                 slot.disable = True
                 slot.save(update_fields=["disable"])    
-        return Response(data={"sucessfully Updated"},status=status.HTTP_200_OK)
+        return Response(data={"msg":"sucessfully Updated"},status=status.HTTP_200_OK)
 
 
 class GetEventAPIView(APIView):
