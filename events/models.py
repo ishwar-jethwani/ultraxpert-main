@@ -60,6 +60,7 @@ class EventScheduleTime(models.Model):
     timezone    = models.CharField(max_length=255,verbose_name="timeZone",blank=True,null=True)
     duration    = models.PositiveIntegerField(blank=True,null=True)
     booked      = models.BooleanField(default=False)
+    disable     = models.BooleanField(default=False,null=True,blank=True)
     schedule    = models.ForeignKey(EventSchedule,models.CASCADE)
 
     def __str__(self) -> str:

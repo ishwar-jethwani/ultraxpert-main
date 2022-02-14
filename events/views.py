@@ -1,3 +1,4 @@
+from faulthandler import disable
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -116,6 +117,30 @@ class EventCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EventCreateSerializer
 
+
+class GlobalCheckAPI(APIView):
+    def post(self,request):
+        expert_id = request.data["expert_id"]
+        slot_id = request.data["slot_id"]
+        user = User.objects.get(user_id=expert_id)
+        services = Services.objects.filter(user=user)
+        sevices_list = services.values_list("id",flat=True)
+        events_slots = EventScheduleTime.objects.filter(schedule__event__releted_service__in=list(sevices_list))
+        booked_slot = events_slots.get(pk=slot_id)
+        booked_start_time = booked_slot.start_time
+        booked_end_time = booked_slot.end_time
+        booked_date = booked_slot.schedule.day
+        booked_start_date_time_obj = datetime.strptime(booked_date+"/"+booked_start_time,"%d/%m/%Y/%H:%M")
+        booked_end_date_time_obj = datetime.strptime(booked_date+"/"+booked_end_time,"%d/%m/%Y/%H:%M")
+        for slot in events_slots:
+            slot_start_date_time = datetime.strptime(slot.schedule.day+"/"+slot.start_time,"%d/%m/%Y/%H:%M")
+            slot_end_date_time =  datetime.strptime(slot.schedule.day+"/"+slot.end_time,"%d/%m/%Y/%H:%M")
+            if booked_start_date_time_obj+timedelta(minutes=15)<=slot_start_date_time and slot_end_date_time<=booked_end_date_time_obj+timedelta(minutes=15):
+                slot.disable = True
+                slot.save(update_fields=["disable"])    
+        return Response(data={"sucessfully Updated"},status=status.HTTP_200_OK)
+
+
 class GetEventAPIView(APIView):
     def get(self,request,service_id):
         event = Event.objects.filter(releted_service__service_id=service_id)
@@ -128,7 +153,7 @@ class GetEventAPIView(APIView):
         list_of_event_schedule =  event_day.values_list("pk",flat=True)
         slots = EventScheduleTime.objects.filter(schedule__pk__in=list(list_of_event_schedule))
         current_time = datetime.now()
-        slots = slots.filter(booked=False)
+        slots = slots.filter(booked=False,disable=False)
         time_slots = list()
         for slot in slots:
             date_time_obj = datetime.strptime(slot.schedule.day+"/"+slot.start_time,"%d/%m/%Y/%H:%M")
