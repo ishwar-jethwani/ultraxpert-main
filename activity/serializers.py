@@ -37,11 +37,14 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class OrderHistorySerializer(serializers.ModelSerializer):
+    user = OrderUserSerilizer()
     order_created = serializers.DateTimeField(format="%c")
+    service_obj = ServiceShowSerializer()
+    order_on = OrderUserSerilizer()
     class Meta:
         model = Order
         fields = "__all__"
-        depth = 1
+        depth = 2
 
     def update(self,instance, validated_data):
         transaction = PaymentStatus.objects.get(payment_id=instance.payment_id)
