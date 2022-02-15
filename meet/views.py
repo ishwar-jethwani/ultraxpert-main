@@ -118,7 +118,7 @@ class ExpertMeeting(APIView):
                                 meet.join_btn = False
                 else:
                     meet.add_meeting_btn = False
-                   
+                    meet.join_btn = False
                 meet.save(update_fields=["join_btn","add_meeting_btn"])
             serialize = MeetingSerializer(meetings,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
