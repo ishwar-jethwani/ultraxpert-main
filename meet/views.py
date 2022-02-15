@@ -92,6 +92,7 @@ class ExpertMeeting(APIView):
                                 meet.join_btn = False
                 else:
                     meet.add_meeting_btn = False
+                    meet.join_btn = False
                 
                 if current_time<=meet_date_end_time_obj:
                     if meet.event.duration == 45:
@@ -105,6 +106,7 @@ class ExpertMeeting(APIView):
                                 meet.join_btn = False
                 else:
                     meet.add_meeting_btn = False
+                    meet.join_btn = False
                 
                 if current_time<=meet_date_end_time_obj:
                     if meet.event.duration == 60:
