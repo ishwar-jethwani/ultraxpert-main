@@ -137,7 +137,7 @@ class GlobalCheckAPI(APIView):
             slot_end_date_time =  datetime.strptime(slot.schedule.day+"/"+slot.end_time,"%d/%m/%Y/%H:%M")
             if booked_start_date_time_obj+timedelta(minutes=15)<=slot_start_date_time and slot_end_date_time<=booked_end_date_time_obj+timedelta(minutes=15):
                 slot.disable = True
-                slot.save(update_fields=["disable"])    
+                slot.save()    
         return Response(data={"msg":"sucessfully Updated"},status=status.HTTP_200_OK)
 
 
