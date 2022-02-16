@@ -79,7 +79,8 @@ urlpatterns+=[
    path("payments/",include("payment.urls")),
    path("meet/",include('meet.urls')),
    path("search/",include("search.urls")),
-   path("vault/",include("vault.urls"))
+   path("vault/",include("vault.urls")),
+   path("genral/",include("genral.urls")),
 
 ]
 
@@ -88,6 +89,7 @@ sitemaps = {
 }
 
 
+#sitemap
 
 urlpatterns+=[
    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},

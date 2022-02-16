@@ -7,6 +7,10 @@ class StaticViewSitemap(sitemaps.Sitemap):
 
     def items(self):
         return ['home',
+                'about',
+                'banner',
+                'contact',
+                "blog",
                 'category',
                 'services',
                 'auto_complete',

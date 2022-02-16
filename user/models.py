@@ -1,5 +1,3 @@
-from re import T
-from xmlrpc.client import TRANSPORT_ERROR
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
