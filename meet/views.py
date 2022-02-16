@@ -206,16 +206,9 @@ class MeetingQuikeJoin(APIView):
         payment = PaymentStatus.objects.filter(payment_id=payment_id)
         if payment.exists():
             meet = Meeting.objects.get(meeting_id=meeting_id)
-            current_time = datetime.now()
             if meet:
                 meet.payment_get = True
-                meet_date_start_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.start_time,"%d/%m/%Y/%H:%M")
-                meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
-                if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
-                    meet.join_btn = True
-                    meet.add_meeting_btn = False
-                    meet.save(update_fields=["join_btn","add_meeting_btn"])
-                    serialize = MeetingSerializer(meet)
+                serialize = MeetingSerializer(meet)
             return Response(serialize.data,status=status.HTTP_200_OK)
         return Response(serialize.data,status=status.HTTP_400_BAD_REQUEST)
 
