@@ -14,6 +14,7 @@ class Meeting(models.Model):
         join_btn = models.BooleanField(default=False,blank=True,null=True,verbose_name="Join Button")
         add_meeting_btn = models.BooleanField(default=False,blank=True,null=True,verbose_name="Add Meeting Button")
         rating_btn = models.BooleanField(default=False,blank=True,null=True,verbose_name="Rating Button")
+        payment_get = models.BooleanField(default=False,blank=True,null=True,verbose_name="Got Meeting Payment")
         service_name = models.CharField(max_length=100,verbose_name="service_name",blank=True,null=True)
         date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
