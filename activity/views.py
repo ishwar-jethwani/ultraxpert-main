@@ -43,8 +43,6 @@ class AcceptAndRejectProjectRequest(APIView):
             return Response({"msg":"project rejected"})
 
 
-
-
 class RatingView(APIView):
     permission_classes = [IsGETOrIsAuthenticated]
 
@@ -93,7 +91,6 @@ class Place_Order(APIView):
         else:
             return Response({"msg":"somthing went wrong"},status=status.HTTP_200_OK)
         
-
 class OrderHistory(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):

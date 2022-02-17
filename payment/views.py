@@ -15,6 +15,7 @@ from requests.auth import HTTPBasicAuth
 from activity.models import *
 import razorpay
 import json
+from datetime import datetime,timedelta
 
 
 
@@ -40,8 +41,9 @@ class ServiceOrderCreate(APIView):
             "receipt": "Recept"+"-"+order.order_id,
             }
             order_creted = requests.request("POST",url=self.url,auth=self.auth,data=payload)
-            return Response(order_creted.json())
-                
+            order.order_no = order_creted.json()["id"]
+            order.save(update_fields=["order_no"])
+            return Response(order_creted.json()) 
         except Exception as e:
             print(e)
             return Response({"res":0,"msg":"somthing went wrong"})
@@ -54,7 +56,6 @@ class CreateMeetingOrder(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request,subs_id):
         meetings = int(request.data["meetings"])
-        
         try:
             meeting_order = Subscriptions.objects.get(subs_id=subs_id)
             payload = {
@@ -231,23 +232,32 @@ class GetResponse(APIView):
 # refund 
 class RefundAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    def get(self,request,payment_id):
+    def post(self,request,order_id):
         reason_value = request.GET["reason"]
         type = request.GET["type"]
         reason = {"reason":reason_value}
-        payment = PaymentStatus.objects.get(payment_id=payment_id)
-        razorpay_payment_id = payment.response["payload"]["payment"]["entity"]["id"]
-        amount_payment_amount = payment.response["payload"]["payment"]["entity"]["amount"]
-        if type == "instant":
-            speed = "optimum"
-            refund = razorpay_client.payment.refund(razorpay_payment_id, amount_payment_amount,notes=reason,speed=speed)
-        else:
-            refund = razorpay_client.payment.refund(razorpay_payment_id, amount_payment_amount,notes=reason,speed=type)
-        if refund:
-            refund_id = refund["id"]
-            save_refund = RefundStatus(refund_id=refund_id,response=refund).save()
-            if save_refund:
-                return Response({"msg":"amount is refunded sucessfully","data":refund},status=status.HTTP_200_OK)
+        order = Order.objects.filter(order_id=order_id)
+        current_time = datetime.now()
+        if order.exists():
+            start_time = order.first().slot.start_time
+            date  = order.first().slot.schedule.day
+            start_meeting_start_time = datetime.strptime(date+"/"+start_time,"%d/%m/%Y/%H:%M")
+            if current_time>=start_meeting_start_time+timedelta(hours=6):
+                if order.first().paid == True and order.first().status=="booked":
+                    payment = PaymentStatus.objects.get(order_no=order.first().order_no)
+                    razorpay_payment_id = payment.response["payload"]["payment"]["entity"]["id"]
+                    amount_payment_amount = (payment.response["payload"]["payment"]["entity"]["amount"]*50)/100
+                    if type == "instant":
+                        speed = "optimum"
+                        refund = razorpay_client.payment.refund(razorpay_payment_id, amount_payment_amount,notes=reason,speed=speed)
+                    else:
+                        refund = razorpay_client.payment.refund(razorpay_payment_id, amount_payment_amount,notes=reason,speed=type)
+                    if refund:
+                        refund_id = refund["id"]
+                        save_refund = RefundStatus(refund_id=refund_id,response=refund).save()
+                        if save_refund:
+                            order.update(status="cancelled")
+                            return Response({"msg":"amount is refunded sucessfully","data":refund},status=status.HTTP_200_OK)
         else:
             return Response({"msg":"amount is not refunded sucessfully","data":refund})
 
