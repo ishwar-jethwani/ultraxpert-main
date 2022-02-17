@@ -41,8 +41,6 @@ class ServiceOrderCreate(APIView):
             "receipt": "Recept"+"-"+order.order_id,
             }
             order_creted = requests.request("POST",url=self.url,auth=self.auth,data=payload)
-            order.order_no = order_creted.json()["id"]
-            order.save(update_fields=["order_no"])
             return Response(order_creted.json()) 
         except Exception as e:
             print(e)
