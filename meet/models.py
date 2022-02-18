@@ -42,7 +42,7 @@ class MeetingRefundContainer(models.Model):
     meeting = models.ForeignKey(Meeting,on_delete=models.CASCADE,null=True,blank=True)
     date_created = models.DateTimeField(auto_created=True,null=True,blank=True)
     def __str__(self) -> str:
-        return str(self.expert.user_id+"-"+self.meeting.meeting_id)
+        return self.meeting.meeting_id
     class Meta:
         ordering = ["-date_created"]
 
