@@ -222,6 +222,7 @@ class JoinedMeeting(APIView):
     def post(self,request):
         meeting_id = request.data["meeting_id"]
         user = request.user
+        meet = Meeting.objects.get(meeting_id=meeting_id)
         query_set = MeetingRefundContainer.objects.filter(meeting__expert__profile=user,meeting__meeting_id=meeting_id)
         meeting_credit = MeetingTypeCount.objects.get(user=query_set.first().meeting.expert.profile)
         meet_date_start_time_obj = datetime.strptime(query_set.first().meeting.event.schedule.day+"/"+query_set.first().meeting.event.start_time,"%d/%m/%Y/%H:%M")
@@ -238,6 +239,9 @@ class JoinedMeeting(APIView):
                 elif query_set.first().meeting.event.duration==60:
                     meeting_60 = meeting_credit.meet_60
                     meeting_credit.meet_60=meeting_60+1
+                meet.refund_enable = False
+                meet.refunded = True
+                meet.save(update_fields=["refunded","refund_enable"])
                 return Response({"msg":"meeting is successfully refunded"},status=status.HTTP_200_OK)
             else:
                 query_set.delete()

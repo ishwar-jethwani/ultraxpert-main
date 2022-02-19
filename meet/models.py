@@ -16,6 +16,7 @@ class Meeting(models.Model):
         rating_btn = models.BooleanField(default=False,blank=True,null=True,verbose_name="Rating Button")
         payment_get = models.BooleanField(default=False,blank=True,null=True,verbose_name="Got Meeting Payment")
         refund_enable =  models.BooleanField(default=False,blank=True,null=True,verbose_name="Refund Enable")
+        refunded = models.BooleanField(default=False,blank=True,null=True,verbose_name="Meeting Refunded")
         service_name = models.CharField(max_length=100,verbose_name="service_name",blank=True,null=True)
         date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
