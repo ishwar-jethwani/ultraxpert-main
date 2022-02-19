@@ -122,7 +122,7 @@ class ExpertMeeting(APIView):
                     if refund_container:
                         meet.refund_enable = True
                     else:
-                         meet.refund_enable = True
+                        meet.refund_enable = False
                     meet.add_meeting_btn = False
                     meet.join_btn = False
                 meet.save(update_fields=["join_btn","add_meeting_btn","refund_enable"])
