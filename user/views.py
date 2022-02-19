@@ -123,6 +123,7 @@ class CategoryRetriveAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     lookup_field = "pk"
 
+
 class ServiceCreate(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
@@ -177,7 +178,7 @@ class ExpertDetailView(APIView):
         rating_obj  = Ratings.objects.filter(rating_on__profile=user)
         rating_res = RatingSerializer(rating_obj,many=True)
         profile_res = ProfileSerializer(profile_obj,many=True)
-        service_res = ServicesSerializer(service_obj,many=True)
+        service_res = ServiceShowSerializer(service_obj,many=True)
         data = json.dumps(rating_res.data)
         stars = json.loads(data)
         avg_list = list()
