@@ -202,6 +202,7 @@ class MeetingQuikeJoin(APIView):
             meet = Meeting.objects.get(meeting_id=meeting_id)
             if meet:
                 meet.payment_get = True
+                meet.save(update_fields=["payment_get"])
             serialize = MeetingSerializer(meet)
             return Response(serialize.data,status=status.HTTP_200_OK)
         return Response(serialize.data,status=status.HTTP_400_BAD_REQUEST)
