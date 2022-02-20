@@ -241,6 +241,7 @@ class JoinedMeeting(APIView):
                     meeting_credit.meet_60=meeting_60+1
                 meet.refund_enable = False
                 meet.refunded = True
+                meeting_credit.save(update_fields=["meet_30","meet_45","meet_60"])
                 meet.save(update_fields=["refunded","refund_enable"])
                 return Response({"msg":"meeting is successfully refunded"},status=status.HTTP_200_OK)
             else:
