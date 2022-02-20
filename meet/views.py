@@ -80,7 +80,7 @@ class ExpertMeeting(APIView):
             for meet in meetings:
                 meet_date_start_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.start_time,"%d/%m/%Y/%H:%M")
                 meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
-                refund_container = MeetingRefundContainer.objects.get(meeting__meeting_id=meet.meeting_id)
+                refund_container = MeetingRefundContainer.objects.filter(meeting__meeting_id=meet.meeting_id)
                 if current_time<=meet_date_end_time_obj:
                     if meet.event.duration == 30:
                         if meeting_credit.meet_30<=0 and meet.payment_get==False:
@@ -119,7 +119,7 @@ class ExpertMeeting(APIView):
                             else:
                                 meet.join_btn = False
                 else:
-                    if refund_container:
+                    if refund_container.exists():
                         meet.refund_enable = True
                     else:
                         meet.refund_enable = False
