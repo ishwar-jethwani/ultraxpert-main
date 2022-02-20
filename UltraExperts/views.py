@@ -134,11 +134,11 @@ class ResetPassword(APIView):
     gen_otp = random.randint(100000,999999)
     user = User()
     def get(self,request):
-        user_email = request.GET.get("email")
-        self.user = User.objects.get(email=user_email)
+        self.email = request.GET.get("email")
+        self.user = User.objects.get(email=self.email)
         if self.user:
             email = self.user.email
-            if user_email == email:
+            if self.email == email:
                 html = get_template("reset.html")
                 html_data = html.render({"otp":self.gen_otp})
                 send_mail(
@@ -158,7 +158,8 @@ class ResetPassword(APIView):
         otp = data["otp"]
         password = data["password"]
         password_confirm = data["password_confirm"]
-        
+        self.email = data["email"]
+        self.user = User.objects.get(email=self.email)
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
@@ -171,19 +172,25 @@ class MobileResetPassword(APIView):
     gen_otp = random.randint(1000, 9999)
     user = User()
     def get(self,request):
-        user_mobile = request.GET.get("mobile_number")
-        self.user = User.objects.get(mobile=user_mobile)
+        self.mobile = request.GET.get("mobile_number")
+        self.user = User.objects.get(mobile=self.mobile)
         mobile = self.user.mobile
-        if user_mobile == mobile:
+        if self.mobile == mobile:
+            try:
+                client.messages.create(to=mobile, from_="+19124915017",
+                                    body="Thank you for visiting and we need lititle more information to complete your registration plese enter the {} to verify your mobile number to change password ".format(self.gen_otp))
+            except TwilioRestException as e:
+                print(e)
             return Response({"msg":"msg has been sent"},status=status.HTTP_200_OK)
         return Response({"msg":"msg is failed to send"})
 
     def post(self,request):
         data = request.data
+        self.mobile = data["mobile"]
         otp = data["otp"]
         password = data["password"]
         password_confirm = data["password_confirm"]
-        
+        self.user = User.objects.get(mobile=self.mobile)
         if str(otp) == str(self.gen_otp):
             if password == password_confirm:
                 self.user.set_password(password)
