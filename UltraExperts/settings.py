@@ -92,15 +92,7 @@ INSTALLED_APPS+=[
 
 ]
 
-ELASTICSEARCH_DSL = {
-        "default":{
-                    "hosts": ELASTIC_SEARCH_URL,
-                    "http_auth": AWS_AUTH,
-                    "use_ssl": True,
-                    "verify_certs": True,
-                    "connection_class": RequestsHttpConnection,
-                    }
-}
+
 
 
 REST_FRAMEWORK = {
@@ -253,7 +245,15 @@ SIMPLE_JWT = {
 }
 
 
-
+ELASTICSEARCH_DSL = {
+        "default":{
+                    "hosts": ELASTIC_SEARCH_URL,
+                    "http_auth": AWS_AUTH,
+                    "use_ssl": True,
+                    "verify_certs": True,
+                    "connection_class": RequestsHttpConnection,
+                    }
+}
 
 
 #social auth
@@ -407,3 +407,4 @@ DEFAULT_FROM_EMAIL = 'UltraTeam Team <noreply@onlinewebsitemarket.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 django_heroku.settings(locals())
+
