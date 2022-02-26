@@ -26,22 +26,24 @@ def create_customer(user):
     url = PAYMANT_BASE_URL+endpoint
     user = Profile.objects.get(profile=user)
     res = requests.request("GET",url=url,auth=auth)
+    email_list = []
     if len(res.json()["items"])>0:
         for emails in res.json()["items"]:
-            if emails["email"]==user.profile.email:
-                data=RazorPayCustomer.objects.get(cust_email=emails["email"])
+            email_list.append(emails["email"])
+        if user.profile.email in email_list:
+            data=RazorPayCustomer.objects.get(cust_email=emails["email"])
+            serialize = RazorPayCustomerSerializer(data)
+            return serialize.data
+        else:           
+            payload={
+                    "name":str(user.first_name),
+                    "email":str(user.profile.email),
+                    }
+            res = requests.request("POST",url=url,auth=auth,data=payload)
+            if res.json()["id"]:
+                data = RazorPayCustomer.objects.create(cust_id=res.json()["id"],cust_name=res.json()["name"],cust_email=res.json()["email"])
                 serialize = RazorPayCustomerSerializer(data)
                 return serialize.data
-            else:           
-                payload={
-                        "name":str(user.first_name),
-                        "email":str(user.profile.email),
-                        }
-                res = requests.request("POST",url=url,auth=auth,data=payload)
-                if res.json()["id"]:
-                    data = RazorPayCustomer.objects.create(cust_id=res.json()["id"],cust_name=res.json()["name"],cust_email=res.json()["email"])
-                    serialize = RazorPayCustomerSerializer(data)
-                    return serialize.data
     else:           
         payload={
                 "name":str(user.first_name),
