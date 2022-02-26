@@ -26,20 +26,31 @@ def create_customer(user):
     url = PAYMANT_BASE_URL+endpoint
     user = Profile.objects.get(profile=user)
     res = requests.request("GET",url=url,auth=auth)
-    for emails in res.json()["items"]:
-        if emails["email"]==user.profile.email:
-            data=RazorPayCustomer.objects.get(cust_email=emails["email"])
-            serialize = RazorPayCustomerSerializer(data)
-            return serialize.data
-        else:
-            payload={
-                    "name":str(user.first_name),
-                    "email":str(user.profile.email),
-                    }
-            res = requests.request("POST",url=url,auth=auth,data=payload)
-            if res.json()["id"]:
-                data = RazorPayCustomer.objects.create(cust_id=res.json()["id"],cust_name=res.json()["name"],cust_email=res.json()["email"])
+    if len(res.json()["items"])>0:
+        for emails in res.json()["items"]:
+            if emails["email"]==user.profile.email:
+                data=RazorPayCustomer.objects.get(cust_email=emails["email"])
                 serialize = RazorPayCustomerSerializer(data)
+                return serialize.data
+            else:           
+                payload={
+                        "name":str(user.first_name),
+                        "email":str(user.profile.email),
+                        }
+                res = requests.request("POST",url=url,auth=auth,data=payload)
+                if res.json()["id"]:
+                    data = RazorPayCustomer.objects.create(cust_id=res.json()["id"],cust_name=res.json()["name"],cust_email=res.json()["email"])
+                    serialize = RazorPayCustomerSerializer(data)
+                    return serialize.data
+    else:           
+        payload={
+                "name":str(user.first_name),
+                "email":str(user.profile.email),
+                }
+        res = requests.request("POST",url=url,auth=auth,data=payload)
+        if res.json()["id"]:
+            data = RazorPayCustomer.objects.create(cust_id=res.json()["id"],cust_name=res.json()["name"],cust_email=res.json()["email"])
+            serialize = RazorPayCustomerSerializer(data)
             return serialize.data
 
 
@@ -85,11 +96,14 @@ class CreateVirtualAccount(APIView):
                 }],
                 "customer_id":customer_id ,
         }
+        print(payload)
         res = self.client.virtual_account.create(data=payload)
-        virtual_account_create = VirtualAccount.objects.create(cust_id=customer_id,virual_account_id=res["id"],virual_data=res)
-        if virtual_account_create:
-            serialize = RazorPayVirtualAccountSerializer(virtual_account_create)
-            return Response(serialize.data,status=status.HTTP_201_CREATED)
+        print(res)
+        if res:
+            virtual_account_create = VirtualAccount.objects.create(cust_id=customer_id,virual_account_id=res["id"],virual_data=res)
+            if virtual_account_create:
+                serialize = RazorPayVirtualAccountSerializer(virtual_account_create)
+                return Response(serialize.data,status=status.HTTP_201_CREATED)
         else:
             return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
 
