@@ -54,11 +54,12 @@ class CustomLoginView(LoginView):
         orginal_response = super().get_response()
         mydata = self.get_user()
         orginal_response.data.update(mydata)
-        email = mydata["username"]
+        email = mydata["email"]
+        username = mydata["username"]
         subject = "Ultra Creation Sending Email"
         message = "Hi %s! Welcome to UltraXpert" % email
         htmly = get_template("welcome-email.html")
-        htmly = htmly.render({"username":email})
+        htmly = htmly.render({"username":username})
         User.objects.filter(email=email).update(is_verified=True)
         send_mail(
             from_email = None,
