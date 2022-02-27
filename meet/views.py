@@ -1,4 +1,3 @@
-import os
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from UltraExperts.constants import VIDEOSDK_API_KEY
@@ -12,6 +11,9 @@ from rest_framework import status
 from events.models import EventScheduleTime
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime, timedelta
+from django.core.mail import send_mail
+from django.template.loader import get_template
+
 
 class MeetingAPI(APIView):
     permission_classes = [IsAuthenticated]
@@ -61,6 +63,16 @@ class MeetingAPI(APIView):
             meet_date_end_time_obj = datetime.strptime(meet.event.schedule.day+"/"+meet.event.end_time,"%d/%m/%Y/%H:%M")
             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                 meet.join_btn = True
+                html = get_template("meet_remainder.html")
+                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                send_mail(
+                        from_email = None,
+                        recipient_list = [meet.user.email],
+                        subject ="Meeting Remainder",
+                        html_message = html,
+                        message = "start meeting with your favoriot expert"
+                    
+                )
             elif current_time>=meet_date_end_time_obj:
                 meet.rating_btn = True
             else:
@@ -90,6 +102,16 @@ class ExpertMeeting(APIView):
                             meet.add_meeting_btn = False
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
+                                html = get_template("meet_remainder.html")
+                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                send_mail(
+                                        from_email = None,
+                                        recipient_list = [meet.expert.profile.email],
+                                        subject ="Meeting Remainder",
+                                        html_message = html,
+                                        message = "it is time to meet with user to solve his or her problems"
+                                    
+                                )
                             else:
                                 meet.join_btn = False
                 
@@ -102,6 +124,16 @@ class ExpertMeeting(APIView):
                             meet.add_meeting_btn = False
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
+                                html = get_template("meet_remainder.html")
+                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                send_mail(
+                                        from_email = None,
+                                        recipient_list = [meet.expert.profile.email],
+                                        subject ="Meeting Remainder",
+                                        html_message = html,
+                                        message = "it is time to meet with user to solve his or her problems"
+                                    
+                                )
                                
                             else:
                                 meet.join_btn = False
@@ -115,7 +147,16 @@ class ExpertMeeting(APIView):
                             meet.add_meeting_btn = False
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
-                                meet.add_meeting_btn = False
+                                html = get_template("meet_remainder.html")
+                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                send_mail(
+                                        from_email = None,
+                                        recipient_list = [meet.expert.profile.email],
+                                        subject ="Meeting Remainder",
+                                        html_message = html,
+                                        message = "it is time to meet with user to solve his or her problems"
+                                    
+                                )
                             else:
                                 meet.join_btn = False
                 else:

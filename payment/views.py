@@ -16,6 +16,8 @@ from activity.models import *
 import razorpay
 import json
 from datetime import datetime,timedelta
+from django.core.mail import send_mail
+from django.template.loader import get_template
 
 
 
