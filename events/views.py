@@ -2,6 +2,8 @@ from faulthandler import disable
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from meet.models import Meeting
 from .constant import *
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
@@ -183,7 +185,20 @@ class BookedStatusChangeAPI(APIView):
         if payment.first().status=="authorized" or payment.first().status=="captured":
             slot = EventScheduleTime.objects.filter(id=slot_id)
             slot.update(booked=True)
-            return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
+            slot_ids = slot.values_list("id",flat=True)
+            meetings = Meeting.objects.filter(event__id__in=list(slot_ids))
+            for meet in meetings:
+                html = get_template("service_confirmation.html")
+                html = html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                send_mail(
+                        from_email = None,
+                        recipient_list = [meet.expert.profile.email,meet.user.email],
+                        subject ="Meeting Remainder",
+                        html_message = html,
+                        message = "it is time to meet with user to solve his or her problems"
+                    
+                )
+                return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
         return Response({"msg":"not booked"},status=status.HTTP_400_BAD_REQUEST)
 
             

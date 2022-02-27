@@ -71,24 +71,6 @@ class OrderStatusSerializer(serializers.ModelSerializer):
         instance.status = validated_data.get("status", instance.status)
         instance.paid = True
         instance.save()
-        html = get_template("service_confirmation.html")
-        html.render({"service_name":instance.service_obj.service_name,"start_time":instance.slot.start_time,"end_time":instance.slot.end_time,"duration":instance.slot.duration,"date":instance.slot.schedule.day})
-        send_mail(
-                from_email = None,
-                recipient_list = [instance.order_on.email],
-                subject ="Order Confirmation",
-                html_message = html,
-                message = "Service is booked"
-            
-        )
-        send_mail(
-                from_email = None,
-                recipient_list = [instance.user.email],
-                subject ="Order Confirmation",
-                html_message = html,
-                message = "Service is booked"
-            
-        )
         return instance
 
 
