@@ -103,7 +103,7 @@ class ExpertMeeting(APIView):
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
                                 html = get_template("meeting_remainder.html")
-                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
                                 send_mail(
                                         from_email = None,
                                         recipient_list = [meet.expert.profile.email],
@@ -125,7 +125,7 @@ class ExpertMeeting(APIView):
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
                                 html = get_template("meet_remainder.html")
-                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
                                 send_mail(
                                         from_email = None,
                                         recipient_list = [meet.expert.profile.email],
@@ -148,7 +148,7 @@ class ExpertMeeting(APIView):
                             if current_time>=meet_date_start_time_obj and current_time<=meet_date_end_time_obj:
                                 meet.join_btn = True
                                 html = get_template("meet_remainder.html")
-                                html.render({"service_name":meet.service.name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+                                html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
                                 send_mail(
                                         from_email = None,
                                         recipient_list = [meet.expert.profile.email],
