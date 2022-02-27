@@ -193,9 +193,9 @@ class BookedStatusChangeAPI(APIView):
                 send_mail(
                         from_email = None,
                         recipient_list = [meet.expert.profile.email,meet.user.email],
-                        subject ="Meeting Remainder",
+                        subject ="Service Booked",
                         html_message = html,
-                        message = "it is time to meet with user to solve his or her problems"
+                        message = "Service Booked"
                     
                 )
                 return Response({"msg":"you have successfully booked this time slot"},status=status.HTTP_200_OK)
