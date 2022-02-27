@@ -186,15 +186,25 @@ class BookedStatusChangeAPI(APIView):
             slot = EventScheduleTime.objects.filter(id=slot_id)
             slot.update(booked=True)
             slot_ids = slot.values_list("id",flat=True)
-            meetings = Meeting.objects.filter(event__id__in=list(slot_ids))
-            for meet in meetings:
-                html = get_template("service_confirmation.html")
-                html = html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+            orders = Order.objects.filter(slot__id__in=list(slot_ids))
+            for order in orders:
+                html1 = get_template("service_confirmation.html")
+                html2 = get_template("service_confirmation_paid.html")
+                html1 = html1.render({"user_id":order.user.user_id,"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price})
+                html2 = html2.render({"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price})
                 send_mail(
                         from_email = None,
-                        recipient_list = [meet.expert.profile.email,meet.user.email],
+                        recipient_list = [order.order_on.email],
                         subject ="Service Booked",
-                        html_message = html,
+                        html_message = html1,
+                        message = "Service Booked"
+                    
+                )
+                send_mail(
+                        from_email = None,
+                        recipient_list = [order.user.email],
+                        subject ="Service Booked",
+                        html_message = html2,
                         message = "Service Booked"
                     
                 )
