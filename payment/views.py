@@ -216,7 +216,6 @@ class GetResponse(APIView):
         payment_id = data["payload"]["payment"]["entity"]["id"]
         order_id = data["payload"]["payment"]["entity"]["order_id"]
         status = data["payload"]["payment"]["entity"]["status"]
-        print("response",data)
         payment_data = PaymentStatus.objects.create(payment_id=payment_id,order_no=order_id,response=data,status=status)
         if payment_data:
             payment_created = PaymantStatusSerializer(payment_data)
