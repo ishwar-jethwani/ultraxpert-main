@@ -246,7 +246,7 @@ class RefundAPIView(APIView):
                 if order.first().paid == True and order.first().status=="booked":
                     payment = PaymentStatus.objects.get(order_no=order.first().order_no)
                     razorpay_payment_id = payment.response["payload"]["payment"]["entity"]["id"]
-                    amount_payment_amount = (payment.response["payload"]["payment"]["entity"]["amount"]*50)/100
+                    amount_payment_amount = ((payment.response["payload"]["payment"]["entity"]["amount"])/100)*50/100
                     if type == "instant":
                         speed = "optimum"
                         refund = razorpay_client.payment.refund(razorpay_payment_id, amount_payment_amount,notes=reason,speed=speed)
@@ -260,6 +260,8 @@ class RefundAPIView(APIView):
                             return Response({"msg":"amount is refunded sucessfully","data":refund},status=status.HTTP_200_OK)
         else:
             return Response({"msg":"amount is not refunded sucessfully","data":refund})
+
+
 
 
 class InvoiceAPIView(APIView):

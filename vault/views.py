@@ -4,6 +4,7 @@ from requests.auth import HTTPBasicAuth
 from UltraExperts.constants import RAZOR_KEY_SECRET,RAZOR_KEY_ID,PAYMANT_BASE_URL
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from payment.models import PaymentStatus
 from user.models import *
 import razorpay
 from rest_framework import status
@@ -109,3 +110,26 @@ class CreateVirtualAccount(APIView):
         else:
             return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
 
+class TransferApi(APIView):
+    auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
+    permission_classes = [IsAuthenticated]
+    def post(self,request,pay_id):
+        user = request.user
+        account_no = request.data["acc_id"]
+        pay = PaymentStatus.objects.filter(payment_id=pay_id)
+        if pay.first().status=="authorized" or "captured":
+            amount = (pay.first().response["payload"]["payment"]["entity"]["amount"])/100
+            endpoint = f"payments/{pay_id}/transfers"
+            url = PAYMANT_BASE_URL+endpoint
+            payload = {
+                        "transfers": [
+                                {
+                                    "amount": int(amount),
+                                    "account": account_no,
+                                    "currency": "INR",
+                                    "on_hold": 1
+                                }
+                            ]
+                        }
+            res = requests.request("POST",url,auth=self.auth)
+            return Response(data=res.json(),status=status.HTTP_200_OK)
