@@ -35,7 +35,7 @@ class MeetingTypeCount(models.Model):
     date_updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 
     def __str__(self) -> str:
-        return self.user.user_id
+        return self.user.username
 
     class Meta:
         ordering = ["-date_updated"]

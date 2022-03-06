@@ -41,7 +41,7 @@ class Ratings(models.Model):
     date_created = models.DateTimeField(auto_now_add=True,verbose_name="Created Date",blank=True,null=True)
 
     def __str__(self) -> str:
-        return self.user_name.user_id
+        return self.user_name.username
     
     class Meta:
         ordering = ["pk"]
