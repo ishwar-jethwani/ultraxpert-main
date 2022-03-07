@@ -67,7 +67,7 @@ class Order(models.Model):
     status = models.CharField(max_length=50,choices=stages,default="pending",blank=True,null=True)
 
     def __str__(self) -> str:
-        return self.order_id
+        return str(self.order_id)
     class Meta:
         ordering = ["-order_created"]
 

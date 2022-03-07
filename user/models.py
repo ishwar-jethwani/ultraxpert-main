@@ -153,7 +153,7 @@ class Profile(models.Model):
 
 
     def __str__(self) -> str:
-        return self.profile.username
+        return str(self.profile.username)
 
     def set_keyword(self, x):
         self.keywords = json.dumps(x)
@@ -181,7 +181,7 @@ class BankDetail(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Creted On",blank=True,null=True)
 
     def __str__(self) -> str:
-        return self.user.username
+        return str(self.user.username)
 
     class Meta:
         ordering = ["-timestamp"]
@@ -195,7 +195,7 @@ class Comment(models.Model):
     reply = models.ForeignKey("self",related_name="comment_reply",blank=True,null=True,on_delete=models.PROTECT,verbose_name="Reply")
 
     def __str__(self) -> str:
-        return self.user.username
+        return str(self.user.username)
 
     class Meta:
         ordering = ["-timestamp"]

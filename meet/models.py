@@ -23,8 +23,8 @@ class Meeting(models.Model):
         class Meta:
             ordering = ["-date_time"]
 
-        def __str__(self):
-            return self.meeting_id
+        def __str__(self) -> str:
+            return self.expert.profile.username+" "+"and"+" "+ self.user.username
 
 class MeetingTypeCount(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
