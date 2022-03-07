@@ -190,8 +190,8 @@ class BookedStatusChangeAPI(APIView):
             for order in orders:
                 html1 = get_template("service_confirmation.html")
                 html2 = get_template("service_confirmation_paid.html")
-                html1 = html1.render({"user_id":order.user.user_id,"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price})
-                html2 = html2.render({"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price})
+                html1 = html1.render({"user_id":order.user.user_id,"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price,"date":order.slot.schedule.day})
+                html2 = html2.render({"service_name":order.service_obj.service_name,"start_time":order.slot.start_time,"end_time":order.slot.end_time,"duration":order.slot.duration,"amount":order.price,"date":order.slot.schedule.day})
                 send_mail(
                         from_email = None,
                         recipient_list = [order.order_on.email],
