@@ -39,6 +39,7 @@ class Ratings(models.Model):
     star_rating = models.PositiveIntegerField(verbose_name="Start Rating",validators=[MaxValueValidator(5)],null=True)
     rating_on = models.ForeignKey(Profile,on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True,verbose_name="Created Date",blank=True,null=True)
+    rated = models.BooleanField(default=False,blank=True,null=True,verbose_name="Rated")
 
     def __str__(self) -> str:
         return self.user_name.username

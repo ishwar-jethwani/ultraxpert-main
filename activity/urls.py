@@ -14,7 +14,8 @@ urlpatterns = [
     path("get_subscreption/",SubscriptionView.as_view(),name="subscreption"),
     path("your_orders/",ExpertGotOrder.as_view(),name="your_orders"),
     path("transaction/",Transaction.as_view(),name="transaction"),
-    path("subs_status_update/",SubscriptonStatusUpdateApiView.as_view(),name="subs_status_update")
+    path("subs_status_update/",SubscriptonStatusUpdateApiView.as_view(),name="subs_status_update"),
+    path("rated/",RatingDone.as_view(),name="rated")
 
 
 ]

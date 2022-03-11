@@ -1,4 +1,5 @@
 from django.db.models.fields import related
+from meet.models import Meeting
 from user.serializers import *
 from django.db.models.query_utils import Q
 from rest_framework import status
@@ -140,6 +141,21 @@ class Transaction(generics.ListAPIView):
         return Order.objects.filter(order_on=self.request.user,paid=True)
 
 
+class RatingDone(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        rating_id = request.data[rating_id]
+        user = request.user
+        rating = Ratings.objects.filter(pk=rating_id,user_name=user)
+        if rating.exists():
+            rating.update(rated=True)
+            return Response({"msg":"you have sucessfully rated"},status=status.HTTP_200_OK)
+        return Response({"msg":"Somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)  
+    
+
+            
+
+            
 
 
     

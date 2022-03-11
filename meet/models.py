@@ -20,6 +20,7 @@ class Meeting(models.Model):
         service_name = models.CharField(max_length=100,verbose_name="service_name",blank=True,null=True)
         date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
+
         class Meta:
             ordering = ["-date_time"]
 

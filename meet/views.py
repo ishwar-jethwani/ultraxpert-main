@@ -253,6 +253,11 @@ class JoinedMeeting(APIView):
 
 
 
+    
+        
+
+
+
 
 @background(schedule=2)
 def notify_user():
