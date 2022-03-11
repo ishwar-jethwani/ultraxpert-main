@@ -56,16 +56,18 @@ class RatingView(APIView):
     def post(self,request,user_id):
         data = request.data
         profile = Profile.objects.get(profile__user_id=user_id)
+        meeting_id = data["meeting_id"]
+        meeting = Meeting.objects.get(meeting_id=meeting_id)
         point = float(data["star"])
         if point>5.0:
             point = 5.0
-            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile)
+            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile,meeting=meeting)
         else:
-            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile)
+            created = Ratings.objects.create(user_name=request.user,review=data["review"],short_title=data["short_title"],star_rating=point,rating_on=profile,meeting=meeting)
         if created:
-
-            pass
-            return Response({"msg":f"thank you for submitting your review on {profile}"})
+            meeting.rated = True
+            meeting.save(update_fields=["rated"])
+            return Response({"msg":f"thank you for submitting your review on {meeting}"})
         else:
             return Response({"msg":"error in submitting"})
 
@@ -141,16 +143,16 @@ class Transaction(generics.ListAPIView):
         return Order.objects.filter(order_on=self.request.user,paid=True)
 
 
-class RatingDone(APIView):
-    permission_classes = [IsAuthenticated]
-    def post(self,request):
-        rating_id = request.data[rating_id]
-        user = request.user
-        rating = Ratings.objects.filter(pk=rating_id,user_name=user)
-        if rating.exists():
-            rating.update(rated=True)
-            return Response({"msg":"you have sucessfully rated"},status=status.HTTP_200_OK)
-        return Response({"msg":"Somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)  
+# class RatingDone(APIView):
+#     permission_classes = [IsAuthenticated]
+#     def post(self,request):
+#         rating_id = request.data[rating_id]
+#         user = request.user
+#         rating = Ratings.objects.filter(pk=rating_id,user_name=user)
+#         if rating.exists():
+#             rating.update(rated=True)
+#             return Response({"msg":"you have sucessfully rated"},status=status.HTTP_200_OK)
+#         return Response({"msg":"Somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)  
     
 
             

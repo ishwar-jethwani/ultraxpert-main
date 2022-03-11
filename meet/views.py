@@ -68,6 +68,8 @@ class MeetingAPI(APIView):
                 meet.rating_btn = True
             else:
                 meet.join_btn = False
+                if meet.rated == True:
+                     meet.rating_btn = False
             meet.save(update_fields=["join_btn","rating_btn"])
         serialize = MeetingSerializer(meetings,many=True)
         return Response(serialize.data,status=status.HTTP_200_OK)

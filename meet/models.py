@@ -19,6 +19,7 @@ class Meeting(models.Model):
         refunded = models.BooleanField(default=False,blank=True,null=True,verbose_name="Meeting Refunded")
         service_name = models.CharField(max_length=100,verbose_name="service_name",blank=True,null=True)
         date_time = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+        rated = models.BooleanField(default=False,blank=True,null=True,verbose_name="Meeting Rated")
 
 
         class Meta:

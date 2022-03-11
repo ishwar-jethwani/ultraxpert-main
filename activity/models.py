@@ -4,6 +4,7 @@ from django.db.models.fields.related import ForeignKey
 from ckeditor.fields import RichTextField
 from rest_framework import status
 from events.models import EventScheduleTime
+from meet.models import Meeting
 from user.models import User,Profile,Services
 from django.core.validators import  MaxValueValidator
 from .utils import *
@@ -38,11 +39,11 @@ class Ratings(models.Model):
     review =  RichTextField(blank=True,null=True)
     star_rating = models.PositiveIntegerField(verbose_name="Start Rating",validators=[MaxValueValidator(5)],null=True)
     rating_on = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    meeting = models.ForeignKey(Meeting,on_delete=models.CASCADE,blank=True,null=True)
     date_created = models.DateTimeField(auto_now_add=True,verbose_name="Created Date",blank=True,null=True)
-    rated = models.BooleanField(default=False,blank=True,null=True,verbose_name="Rated")
 
     def __str__(self) -> str:
-        return self.user_name.username
+        return self.user_name.username+" - "+self.meeting
     
     class Meta:
         ordering = ["pk"]
