@@ -218,6 +218,7 @@ class CommentAPIView(APIView):
         return Response(data=serialize.data,status=status.HTTP_200_OK)
     
     def post(self,request):
+        
         pass
 
 
