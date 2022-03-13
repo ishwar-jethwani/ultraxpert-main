@@ -58,7 +58,7 @@ class Order(models.Model):
     )
     order_id = models.CharField(max_length=10,verbose_name="Order Id",unique=True,blank=True)
     razorpay_order_no = models.CharField(max_length=200,verbose_name="RazorPay Order Number",blank=True,null=True)
-    user = models.ForeignKey(User,verbose_name="User",on_delete=models.PROTECT)
+    user = models.ForeignKey(User,verbose_name="User",on_delete=models.CASCADE)
     order_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     service_id = models.CharField(max_length=100,verbose_name="Service ID",blank=True,null=True)
     slot = models.ForeignKey(EventScheduleTime,null=True,blank=True,on_delete=models.CASCADE)
