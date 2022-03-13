@@ -67,7 +67,7 @@ class Expert_View(APIView):
                 except ZeroDivisionError:
                     avg = 0.0
                     count= len(avg_list)
-                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":avg,"reviews":count}}}
+                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg),"reviews":count}}}
                 expert_list.append(profile)
         return Response({"experts":expert_list})
 
