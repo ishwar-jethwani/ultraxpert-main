@@ -81,6 +81,7 @@ urlpatterns+=[
    path("search/",include("search.urls")),
    path("vault/",include("vault.urls")),
    path("genral/",include("genral.urls")),
+   path("support/",include("support.urls")),
 
 ]
 
