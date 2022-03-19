@@ -30,7 +30,7 @@ class DashboardView(APIView):
     def get_user_table(self):
         self.params = json.loads(self.data['params'])
         search = self.params['search']
-        users = User.objects.all()
+        users = User.objects.all().order_by("-date_joined")
         if not search == "":
             users = users.filter(email__icontains=search)
         count = users.count()
@@ -41,6 +41,7 @@ class DashboardView(APIView):
                 "id":user.user_id,
                 "name": f'<a class="" style="cursor:pointer" data-id="{user.pk}"><h4 class="p-0 m-0 text-bold text-secondary" ">' + str(user.email)+ '</h4>' + '</a>',
                 "Joined_on": datetime.strftime(user.date_joined, "%b %d,%Y"),
+                "mobile":f'<a class="" style="cursor:pointer" data-id="{user.pk}"><h4 class="p-0 m-0 text-bold text-secondary" ">' + str(user.mobile)+ '</h4>' + '</a>',
                 "action": f'<select class="form-control m-0 document-option" style="cursor:pointer" data-name="{user.username }" data-id="{user.pk}"><option value="">Select Action </option><option value="2">Edit</option><option value="3">Make a Copy</option><option value="5">Preview</option><option class="text-danger" value="6">Delete</option></select>',
             }
             arr.append(new_dict)
