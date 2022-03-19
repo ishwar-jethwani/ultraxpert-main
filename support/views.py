@@ -32,7 +32,7 @@ class DashboardView(APIView):
         search = self.params['search']
         users = User.objects.all()
         if not search == "":
-            users = users.filter(p_name__icontains=search)
+            users = users.filter(email__icontains=search)
         count = users.count()
 
         arr = []
