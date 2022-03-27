@@ -37,3 +37,34 @@ class SearchSerializer(ModelSerializer):
     class Meta:
         fields = ["query"]
         model = Search
+
+
+
+class ExpertSearchSerializer(ModelSerializer):
+    class Meta:
+        fields = [
+            "first_name",
+            "last_name",
+            "profile",
+            "profile_img",
+            "gender",
+            "is_online",
+            "title",
+            "education",
+            "experience",
+            "country"
+        ]
+        model= Profile
+        depth = 1
+class ServiceSearchSerializer(ModelSerializer):
+    class Meta:
+        fields = [
+            "service_id",
+            "service_name",
+            "service_img",
+            "category",
+            "price",
+            "tags"
+        ]
+        model=Services
+        

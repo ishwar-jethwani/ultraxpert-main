@@ -85,7 +85,7 @@ class ES_ExpertSearch(APIView):
         def get(self,request):
             search = request.GET.get("search")
             try:
-                expert = Profile.objects.filter(Q(first_name__iconatains=search)|Q(last_name__iconatains=search)|Q(categories__name__iconatains=search)|Q(description__iconatains=search))
+                expert = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(categories__name__icontains=search)|Q(description__icontains=search))
                 serialize = ExpertSearchSerializer(expert,many=True)
                 return Response(data=serialize.data,status=status.HTTP_200_OK)
             except Exception as e:
@@ -98,7 +98,7 @@ class ES_ServiceSearch(APIView):
         search = request.GET.get("search")
         try:
             service = Services.objects.filter(Q(service_name__icontains=search)|Q(category__name__icontains=search)|Q(description__icontains=search))
-            serialize = ServiceDocumentSerializer(service,many=True)
+            serialize = ServiceSearchSerializer(service,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
