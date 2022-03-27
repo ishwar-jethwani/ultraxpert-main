@@ -1,6 +1,4 @@
-from http.client import HTTPResponse
 from UltraExperts.serializers import UserSerilizer
-from django.db.models.query_utils import Q
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
