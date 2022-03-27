@@ -99,9 +99,6 @@ class ES_ExpertSearch(APIView):
 class ES_ServiceSearch(APIView):
     def get(self,request):
         search = request.GET.get("search")
-        if " " in search:
-                search_1 = search.split(" ")
-                search = search_1[0]
         try:
             service = Services.objects.filter(Q(service_name__icontains=search)|Q(category__name__icontains=search)|Q(description__icontains=search))
             serialize = ServiceSearchSerializer(service,many=True)
