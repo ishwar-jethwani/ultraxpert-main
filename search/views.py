@@ -7,7 +7,6 @@ from .models import *
 from .serializers import *
 from rest_framework import filters
 from user.models import *
-from .documents import *
 from django.db.models.query_utils import Q
 
  
