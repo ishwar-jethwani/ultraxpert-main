@@ -7,7 +7,7 @@ from .models import *
 from .serializers import *
 from rest_framework import filters
 from user.models import *
-from .documents import *
+from django.db.models.query_utils import Q
 
  
 
@@ -56,25 +56,51 @@ class SearchAPIView(APIView):
 
 
 
-class ES_ExpertSearch(APIView):
-    def get(self,request):
-        search = request.GET.get("search")
-        try:
-            expert = ExpertsDocument.search().query("query_string", query=search)
-            serialize = ExpertDocumentSerializer(expert,many=True)
-            return Response(data=serialize.data,status=status.HTTP_200_OK)
-        except Exception as e:
-            print(e)
-            return Response({"status":"ok","data":"Not Found!"})
+# class ES_ExpertSearch(APIView):
+#     def get(self,request):
+#         search = request.GET.get("search")
+#         try:
+#             expert = ExpertsDocument.search().query("query_string", query=search)
+#             serialize = ExpertDocumentSerializer(expert,many=True)
+#             return Response(data=serialize.data,status=status.HTTP_200_OK)
+#         except Exception as e:
+#             print(e)
+#             return Response({"status":"ok","data":"Not Found!"})
 
+
+
+# class ES_ServiceSearch(APIView):
+#     def get(self,request):
+#         search = request.GET.get("search")
+#         try:
+#             service = ServiceDocument.search().query("query_string", query=search)
+#             serialize = ServiceDocumentSerializer(service,many=True)
+#             return Response(data=serialize.data,status=status.HTTP_200_OK)
+#         except Exception as e:
+#             print(e)
+#             return Response({"status":"ok","data":"Not Found!"})
+
+class ES_ExpertSearch(APIView):
+        def get(self,request):
+            search = request.GET.get("search")
+            if " " in search:
+                search_1 = search.split(" ")
+                search = search_1[0]
+            try:
+                expert = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(categories__name__icontains=search)|Q(description__icontains=search))
+                serialize = ExpertSearchSerializer(expert,many=True)
+                return Response(data=serialize.data,status=status.HTTP_200_OK)
+            except Exception as e:
+                print(e)
+                return Response({"status":"ok","data":"Not Found!"})
 
 
 class ES_ServiceSearch(APIView):
     def get(self,request):
         search = request.GET.get("search")
         try:
-            service = ServiceDocument.search().query("query_string", query=search)
-            serialize = ServiceDocumentSerializer(service,many=True)
+            service = Services.objects.filter(Q(service_name__icontains=search)|Q(category__name__icontains=search)|Q(description__icontains=search))
+            serialize = ServiceSearchSerializer(service,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)

@@ -59,8 +59,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'drf_yasg',
     #elastic search
-    'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf',
+    # 'django_elasticsearch_dsl',
+    # 'django_elasticsearch_dsl_drf',
     'django.contrib.sitemaps',
     'background_task',
 ]
@@ -247,15 +247,15 @@ SIMPLE_JWT = {
 }
 
 
-ELASTICSEARCH_DSL = {
-        "default":{
-                    "hosts": ELASTIC_SEARCH_URL,
-                    "http_auth": AWS_AUTH,
-                    "use_ssl": True,
-                    "verify_certs": True,
-                    "connection_class": RequestsHttpConnection,
-                    }
-}
+# ELASTICSEARCH_DSL = {
+#         "default":{
+#                     "hosts": ELASTIC_SEARCH_URL,
+#                     "http_auth": AWS_AUTH,
+#                     "use_ssl": True,
+#                     "verify_certs": True,
+#                     "connection_class": RequestsHttpConnection,
+#                     }
+# }
 
 
 #social auth
