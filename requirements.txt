@@ -2,8 +2,6 @@ asgiref==3.4.1
 backports.entry-points-selectable==1.1.0
 beautiful-date==2.0.0
 boto==2.49.0
-boto3==1.18.1
-botocore==1.21.1
 cachetools==4.2.2
 certifi==2021.5.30
 cffi==1.14.6

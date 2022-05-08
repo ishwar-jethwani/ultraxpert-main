@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
 from .constants import *
 import os
 from datetime import datetime,timedelta
@@ -408,5 +407,5 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'UltraTeam Team <noreply@onlinewebsitemarket.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-django_heroku.settings(locals())
+
 
