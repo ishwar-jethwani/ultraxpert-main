@@ -16,7 +16,6 @@ six==1.14.0
 termcolor==1.1.0
 urllib3==1.26.9
 wcwidth==0.1.9
-psycopg2-binary==2.9.3
 asgiref==3.4.1
 backports.entry-points-selectable==1.1.0
 beautiful-date==2.0.0
