@@ -164,16 +164,30 @@ CORS_ALLOW_HEADERS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # server =  os.getenv("SERVER")
 # if server == "TEST":
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["RDS_DB_NAME"],
-        'USER': os.environ["RDS_USERNAME"],
-        'PASSWORD': os.environ["RDS_PASSWORD"],
-        'HOST': os.environ["RDS_HOSTNAME"],
-        'PORT':  os.environ["RDS_PORTNAME"],
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ["RDS_DB_NAME"],
+            'USER': os.environ["RDS_USERNAME"],
+            'PASSWORD': os.environ["RDS_PASSWORD"],
+            'HOST': os.environ["RDS_HOSTNAME"],
+            'PORT':  os.environ["RDS_PORTNAME"],
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config("DATABASE"),
+            'USER': config("USER"),
+            'PASSWORD': config("DB_PASSWORD"),
+            'HOST': config("HOST"),
+            'PORT': config("PORT"),
+        }
+    }
+
+
 
 
 # Password validation
