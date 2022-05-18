@@ -13,7 +13,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime, timedelta
 from django.core.mail import send_mail
 from django.template.loader import get_template
-from background_task import background
+# from background_task import background
 
 
 class MeetingAPI(APIView):
@@ -261,26 +261,26 @@ class JoinedMeeting(APIView):
 
 
 
-@background(schedule=2)
-def notify_user():
-    print("runn")
-    current_time = datetime.now()
-    time = datetime.strftime(current_time,"%H:%M")
-    date =  datetime.strftime(current_time,"%d/%m/%Y")
-    meetings = Meeting.objects.filter(event__schedule__day=date,event__start_time=time)
-    for meet in meetings:
-        html = get_template("meet_remainder.html")
-        html = html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
-        send_mail(
-                from_email = None,
-                recipient_list = [meet.expert.profile.email,meet.user.email],
-                subject ="Meeting Remainder",
-                html_message = html,
-                message = "it is time to meet"
-                )
+# @background(schedule=2)
+# def notify_user():
+#     print("runn")
+#     current_time = datetime.now()
+#     time = datetime.strftime(current_time,"%H:%M")
+#     date =  datetime.strftime(current_time,"%d/%m/%Y")
+#     meetings = Meeting.objects.filter(event__schedule__day=date,event__start_time=time)
+#     for meet in meetings:
+#         html = get_template("meet_remainder.html")
+#         html = html.render({"service_name":meet.service.service_name,"start_time":meet.event.start_time,"end_time":meet.event.end_time,"duration":meet.event.duration})
+#         send_mail(
+#                 from_email = None,
+#                 recipient_list = [meet.expert.profile.email,meet.user.email],
+#                 subject ="Meeting Remainder",
+#                 html_message = html,
+#                 message = "it is time to meet"
+#                 )
 
   
-notify_user()
+# notify_user()
 
         
 
