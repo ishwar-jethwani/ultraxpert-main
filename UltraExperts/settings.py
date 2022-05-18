@@ -32,8 +32,7 @@ else:
 
 if DEBUG==True:
     BASE_URL = BASE_URL
-else:
-    BASE_URL = os.environ["BASE_URL"]
+
 
 
 # Application definition
