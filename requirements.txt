@@ -22,6 +22,7 @@ dj-rest-auth==2.1.9
 Django==3.2.5
 django-agora==0.4
 django-allauth==0.45.0
+django-background-tasks==1.2.5
 django-braces==1.14.0
 django-ckeditor==6.1.0
 django-compat==1.0.15
