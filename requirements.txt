@@ -8,7 +8,6 @@ botocore
 cachetools==4.2.2
 cement==2.8.2
 certifi==2021.10.8
-cffi==1.14.6
 charset-normalizer==2.0.12
 colorama==0.4.3
 coreapi==2.3.3
@@ -20,8 +19,6 @@ distlib==0.3.2
 dj-database-url==0.5.0
 dj-rest-auth==2.1.9
 Django==3.2.5
-django-agora==0.4
-django-allauth==0.45.0
 django-background-tasks==1.2.5
 django-braces==1.14.0
 django-ckeditor==6.1.0
@@ -38,6 +35,7 @@ django-oauth-toolkit==1.5.0
 django-phone-field==1.8.1
 django-phonenumber-field==5.2.0
 django-rest-auth==0.9.5
+django-allauth==0.45.0
 django-rest-framework-social-oauth2==1.1.0
 django-storages==1.11.1
 djangorestframework==3.12.4

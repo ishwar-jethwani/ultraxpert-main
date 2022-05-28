@@ -14,7 +14,6 @@ from pathlib import Path
 from .constants import *
 import os
 from datetime import datetime,timedelta
-from elasticsearch import RequestsHttpConnection
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,9 +55,6 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'ckeditor',
     'drf_yasg',
-    #elastic search
-    # 'django_elasticsearch_dsl',
-    # 'django_elasticsearch_dsl_drf',
     'django.contrib.sitemaps',
     'background_task',
 ]
@@ -119,7 +115,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookAppOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
-    'UltraExperts.backends.MobileAuthenticationBackend',
+    # 'UltraExperts.backends.MobileAuthenticationBackend',
 )
 
 TEMPLATES = [
@@ -162,8 +158,8 @@ CORS_ALLOW_HEADERS = [
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # server =  os.getenv("SERVER")
-# if server == "TEST":
-if 'RDS_HOSTNAME' in os.environ:
+server = "TEST"
+if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -174,6 +170,17 @@ if 'RDS_HOSTNAME' in os.environ:
             'PORT':  os.environ["RDS_PORT"],
         }
     }
+elif server == "TEST":
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': 'db',
+        'PORT': 5432,
+    }
+}
 else:
     DATABASES = {
         'default': {
