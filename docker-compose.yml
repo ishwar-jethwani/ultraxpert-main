@@ -19,6 +19,6 @@ services:
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
