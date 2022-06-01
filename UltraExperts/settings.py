@@ -330,7 +330,7 @@ REGION_NAME = REGION_NAME
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ckeditor configuration
 ADMIN_SITE_HEADER = ADMIN_SITE_HEADER 
