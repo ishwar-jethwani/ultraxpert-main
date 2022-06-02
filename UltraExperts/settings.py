@@ -15,6 +15,8 @@ from .constants import *
 import os
 from datetime import datetime,timedelta
 from decouple import config
+import sys
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -181,6 +183,12 @@ elif server == "TEST":
         'PORT': 5432,
     }
 }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
 else:
     DATABASES = {
         'default': {
