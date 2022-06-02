@@ -160,30 +160,30 @@ CORS_ALLOW_HEADERS = [
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 # server =  os.getenv("SERVER")
-server = "Production"
-if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ["RDS_DB_NAME"],
-            'USER': os.environ["RDS_USERNAME"],
-            'PASSWORD': os.environ["RDS_PASSWORD"],
-            'HOST': os.environ["RDS_HOSTNAME"],
-            'PORT':  os.environ["RDS_PORT"],
-        }
-    }
-elif server == "TEST":
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_NAME'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'db',
-        'PORT': 5432,
-    }
-}
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+# server = "Production"
+# if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': os.environ["RDS_DB_NAME"],
+#             'USER': os.environ["RDS_USERNAME"],
+#             'PASSWORD': os.environ["RDS_PASSWORD"],
+#             'HOST': os.environ["RDS_HOSTNAME"],
+#             'PORT':  os.environ["RDS_PORT"],
+#         }
+#     }
+# elif server == "TEST":
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('POSTGRES_NAME'),
+#         'USER': os.environ.get('POSTGRES_USER'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#         'HOST': 'db',
+#         'PORT': 5432,
+#     }
+# }
+if len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
