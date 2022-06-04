@@ -160,7 +160,7 @@ CORS_ALLOW_HEADERS = [
 #Database
 #https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #server =  os.getenv("SERVER")
-server = "Production"
+server = "Production1"
 if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = {
         'default': {
@@ -318,11 +318,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     BASE_DIR / ""
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
