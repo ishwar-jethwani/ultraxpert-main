@@ -26,10 +26,10 @@ DEBUG = DEBUG
 #ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = ["*"]
 
-if DEBUG == False:
-    SECURE_SSL_REDIRECT = True
-else:
-    SECURE_SSL_REDIRECT = False
+# if DEBUG == False:
+#     SECURE_SSL_REDIRECT = True
+# else:
+#     SECURE_SSL_REDIRECT = False
 
 if DEBUG==True:
     BASE_URL = BASE_URL
@@ -160,7 +160,7 @@ CORS_ALLOW_HEADERS = [
 #Database
 #https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #server =  os.getenv("SERVER")
-server = "Production"
+server = "Production1"
 if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = {
         'default': {
@@ -338,6 +338,9 @@ REGION_NAME = REGION_NAME
 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [
+    BASE_DIR / "static"
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ckeditor configuration
