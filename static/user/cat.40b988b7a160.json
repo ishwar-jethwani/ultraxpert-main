@@ -1,0 +1,125 @@
+[
+    {
+        "name": "All",
+        "img": "https://img.icons8.com/material-outlined/96/000000/show-all-views.png",
+        "number":1
+    },
+    {
+        "name": "Astrology",
+        "img": "https://img.icons8.com/doodle/50/000000/fortune-teller.png",
+        "number":2
+
+    },
+    {
+        "name": "Bank",
+        "img": "https://img.icons8.com/external-vitaliy-gorbachev-lineal-color-vitaly-gorbachev/96/000000/external-bank-business-vitaliy-gorbachev-lineal-color-vitaly-gorbachev.png",
+        "number":3
+    },
+    {
+        "name":"Biology",
+        "img":"https://img.icons8.com/external-filled-outline-icons-maxicons/96/000000/external-biology-back-to-school-filled-outline-filled-outline-icons-maxicons.png",
+        "number":4
+    },
+    {
+        "name":"Civil Services",
+        "img":"https://img.icons8.com/color/96/000000/services--v2.png",
+        "number":5
+    },
+    {
+        "name":"Conversation",
+        "img":"https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-consultant-business-management-justicon-lineal-color-justicon.png",
+        "number":6
+    },
+    {
+        "name":"Cryptocurruency",
+        "img":"https://img.icons8.com/external-color-line-collection-vinzence-studio/64/000000/external-currency-money-and-currency-color-line-collection-vinzence-studio-28.png",
+        "number":7
+    },
+    {
+        "name":"Construction",
+        "img":"https://img.icons8.com/external-flat-juicy-fish/60/000000/external-excavator-vehicles-flat-flat-juicy-fish.png",
+        "number":8
+    },
+    {
+        "name":"Computer Science",
+        "img":"https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-computer-free-time-wanicon-lineal-color-wanicon.png",
+        "number":9
+    },
+    {
+        "name":"Chemistry",
+        "img":"https://img.icons8.com/external-prettycons-lineal-color-prettycons/98/000000/external-chemistry-astrology-and-symbology-prettycons-lineal-color-prettycons.png",
+        "number":10
+        
+    },
+    {
+        "name":"Electrical",
+        "img":"https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-light-bulb-power-and-energy-icongeek26-linear-colour-icongeek26.png",
+        "number":11
+    },
+    {
+        "name":"Electronics",
+        "img":"https://img.icons8.com/color/96/000000/electronics.png",
+        "number":12
+    },
+    {
+        "name":"Farming",
+        "img":"https://img.icons8.com/external-berkahicon-lineal-color-berkahicon/64/000000/external-gardening-save-earth-berkahicon-lineal-color-berkahicon.png",
+        "number":13
+    },
+    {
+        "name":"Finance",
+        "img":"https://img.icons8.com/external-filled-outline-satawat-anukul/64/000000/external-economy-economy-filled-outline-filled-outline-satawat-anukul-38.png",
+        "number":14
+    },
+    {
+        "name":"Fashion",
+        "img":"https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-fashion-university-courses-wanicon-lineal-color-wanicon.png",
+        "number":15
+    },
+    {
+        "name":"History",
+        "img":"https://img.icons8.com/external-becris-lineal-color-becris/64/000000/external-history-literary-genres-becris-lineal-color-becris.png",
+        "number":16
+    },
+    {
+        "name":"Health",
+        "img":"https://img.icons8.com/external-icongeek26-linear-colour-icongeek26/64/000000/external-healthy-fitness-icongeek26-linear-colour-icongeek26.png",
+        "number":17
+    },
+    {
+        "name":"Law",
+        "img":"https://img.icons8.com/external-sbts2018-lineal-color-sbts2018/58/000000/external-low-cost-lean-thinking-sbts2018-lineal-color-sbts2018.png",
+        "number":18
+    },
+    {
+        "name":"Mechanical",
+        "img":"https://img.icons8.com/external-filled-outline-icons-pause-08/64/000000/external-factory-industry-filled-outline-icons-pause-08.png",
+        "number":19
+    },
+    {
+        "name":"Marketing",
+        "img":"https://img.icons8.com/external-justicon-lineal-color-justicon/64/000000/external-marketing-marketing-and-growth-justicon-lineal-color-justicon.png",
+        "number":20
+    },
+    {
+        "name":"Programing",
+        "img":"https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/000000/external-programing-hacking-flatart-icons-flat-flatarticons.png",
+        "number":21
+    },
+    {
+        "name":"Physics",
+        "img":"https://img.icons8.com/external-flatart-icons-lineal-color-flatarticons/64/000000/external-physics-modern-education-and-knowledge-power-flatart-icons-lineal-color-flatarticons.png",
+        "number":22
+    },
+    {
+        "name":"Stock Market",
+        "img":"https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/000000/external-stock-market-economic-crisis-wanicon-lineal-color-wanicon.png",
+        "number":23
+    },
+    {
+        "name":"Other",
+        "img":"https://img.icons8.com/pastel-glyph/64/000000/follow-each-other--v1.png",
+        "number":24
+    }
+
+]

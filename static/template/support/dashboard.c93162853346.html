@@ -1,0 +1,57 @@
+<style>
+    .fixed-table-loading {
+        visibility: hidden;
+        top: 0px;
+        display: none;
+    }
+    
+    .loading-wrap {
+        visibility: hidden;
+        display: none;
+    }
+    
+    .table-loading {
+        visibility: hidden;
+        display: none;
+    }
+    
+    .loading {
+        visibility: hidden;
+        display: none;
+    }
+</style>
+<section id="intro" class="clearfix">
+    <main id="main">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card bg-shadow-lite rounded">
+                    <div class="card-body">
+
+                        <div id="productListToolbar">
+                            <div class="col-sm-12 pl-0">
+                                <button type="button" data-toggle="modal" data-target="#createModal" class="btn btn-block btn-primary"><i class="fa fa-plus"></i></button>
+                            </div>
+
+                        </div>
+                        <table id="ProductTable" data-toggle="table" data-toolbar="#productListToolbar"
+                            data-ajax="productList" data-search="true" data-trim-on-search="true"
+                            data-side-pagination="true" data-pagination="true" data-filter-control="true"
+                            data-filter-show-clear="true" data-show-refresh="true" data-server-sort="false"
+                            data-show-export="ture" data-mobile-responsive="true" data-page-list="[10,25,50,100]"
+                            data-side-pagination="server" data-pagination="true">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th data-field="Joined_on">Joined On</th>
+                                    <th data-field="id"> User Id</th>
+                                    <th data-field="name"> Name</th>
+                                    <th data-field="mobile"> Mobile No.</th>
+                                    <th data-field="action">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</section>
