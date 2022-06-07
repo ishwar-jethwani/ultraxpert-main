@@ -8,11 +8,27 @@ class Migration(migrations.Migration):
     dependencies = [
         ('user', '0001_initial'),
     ]
+    
+    def generate_superuser(apps, schema_editor):
+        from django.contrib.auth.models import User
+
+        DJANGO_SU_NAME = "admin"
+        DJANGO_SU_EMAIL = "admin@admin.com"
+        DJANGO_SU_PASSWORD = "1234"
+
+        superuser = User.objects.create_superuser(
+            username=DJANGO_SU_NAME,
+            email=DJANGO_SU_EMAIL,
+            password=DJANGO_SU_PASSWORD)
+
+        superuser.save()
 
     operations = [
         migrations.AddField(
             model_name='userplans',
             name='currency',
             field=models.CharField(blank=True, choices=[('INR', 'INR'), ('USD', 'USD'), ('GBP', 'GBP')], default='INR', max_length=10, null=True, verbose_name='Currency'),
+            
         ),
+        migrations.RunPython(generate_superuser),
     ]
