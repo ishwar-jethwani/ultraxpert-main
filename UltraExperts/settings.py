@@ -160,7 +160,7 @@ CORS_ALLOW_HEADERS = [
 #Database
 #https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #server =  os.getenv("SERVER")
-server = "Production1"
+server = "Production"
 if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = { 
         'default': {

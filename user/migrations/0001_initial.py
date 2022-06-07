@@ -16,6 +16,19 @@ class Migration(migrations.Migration):
         ('activity', '0001_initial'),
         ('auth', '0012_alter_user_first_name_max_length'),
     ]
+    def generate_superuser(apps, schema_editor):
+        from django.contrib.auth.models import User
+
+        DJANGO_SU_NAME = "admin"
+        DJANGO_SU_EMAIL = "admin@admin.com"
+        DJANGO_SU_PASSWORD = "1234"
+
+        superuser = User.objects.create_superuser(
+            username=DJANGO_SU_NAME,
+            email=DJANGO_SU_EMAIL,
+            password=DJANGO_SU_PASSWORD)
+
+        superuser.save()
 
     operations = [
         migrations.CreateModel(
@@ -36,6 +49,7 @@ class Migration(migrations.Migration):
                 ('is_verified', models.BooleanField(default=False)),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
+                migrations.RunPython(generate_superuser),
             ],
             options={
                 'verbose_name': 'user',
