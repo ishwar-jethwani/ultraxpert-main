@@ -43,6 +43,21 @@ client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
 def privacy(request):
     return render(request,"privacy.html")
 
+class CreatSuperuserAPI(APIView):
+    def post(self,request):
+        self.username = request.data["username"]
+        self.email = request.data["email"]
+        password = request.data["password"]
+        user = User(
+        username = self.username,
+        email = self.email,
+        )
+        user.set_password(password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        serialize = UserSerilizer(user)
+        return Response(serialize.data,status=status.HTTP_201_CREATED)
 
 class CustomLoginView(LoginView):
       
