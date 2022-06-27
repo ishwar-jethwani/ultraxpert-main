@@ -141,7 +141,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert-front.herokuapp.com","https://ultraxpert.com"]
+CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert-front.herokuapp.com","https://ultraxpert.com",'https://rishabh-work.d2ywnvxasa5yrh.amplifyapp.com/']
 #CORS_ORIGIN_ALLOWED_ALL = True
 
 CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT']
