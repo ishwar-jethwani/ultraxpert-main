@@ -26,10 +26,10 @@ DEBUG = DEBUG
 #ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = ["*"]
 
-# if DEBUG == False:
-#     SECURE_SSL_REDIRECT = True
-# else:
-#     SECURE_SSL_REDIRECT = False
+if DEBUG == False:
+    SECURE_SSL_REDIRECT = True
+else:
+    SECURE_SSL_REDIRECT = False
 
 if DEBUG==True:
     BASE_URL = BASE_URL
