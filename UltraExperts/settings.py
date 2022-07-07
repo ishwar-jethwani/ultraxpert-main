@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
 #ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["ultra-dev.ap-south-1.elasticbeanstalk.com"]
+ALLOWED_HOSTS = ["ultra-dev.ap-south-1.elasticbeanstalk.com","ultraxpert.com","www.ultraxpert.com"]
 
 # if DEBUG == False:
 #     SECURE_SSL_REDIRECT = True
@@ -141,7 +141,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'UltraExperts.wsgi.application'
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["https://UltraExperts.herokuapp.com","http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert-front.herokuapp.com","https://ultraxpert.com",'https://rishabh-work.d2ywnvxasa5yrh.amplifyapp.com']
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000","http://127.0.0.1:8000","https://ultraxpert.com",'http://rishabh-work.d2ywnvxasa5yrh.amplifyapp.com',"https://rishabh-work.d2ywnvxasa5yrh.amplifyapp.com","http://ultra-dev.ap-south-1.elasticbeanstalk.com","https://ultra-dev.ap-south-1.elasticbeanstalk.com","http://www.ultraxpert.com","https://www.ultraxpert.com"]
 #CORS_ORIGIN_ALLOWED_ALL = True
 
 CORS_ALLOW_METHODS = ['DELETE','GET','OPTIONS','PATCH','POST','PUT']
