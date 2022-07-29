@@ -23,8 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
-#ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = ["ultra-dev.ap-south-1.elasticbeanstalk.com","ultraxpert.com","www.ultraxpert.com"]
+ALLOWED_HOSTS = ["https://ultraxpert.azurewebsites.net/"]
+# ALLOWED_HOSTS = ["ultra-dev.ap-south-1.elasticbeanstalk.com","ultraxpert.com","www.ultraxpert.com"]
 
 # if DEBUG == False:
 #     SECURE_SSL_REDIRECT = True
@@ -160,7 +160,7 @@ CORS_ALLOW_HEADERS = [
 #Database
 #https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #server =  os.getenv("SERVER")
-server = "Production"
+server = "Production1"
 if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = { 
         'default': {
@@ -189,7 +189,7 @@ elif server == "TEST":
 #     DATABASES = {
 #         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
 #     }
-else:
+elif server=="local":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -200,6 +200,18 @@ else:
             'PORT': config("PORT"),
         }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config("RDS_DB_NAME"),
+            'USER': config("RDS_USERNAME"),
+            'PASSWORD': config("RDS_PASSWORD"),
+            'HOST': config("RDS_HOSTNAME"),
+            'PORT': config("RDS_PORT"),
+        }
+    }
+ 
 
 
 

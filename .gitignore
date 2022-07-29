@@ -4,3 +4,7 @@
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
 .ebextensions/*
+.vscode
+**/__pycache__/**
+
+
