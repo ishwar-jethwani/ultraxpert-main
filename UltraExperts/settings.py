@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = SECRET_KEY
 DEBUG = DEBUG
-ALLOWED_HOSTS = ["https://ultraxpert.azurewebsites.net/"]
+ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = ["ultra-dev.ap-south-1.elasticbeanstalk.com","ultraxpert.com","www.ultraxpert.com"]
 
 # if DEBUG == False:
