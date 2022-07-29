@@ -1,7 +1,15 @@
 from requests_aws4auth import AWS4Auth
 from decouple import config
-
 DEBUG = config('DEBUG', default=False, cast=bool)
+if DEBUG==False:
+    RAZOR_KEY_ID = config("RAZOR_KEY_ID_LIVE_NEW")
+    RAZOR_KEY_SECRET = config("RAZOR_KEY_SECRET_LIVE_NEW")
+else:
+    RAZOR_KEY_ID = config("RAZOR_KEY_ID_TEST")
+    RAZOR_KEY_SECRET = config("RAZOR_KEY_SECRET_TEST")
+    
+
+
 SECRET_KEY = config("SECRET_KEY")
 BASE_URL = config("BASE_URL")
 ADMIN_SITE_HEADER = config("ADMIN_SITE_HEADER")
@@ -9,8 +17,7 @@ AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID_1")
 AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY_1")
 S3_BUCKET_NAME = config("S3_BUCKET_NAME_1")
 REGION_NAME = config("REGION_NAME_1")
-RAZOR_KEY_ID = config("RAZOR_KEY_ID_LIVE_NEW")
-RAZOR_KEY_SECRET = config("RAZOR_KEY_SECRET_LIVE_NEW")
+
 VIDEOSDK_API_KEY = config("VIDEOSDK_API_KEY")
 PAYMANT_BASE_URL = config("PAYMANT_BASE_URL")
 ES_REGION_NAME = config("ES_REGION_NAME")
