@@ -5,12 +5,12 @@ import boto3
 import uuid
 from datetime import datetime
 from botocore.client import Config
-from .settings import AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME,REGION_NAME
+from .settings import AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_STORAGE_BUCKET_NAME,REGION_NAME,MEDIA_BUCKET
 
 
 ACCESS_KEY = AWS_ACCESS_KEY_ID
 SECRET_KEY = AWS_SECRET_ACCESS_KEY
-BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
+BUCKET_NAME = MEDIA_BUCKET
 
 def get_ext(file):
     m = re.search(r'\.[A-Za-z0-9]+$', file)
@@ -43,7 +43,7 @@ def upload(file, filetype, name):
 
     if file_ext == "":
         file_ext = 'png'
-    filename = "ULTRAEXPERTS-{}-{}{}{}{}{}{}{}{}".format(filetype, today.year, today.month, today.day, today.hour, today.minute, today.second, today.microsecond, file_ext)
+    filename = "{}-{}-{}{}{}{}{}{}{}{}".format(name,filetype, today.year, today.month, today.day, today.hour, today.minute, today.second, today.microsecond, file_ext)
     filepath = '{}/{}/{}/{}/{}/{}'.format(filetype, today.year, today.month, today.day, today.hour, filename)
     s3.Bucket(BUCKET_NAME).put_object(Key=filepath, Body=data)
     object_acl = s3.ObjectAcl(BUCKET_NAME, filepath)
