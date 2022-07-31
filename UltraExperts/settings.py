@@ -441,8 +441,8 @@ CKEDITOR_UPLOAD_PATH = '/upload/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "ultraxpert01@gmail.com"
-EMAIL_HOST_PASSWORD = "zgrrkxjffoceaqgi"
+EMAIL_HOST_USER = EMAIL_HOST_USER_NAME
+EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'UltraTeam Team <noreply@onlinewebsitemarket.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
