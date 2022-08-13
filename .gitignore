@@ -11,4 +11,5 @@ media
 !.elasticbeanstalk/*.global.yml
 .ebextensions/*
 .vscode
+*.out
 
