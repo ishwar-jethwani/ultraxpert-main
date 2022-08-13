@@ -1,3 +1,4 @@
+from multiprocessing import Event
 from user.serializers import *
 from rest_framework import status
 from rest_framework.response import Response
@@ -105,3 +106,11 @@ class ES_ServiceSearch(APIView):
         except Exception as e:
             print(e)
             return Response({"status":"ok","data":"Not Found!"})
+
+class TimeSearch(APIView):
+    def get(self,request):
+        data = request.GET
+        if "date" in data:
+            pass
+        else:
+            pass
