@@ -169,7 +169,7 @@ class MeetingContainer(APIView):
             return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
     def get(self,request):
         user = request.user
-        meeting_container = MeetingTypeCount.objects.get(user=user)
+        meeting_container = MeetingTypeCount.objects.filter(user=user).first()
         serilize = MeetingContainerSerializer(meeting_container)
         if serilize:
             return Response(serilize.data,status=status.HTTP_200_OK)
