@@ -161,7 +161,7 @@ class MeetingContainer(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request):
         user = request.user  
-        meeting_buyed = MeetingTypeCount.objects.create(user=user,meet_45=0,meet_30=3,meet_60=0) 
+        meeting_buyed,created = MeetingTypeCount.objects.get_or_create(user=user,meet_45=0,meet_30=3,meet_60=0) 
         serilize = MeetingContainerSerializer(meeting_buyed)
         if serilize:
             return Response(serilize.data,status=status.HTTP_201_CREATED)
