@@ -1,12 +1,9 @@
 from django.contrib import admin
 from django.urls import path,include
-from allauth.account.views import confirm_email
 from django.conf.urls import url
-from django.contrib.auth.decorators import login_required
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from django.urls import path
 from dj_rest_auth.views import PasswordChangeView,LogoutView
 from django.conf import settings
 from .sitemaps import StaticViewSitemap
@@ -73,6 +70,7 @@ urlpatterns+=[
 
 # Sysytem Application
 urlpatterns+=[
+   # path("",include("datascripts.urls")),
    path("user/",include("user.urls")),
    path("activity/",include("activity.urls")),
    path("chat/",include("chat.urls")),

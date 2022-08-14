@@ -87,6 +87,7 @@ INSTALLED_APPS+=[
     "vault",
     "genral",
     "support",
+    "datascripts",
 
 ]
 

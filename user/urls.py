@@ -23,7 +23,7 @@ urlpatterns = [
     path("service_delete/<service_id>/",ServiceDelete.as_view(),name="service-delete"),
     path("delete/",UserDelete.as_view(),name="delete"),
     path("comment/",CommentAPIView.as_view(),name="comment"),
-    # path("cat_data/",Category_Create.as_view(),name="cat_data")
+
     
 
 ]

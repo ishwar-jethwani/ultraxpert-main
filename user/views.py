@@ -16,7 +16,6 @@ from rest_auth.registration.views import SocialConnectView
 from rest_auth.social_serializers import TwitterConnectSerializer
 from activity.views import IsGETOrIsAuthenticated
 from activity.models import Subscriptions
-import requests
 import json
 
 
@@ -220,23 +219,7 @@ class CommentAPIView(APIView):
         pass
 
 
-# class Category_Create(APIView):
 
-#     def get(self,request):    
-#         with open("user/cat.json","r") as file:
-#             data = file.read()
-#             file_data  = json.loads(data)
-#             data_list = []
-#             for data in file_data:
-#                 data["name"]
-#                 data["img"]
-#                 model = Category(name=data["name"],img=data["img"],number=data["number"])
-#                 data_list.append(model)
-#         created = Category.objects.bulk_create(data_list)
-#         if created:
-#             return Response({"msg":"created"},status=status.HTTP_200_OK)
-#         else:
-#             return Response({"msg":"not created"},status=status.HTTP_400_BAD_REQUEST)
 
 
 
