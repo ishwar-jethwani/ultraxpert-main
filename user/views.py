@@ -17,11 +17,13 @@ from rest_auth.social_serializers import TwitterConnectSerializer
 from activity.views import IsGETOrIsAuthenticated
 from activity.models import Subscriptions
 import json
+from django.core.paginator import Paginator
 
 
 
 
 class UserPlanSelect(APIView):
+
     permission_classes = [IsAuthenticated]
     def get(self,request):
         data = UserPlans.objects.all()
@@ -46,7 +48,12 @@ class UserPlanSelect(APIView):
 
 class Expert_View(APIView):
     def get(self,request):
+        page_number = 1
+        if "page" in  request.GET:
+            page_number = request.GET["page"]
         user = User.objects.all()
+        user = Paginator(user,50)
+        user = user.page(int(page_number))
         expert_list = []
         for i in user:
             if i.is_expert==True:
@@ -67,7 +74,7 @@ class Expert_View(APIView):
                     count= len(avg_list)
                 profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
                 expert_list.append(profile)
-        return Response({"experts":expert_list})
+        return Response({"experts":expert_list},status=status.HTTP_200_OK)
 
 
 class AutoCompleteAPIView(APIView):

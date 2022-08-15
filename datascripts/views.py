@@ -29,11 +29,11 @@ class CreateUserData(APIView):
         count = 0
         obj_list = []
         # with transaction.atomic():
-        while count<500:
+        while count<100000:
             result = requests.get(url="https://randomuser.me/api/")
             data = result.json()
-            fname = data["results"][0]["name"]["first"]
-            lname = data["results"][0]["name"]["last"]
+            fname = str(data["results"][0]["name"]["first"])
+            lname = str(data["results"][0]["name"]["last"])
             gender = str(data["results"][0]["gender"]).capitalize()
             country = str(data["results"][0]["location"]["country"])
             email = data["results"][0]["email"]
@@ -41,24 +41,31 @@ class CreateUserData(APIView):
             p_img = data["results"][0]["picture"]["large"]
             title = random.choice(prof)
             experience = random.randint(2,10)
-            education = "Under Graduate"
+            education = random.choice(["Under Graduate","Post Graduate"])
             description = f" I am {fname}. I have more than {experience} year of experience in this profession. I am reaching out from Creative Bag Unlimited to inform you about the latest addition of bag.We offer different bags and customise them based on your requirement. I would love to set up a meeting with you to show you our catalogue and give you more information"
             count=count+1
-            try:
-                user= User(email=email,is_expert=True,username=fname)
-                user.is_superuser = False
-                user.is_staff = False
-                user.set_password(f"@dmin@1234")
-                user.save()
-                user_plan = UserPlans.objects.get(id=1)
-                if user is not None:
-                    obj= Profile.objects.filter(profile=user).update(first_name=fname,last_name=lname,gender=gender,country=country,user_plan=user_plan,title=title,description=description,education=education,experience=experience,profile_img=p_img)
-                    # obj_list.append(obj)
-                    print("added")
-                else:
-                    return Response(data={"msg":"Probile alredy created"},status=status.HTTP_200_OK)
-            except IntegrityError as e:
-                print(e)
+            if fname.isalpha()==True and lname.isalpha()==True:
+                try:
+                    user= User(email=email,is_expert=True,username=fname)
+                    user.is_superuser = False
+                    user.is_staff = False
+                    user.set_password(f"@dmin@1234")
+                    user.save()
+                    user_plan = UserPlans.objects.get(id=1)
+                    # profiles = Profile.objects.all().values_list("profile_img",flat=True)
+                    # if p_img not in list(profiles):
+                    if user is not None:
+                        obj= Profile.objects.filter(profile=user)
+                        if obj.exists():
+                            obj.update(first_name=fname,last_name=lname,gender=gender,country=country,user_plan=user_plan,title=title,description=description,education=education,experience=experience,profile_img=p_img)
+                        # obj_list.append(obj)
+                        print("added")
+                    else:
+                        return Response(data={"msg":"Probile alredy created"},status=status.HTTP_200_OK)
+                except IntegrityError as e:
+                    print(e)
+                    pass
+            else:
                 pass
             # try:
             #     Profile.objects.bulk_create(obj_list)
