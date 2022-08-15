@@ -52,7 +52,7 @@ class Expert_View(APIView):
         if "page" in  request.GET:
             page_number = request.GET["page"]
         user = User.objects.all()
-        user = Paginator(user,50)
+        user = Paginator(user,51)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:

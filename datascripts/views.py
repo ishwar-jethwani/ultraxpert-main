@@ -44,8 +44,10 @@ class CreateUserData(APIView):
             education = random.choice(["Under Graduate","Post Graduate"])
             description = f" I am {fname}. I have more than {experience} year of experience in this profession. I am reaching out from Creative Bag Unlimited to inform you about the latest addition of bag.We offer different bags and customise them based on your requirement. I would love to set up a meeting with you to show you our catalogue and give you more information"
             count=count+1
-            if fname.isalpha()==True and lname.isalpha()==True:
-                try:
+            
+           
+            try:
+                if fname.isalpha()==True and lname.isalpha()==True:
                     user= User(email=email,is_expert=True,username=fname)
                     user.is_superuser = False
                     user.is_staff = False
@@ -59,14 +61,15 @@ class CreateUserData(APIView):
                         if obj.exists():
                             obj.update(first_name=fname,last_name=lname,gender=gender,country=country,user_plan=user_plan,title=title,description=description,education=education,experience=experience,profile_img=p_img)
                         # obj_list.append(obj)
-                        print("added")
+                        print("added",count)
                     else:
                         return Response(data={"msg":"Probile alredy created"},status=status.HTTP_200_OK)
-                except IntegrityError as e:
-                    print(e)
+                else:
                     pass
-            else:
+            except IntegrityError as e:
+                print(e)
                 pass
+            
             # try:
             #     Profile.objects.bulk_create(obj_list)
             # except IntegrityError as e:
