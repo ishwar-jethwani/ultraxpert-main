@@ -1,0 +1,42 @@
+[
+    {
+        "service_name":"Python Class",
+        "description":"I am Providing Python class For Beginer",
+        "price":"200",
+        "currency":"USD",
+        "service_type":"Regular",
+        "service_img":"https://ultraexpert-media.s3.ap-south-1.amazonaws.com/image/2022/7/31/13/radowan-nakif-rehan-cYyqhdbJ9TI-unsplash.jpg"
+
+
+    },
+    {
+        "service_name":"Django Class",
+        "description":"I am Providing Django class For Beginer",
+        "price":"200",
+        "currency":"USD",
+        "service_type":"Regular",
+        "service_img":"https://ultraexpert-media.s3.ap-south-1.amazonaws.com/image/2022/7/31/13/artturi-jalli-g5_rxRjvKmg-unsplash.jpg"
+
+
+    },
+    {
+        "service_name":"Django Rest Farmawork Class",
+        "description":"I am Providing Django Rest Framwork class For intermediate",
+        "price":"300",
+        "currency":"USD",
+        "service_type":"Regular",
+        "service_img":"https://ultraexpert-media.s3.ap-south-1.amazonaws.com/image/2022/7/31/13/radowan-nakif-rehan-cYyqhdbJ9TI-unsplash.jpg"
+
+
+    },
+    {
+        "service_name":"Python Advance Class",
+        "description":"I am Providing Python class For intermediate",
+        "price":"300",
+        "currency":"USD",
+        "service_type":"Regular",
+        "service_img":"https://ultraexpert-media.s3.ap-south-1.amazonaws.com/image/2022/7/31/13/radowan-nakif-rehan-cYyqhdbJ9TI-unsplash.jpg"
+
+
+    }
+]
