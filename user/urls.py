@@ -1,5 +1,4 @@
-from django.urls import path,include
-from googleapiclient.model import Model
+from django.urls import path
 from .views import *
 
 

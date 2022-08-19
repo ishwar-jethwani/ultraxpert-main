@@ -116,9 +116,8 @@ class AutoCompleteAPIView(APIView):
             profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
             profile_data = profile_res.data
             service_data = service_res.data
-            data = list(set(profile_data)+set(service_data))
-
-            return Response(data,status=status.HTTP_200_OK)
+            data = profile_data+service_data
+            return Response(data=data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"error":e},status=status.HTTP_400_BAD_REQUEST)
