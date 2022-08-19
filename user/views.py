@@ -18,6 +18,7 @@ from activity.views import IsGETOrIsAuthenticated
 from activity.models import Subscriptions
 import json
 from django.core.paginator import Paginator
+from rest_framework.pagination import PageNumberPagination
 
 class Home_View(APIView):
     def get(self,request):
@@ -115,7 +116,7 @@ class AutoCompleteAPIView(APIView):
             profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
             profile_data = profile_res.data
             service_data = service_res.data
-            data = profile_data+service_data
+            data = list(set(profile_data)+set(service_data))
 
             return Response(data,status=status.HTTP_200_OK)
         except Exception as e:
@@ -183,7 +184,26 @@ class ServiceDetail(generics.RetrieveAPIView):
 
 class ServiceList(generics.ListAPIView):
     serializer_class = ServiceShowSerializer
-    queryset = Services.objects.all()
+    def get_queryset(self):
+        page_number = 1
+        if "page" in  self.request.GET:
+            page_number = self.request.GET["page"]
+        services = Services.objects.all()
+        services = Paginator(services,10)
+        services = services.page(int(page_number))
+        return services
+
+
+# class ServiceList(APIView):
+#     def get(self,request):
+#         page_number = 1
+#         if "page" in  request.GET:
+#             page_number = request.GET["page"]
+#         services = Services.objects.all()
+#         services = Paginator(services,10)
+#         services = services.page(int(page_number))
+#         serialize = ServiceShowSerializer(services)
+#         return Response(serialize.data,status=status.HTTP_200_OK)
     
 
 class UserPlanAPIView(generics.ListAPIView):

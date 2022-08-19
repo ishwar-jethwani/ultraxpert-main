@@ -89,15 +89,18 @@ class TestServiceCreate(APIView):
             data = file.read()
             file_data  = json.loads(data)
             for data in file_data:
-                service = Services.objects.create(
-                    user = random.choice(user),
-                    service_name=data["service_name"],
-                    description=data["description"],
-                    price=data["price"],currency=data["currency"],
-                    service_type=data["service_type"],
-                    service_img=data["service_img"]
-                    )
-                print("added",service.id)
+                try:
+                    service = Services.objects.create(
+                        user = random.choice(user),
+                        service_name=data["service_name"],
+                        description=data["description"],
+                        price=random.choice(data["price"]),currency=data["currency"],
+                        service_type=data["service_type"],
+                        service_img=random.choice(data["service_img"])
+                        )
+                    print("added",service.id)
+                except:
+                    pass
             return Response({"msg":"added"},status=status.HTTP_200_OK)
             
             
