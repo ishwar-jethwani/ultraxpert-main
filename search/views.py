@@ -9,11 +9,12 @@ from .serializers import *
 from rest_framework import filters
 from user.models import *
 from django.db.models.query_utils import Q
+from django.core.paginator import Paginator
 
  
 
 class ExpertSearchView(generics.ListAPIView):
-    queryset = Profile.objects.filter(profile__is_expert = True)
+    queryset = Profile.objects.filter(profile__is_expert=True)
     serializer_class = ProfileSerializer
     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
     search_fields = ["first_name","last_name","profile__username","profile__email"]
@@ -83,13 +84,19 @@ class SearchAPIView(APIView):
 
 class ES_ExpertSearch(APIView):
         def get(self,request):
-            search = request.GET.get("search")
-            if " " in search:
+            page_number= 1
+            request_data = request.GET
+            if "search" in request_data:
+                search = request_data.get("search")
                 search_1 = search.split(" ")
                 search = search_1[0]
+            if "page" in request_data:
+                page_number = request_data.get("page")
             try:
-                expert = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(categories__name__icontains=search)|Q(description__icontains=search))
-                serialize = ExpertSearchSerializer(expert,many=True)
+                experts = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(categories__name__icontains=search)|Q(description__icontains=search))
+                experts = Paginator(experts,10)
+                experts = experts.page(int(page_number))
+                serialize = ExpertSearchSerializer(experts,many=True)
                 return Response(data=serialize.data,status=status.HTTP_200_OK)
             except Exception as e:
                 print(e)
@@ -99,8 +106,13 @@ class ES_ExpertSearch(APIView):
 class ES_ServiceSearch(APIView):
     def get(self,request):
         search = request.GET.get("search")
+        page_number= 1
+        if "page" in request.GET:
+            page_number = request.GET["page"]
         try:
             service = Services.objects.filter(Q(service_name__icontains=search)|Q(category__name__icontains=search)|Q(description__icontains=search))
+            service = Paginator(service,10)
+            service = service.page(int(page_number))
             serialize = ServiceSearchSerializer(service,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         except Exception as e:
