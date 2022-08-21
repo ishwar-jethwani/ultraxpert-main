@@ -23,7 +23,7 @@ class Category_Create(APIView):
         else:
             return Response({"msg":"not created"},status=status.HTTP_400_BAD_REQUEST)
 
-class CreateUserData(APIView):
+class TestCreateUserData(APIView):
     def get(self,request):
         prof = ["Python Developer","Django Developer","PHP Developer","Dot Net Developer","QA Engineer","Software Engineer","System Engineer","Cloud Service Engineer","Hardware Engineer","Designer","Graphics Designer","Civil Engineer","Frountend Software Develoer","Backend Software Developer"]
         count = 0
@@ -78,6 +78,36 @@ class CreateUserData(APIView):
         return Response(data={"msg":"data_created"},status=status.HTTP_201_CREATED)
 
 
+
+class TestServiceCreate(APIView):
+    def get(self,request):
+        prof = ["Python Developer","Django Developer"]
+        user_prof = Profile.objects.filter(title__in=prof).values_list("id",flat=True)
+        user = User.objects.filter(id__in=list(user_prof))
+        category = Category.objects.get(id=21)
+        with open("datascripts\data\service.json","r") as file:
+            data = file.read()
+            file_data  = json.loads(data)
+            for data in file_data:
+                try:
+                    service = Services.objects.create(
+                        user = random.choice(user),
+                        service_name=data["service_name"],
+                        description=data["description"],
+                        price=random.choice(data["price"]),currency=data["currency"],
+                        service_type=data["service_type"],
+                        service_img=random.choice(data["service_img"])
+                        )
+                    print("added",service.id)
+                except:
+                    pass
+            return Response({"msg":"added"},status=status.HTTP_200_OK)
+            
+            
+
+    
+            
+        
 
 
 

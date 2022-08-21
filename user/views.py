@@ -18,6 +18,7 @@ from activity.views import IsGETOrIsAuthenticated
 from activity.models import Subscriptions
 import json
 from django.core.paginator import Paginator
+from rest_framework.pagination import PageNumberPagination
 
 class Home_View(APIView):
     def get(self,request):
@@ -79,7 +80,7 @@ class Expert_View(APIView):
         if "page" in  request.GET:
             page_number = request.GET["page"]
         user = User.objects.all()
-        user = Paginator(user,51)
+        user = Paginator(user,30)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
@@ -116,8 +117,7 @@ class AutoCompleteAPIView(APIView):
             profile_data = profile_res.data
             service_data = service_res.data
             data = profile_data+service_data
-
-            return Response(data,status=status.HTTP_200_OK)
+            return Response(data=data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({"error":e},status=status.HTTP_400_BAD_REQUEST)
@@ -136,11 +136,14 @@ class UserDelete(APIView):
 class Profile_View(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
-    lookup_field = "pk"
 
     def get_queryset(self):
-        user = self.request.user
-        return Profile.objects.filter(profile=user)
+        user_id = self.kwargs["user_id"]
+        requested_user = self.request.user
+        user = User.objects.get(user_id=user_id)
+        if requested_user==user:
+            return Profile.objects.filter(profile=user)
+
 
 
 
@@ -183,7 +186,26 @@ class ServiceDetail(generics.RetrieveAPIView):
 
 class ServiceList(generics.ListAPIView):
     serializer_class = ServiceShowSerializer
-    queryset = Services.objects.all()
+    def get_queryset(self):
+        page_number = 1
+        if "page" in  self.request.GET:
+            page_number = self.request.GET["page"]
+        services = Services.objects.all()
+        services = Paginator(services,10)
+        services = services.page(int(page_number))
+        return services
+
+
+# class ServiceList(APIView):
+#     def get(self,request):
+#         page_number = 1
+#         if "page" in  request.GET:
+#             page_number = request.GET["page"]
+#         services = Services.objects.all()
+#         services = Paginator(services,10)
+#         services = services.page(int(page_number))
+#         serialize = ServiceShowSerializer(services)
+#         return Response(serialize.data,status=status.HTTP_200_OK)
     
 
 class UserPlanAPIView(generics.ListAPIView):
