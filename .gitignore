@@ -2,6 +2,8 @@
 *.log
 *.pot
 *.pyc
+*.json
+.datascripts/data/service.json
 **/__pycache__/
 db.sqlite3
 media
@@ -13,6 +15,7 @@ media
 .github/*
 .vscode
 *.out
+
 
 
 

@@ -80,7 +80,7 @@ class Expert_View(APIView):
         if "page" in  request.GET:
             page_number = request.GET["page"]
         user = User.objects.all()
-        user = Paginator(user,12)
+        user = Paginator(user,30)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
@@ -136,11 +136,14 @@ class UserDelete(APIView):
 class Profile_View(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
-    lookup_field = "pk"
 
     def get_queryset(self):
-        user = self.request.user
-        return Profile.objects.filter(profile=user)
+        user_id = self.kwargs["user_id"]
+        requested_user = self.request.user
+        user = User.objects.get(user_id=user_id)
+        if requested_user==user:
+            return Profile.objects.filter(profile=user)
+
 
 
 

@@ -94,7 +94,7 @@ class ES_ExpertSearch(APIView):
                 page_number = request_data.get("page")
             try:
                 experts = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search)|Q(categories__name__icontains=search)|Q(description__icontains=search))
-                experts = Paginator(experts,10)
+                experts = Paginator(experts,30)
                 experts = experts.page(int(page_number))
                 serialize = ExpertSearchSerializer(experts,many=True)
                 return Response(data=serialize.data,status=status.HTTP_200_OK)
@@ -111,7 +111,7 @@ class ES_ServiceSearch(APIView):
             page_number = request.GET["page"]
         try:
             service = Services.objects.filter(Q(service_name__icontains=search)|Q(category__name__icontains=search)|Q(description__icontains=search))
-            service = Paginator(service,10)
+            service = Paginator(service,30)
             service = service.page(int(page_number))
             serialize = ServiceSearchSerializer(service,many=True)
             return Response(data=serialize.data,status=status.HTTP_200_OK)
