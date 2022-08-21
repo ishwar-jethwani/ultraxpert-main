@@ -19,6 +19,8 @@ from activity.models import Subscriptions
 import json
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import get_object_or_404
+
 
 class Home_View(APIView):
     def get(self,request):
@@ -137,12 +139,11 @@ class Profile_View(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
 
-    def get_queryset(self):
-        user_id = self.kwargs["user_id"]
-        requested_user = self.request.user
-        user = User.objects.get(user_id=user_id)
-        if requested_user==user:
-            return Profile.objects.filter(profile=user)
+    def get_object(self):
+        user = self.request.user
+        queryset = Profile.objects.filter(profile=user)
+        obj = queryset.first()
+        return obj
 
 
 
