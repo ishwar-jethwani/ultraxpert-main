@@ -259,9 +259,9 @@ class BankDetailCreate(generics.CreateAPIView):
 class BankDetailRead(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = BankSerializer
-    lookup_field = "id"
-    def get_queryset(self):
-        return BankDetail.objects.filter(user=self.request.user)
+    def get_object(self):
+        object = BankDetail.objects.filter(user=self.request.user).first()
+        return object
 
 class CommentAPIView(APIView):
     permission_classes = [IsGETOrIsAuthenticated]
