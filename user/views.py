@@ -137,15 +137,11 @@ class Profile_View(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
 
-    def get_queryset(self):
-        user_id = self.kwargs["user_id"]
-        requested_user = self.request.user
-        user = User.objects.get(user_id=user_id)
-        if requested_user==user:
-            return Profile.objects.filter(profile=user)
-
-
-
+    def get_object(self):
+        user = self.request.user
+        queryset = Profile.objects.filter(profile=user)
+        obj = queryset.first()
+        return obj
 
 class CategoryAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
@@ -258,9 +254,9 @@ class BankDetailCreate(generics.CreateAPIView):
 class BankDetailRead(generics.RetrieveUpdateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = BankSerializer
-    lookup_field = "id"
-    def get_queryset(self):
-        return BankDetail.objects.filter(user=self.request.user)
+    def get_object(self):
+        object = BankDetail.objects.filter(user=self.request.user).first()
+        return object
 
 class CommentAPIView(APIView):
     permission_classes = [IsGETOrIsAuthenticated]
