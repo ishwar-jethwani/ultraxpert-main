@@ -20,6 +20,6 @@ class ProfileAccountAdmin(admin.ModelAdmin):
     fieldsets = ()
 
 
-admin.site.register([Category,UserPlans,Services,Keywords,BankDetail])
+admin.site.register([Category,UserPlans,Services,Keywords,BankDetail,Comment])
 admin.site.register(User,UserAccountAdmin)
 admin.site.register(Profile,ProfileAccountAdmin)
