@@ -22,7 +22,7 @@ urlpatterns = [
     path("service_update/<service_id>/",ServiceUpdate.as_view(),name="service-update"),
     path("service_delete/<service_id>/",ServiceDelete.as_view(),name="service-delete"),
     path("delete/",UserDelete.as_view(),name="delete"),
-    path("comment/",CommentAPIView.as_view(),name="comment"),
+    path("comment/<str:service_id>/",CommentAPIView.as_view(),name="comment"),
 
     
 

@@ -71,7 +71,7 @@ class CommentSerializer(serializers.ModelSerializer):
     timestamp = serializers.DateTimeField(format="%c")
     class Meta:
         model = Comment
-        fields = ["comment","reply","timestamp"]
+        fields = "__all__"
 
 
 class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
