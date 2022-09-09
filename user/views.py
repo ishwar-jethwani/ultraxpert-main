@@ -21,34 +21,41 @@ import json
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
+from UltraExperts.constants import DEBUG
 
 
 class Home_View(APIView):
     def get(self,request):
         page_number = 1
-        user = User.objects.all()
-        user = Paginator(user,51)
+        user = []
+        number = 51
+        if DEBUG == False:
+            user = User.objects.filter(is_expert=True,is_verified=True)
+            if user.count()<number:
+                number = user.count()
+        else:
+            user = User.objects.filter(is_expert=True)
+        user = Paginator(user,number)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
-            if i.is_expert==True:
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
-                rating_res = RatingSerializer(rating_obj,many=True)
-                profile_res = ProfileSerializer(profile_obj,many=True)
-                data = json.dumps(rating_res.data)
-                stars = json.loads(data)
-                avg_list = list()
-                for star in stars:
-                    avg_list.append(star["star_rating"]) 
-                try:
-                    avg = sum(avg_list)/len(avg_list)
-                    count= len(avg_list)
-                except ZeroDivisionError:
-                    avg = 0.0
-                    count= len(avg_list)
-                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
-                expert_list.append(profile)
+            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+            rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
+            rating_res = RatingSerializer(rating_obj,many=True)
+            profile_res = ProfileSerializer(profile_obj,many=True)
+            data = json.dumps(rating_res.data)
+            stars = json.loads(data)
+            avg_list = list()
+            for star in stars:
+                avg_list.append(star["star_rating"]) 
+            try:
+                avg = sum(avg_list)/len(avg_list)
+                count= len(avg_list)
+            except ZeroDivisionError:
+                avg = 0.0
+                count= len(avg_list)
+            profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+            expert_list.append(profile)
         return Response({"experts":expert_list},status=status.HTTP_200_OK)
 
 
@@ -80,31 +87,37 @@ class UserPlanSelect(APIView):
 class Expert_View(APIView):
     def get(self,request):
         page_number = 1
+        user = []
+        number  = 30
         if "page" in  request.GET:
             page_number = request.GET["page"]
-        user = User.objects.all()
-        user = Paginator(user,30)
+        if DEBUG == False:
+            user = User.objects.filter(is_expert=True,is_verified=True)
+            if user.count()<number:
+                number = user.count()
+        else:
+            user = User.objects.filter(is_expert=True)
+        user = Paginator(user,number)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
-            if i.is_expert==True:
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
-                rating_res = RatingSerializer(rating_obj,many=True)
-                profile_res = ProfileSerializer(profile_obj,many=True)
-                data = json.dumps(rating_res.data)
-                stars = json.loads(data)
-                avg_list = list()
-                for star in stars:
-                    avg_list.append(star["star_rating"]) 
-                try:
-                    avg = sum(avg_list)/len(avg_list)
-                    count= len(avg_list)
-                except ZeroDivisionError:
-                    avg = 0.0
-                    count= len(avg_list)
-                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
-                expert_list.append(profile)
+            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+            rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
+            rating_res = RatingSerializer(rating_obj,many=True)
+            profile_res = ProfileSerializer(profile_obj,many=True)
+            data = json.dumps(rating_res.data)
+            stars = json.loads(data)
+            avg_list = list()
+            for star in stars:
+                avg_list.append(star["star_rating"]) 
+            try:
+                avg = sum(avg_list)/len(avg_list)
+                count= len(avg_list)
+            except ZeroDivisionError:
+                avg = 0.0
+                count= len(avg_list)
+            profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+            expert_list.append(profile)
         return Response({"experts":expert_list},status=status.HTTP_200_OK)
 
 
