@@ -5,7 +5,7 @@ from .models import *
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 class UserAccountAdmin(UserAdmin):
-    list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active"]
+    list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active","refer_code","reffered_by"]
     search_fields = ["id","email","username","user_id"]
     readonly_fields = ["date_joined","last_login"]
     filter_horizontal = ()

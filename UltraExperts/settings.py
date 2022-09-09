@@ -238,6 +238,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # authentication
+ACCOUNT_ADAPTER = 'UltraExperts.adapter.CustomAccountAdapter'
 AUTH_USER_MODEL = 'user.User'
 ACCOUNT_EMAIL_VARIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -254,6 +255,9 @@ SITE_ID = 1
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'UltraExperts.serializers.UserSerilizer',
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'UltraExperts.serializers.CustomRegisterSerializer',
 }
 
 REST_FRAMEWORK = {

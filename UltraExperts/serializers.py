@@ -1,10 +1,19 @@
 from rest_framework import serializers
 from user.models import User
+from dj_rest_auth.registration.serializers import RegisterSerializer
+
+class CustomRegisterSerializer(RegisterSerializer):
+    reffered_by = serializers.CharField(max_length=10,required=False)
+
+    def get_cleaned_data(self):
+        data_dict = super().get_cleaned_data()
+        data_dict['reffered_by'] = self.validated_data.get('reffered_by', '')
+        return data_dict
 
 
 class UserSerilizer(serializers.ModelSerializer):
     class Meta:
-        fields = ["pk","user_id","is_expert","is_verified","username","email","mobile"]
+        fields = ["pk","user_id","is_expert","is_verified","username","email","mobile","refer_code","reffered_by"]
         model = User
     
 class OrderUserSerilizer(serializers.ModelSerializer):

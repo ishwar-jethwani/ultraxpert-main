@@ -12,6 +12,8 @@ def random_string_generator_service(size=10, chars=string.ascii_lowercase + stri
 def random_string_generator_plan(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
+def refer_code_gen(size=6, chars=string.ascii_uppercase + string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
 
 def unique_user_id_generator(instance):
 	user_new_id= random_string_generator_user()
@@ -44,3 +46,12 @@ def unique_plan_id_generator(instance):
 	if qs_exists:
 		return unique_plan_id_generator(instance)
 	return plan_new_id
+
+
+def unique_refrence_code_genraor(instance):
+	refrence_code_new = refer_code_gen()
+	Klass= instance.__class__
+	qs_exists= 	Klass.objects.filter(refer_code=refrence_code_new).exists()
+	if qs_exists:
+		return unique_plan_id_generator(instance)
+	return refrence_code_new
