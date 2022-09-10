@@ -233,39 +233,3 @@ def pre_save_create_plan_id(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def pre_save_create_user_id(sender, instance, *args, **kwargs):
-    if not instance.user_id:
-        instance.user_id= unique_user_id_generator(instance)
-        
-pre_save.connect(pre_save_create_user_id, sender=User)
-
-

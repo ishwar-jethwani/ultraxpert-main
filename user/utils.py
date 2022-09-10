@@ -25,6 +25,14 @@ def unique_user_id_generator(instance):
 		return unique_user_id_generator(instance)
 	return user_new_id
 
+def unique_refrence_code_genraor(instance):
+	refrence_code_new = refer_code_gen()
+	Klass= instance.__class__
+	qs_exists= 	Klass.objects.filter(refer_code=refrence_code_new).exists()
+	if qs_exists:
+		return unique_plan_id_generator(instance)
+	return refrence_code_new
+
 
 def unique_service_id_generator_service(instance):
 	service_new_id= random_string_generator_service()
@@ -48,10 +56,4 @@ def unique_plan_id_generator(instance):
 	return plan_new_id
 
 
-def unique_refrence_code_genraor(instance):
-	refrence_code_new = refer_code_gen()
-	Klass= instance.__class__
-	qs_exists= 	Klass.objects.filter(refer_code=refrence_code_new).exists()
-	if qs_exists:
-		return unique_plan_id_generator(instance)
-	return refrence_code_new
+
