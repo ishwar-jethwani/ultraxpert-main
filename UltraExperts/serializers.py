@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from user.models import User
 from dj_rest_auth.registration.serializers import RegisterSerializer
-import json
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     reffered_by = serializers.CharField(max_length=10,required=False)
