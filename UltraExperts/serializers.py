@@ -8,7 +8,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         data_dict = super().get_cleaned_data()
         data_dict['reffered_by'] = self.validated_data.get('reffered_by', '')
-        data_dict["verification_satus"] = self.validated_data.get('verification_satus', False)
+        data_dict["verification_status"] = self.validated_data.get('verification_status', False)
         return data_dict
 
 
