@@ -2,17 +2,12 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
-from django.db.models.fields.json import JSONField
-from googleapiclient import model
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db.models.signals import pre_save
 from .utils import *
 from .manager import CustomUserManager
 from ckeditor.fields import RichTextField
 from django.shortcuts import reverse
-import os
-from datetime import datetime, timedelta
 from django.utils import timezone
 import json
 

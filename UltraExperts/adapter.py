@@ -7,5 +7,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         user = super().save_user(request, user, form, commit)
         data = form.cleaned_data
         user.reffered_by = data.get('reffered_by')
+        user.is_verified = data.get("verication_satus")
         user.save()
         return user

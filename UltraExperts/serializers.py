@@ -8,6 +8,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         data_dict = super().get_cleaned_data()
         data_dict['reffered_by'] = self.validated_data.get('reffered_by', '')
+        data_dict["verication_satus"] = self.validated_data.get('verication_satus', False)
         return data_dict
 
 
