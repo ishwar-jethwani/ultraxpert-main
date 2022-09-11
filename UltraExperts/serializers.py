@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from user.models import User
 from dj_rest_auth.registration.serializers import RegisterSerializer
+import json
 
 class CustomRegisterSerializer(RegisterSerializer):
     reffered_by = serializers.CharField(max_length=10,required=False)
@@ -8,7 +9,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         data_dict = super().get_cleaned_data()
         data_dict['reffered_by'] = self.validated_data.get('reffered_by', '')
-        data_dict["verification_status"] = self.validated_data.get('verification_status', False)
+        data_dict["verification_status"] = self.validated_data.get('verification_status',True)
         return data_dict
 
 
