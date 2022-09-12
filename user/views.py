@@ -23,7 +23,6 @@ from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from UltraExperts.constants import DEBUG
 
-
 class Home_View(APIView):
     def get(self,request):
         page_number = 1
@@ -158,9 +157,6 @@ class Profile_View(generics.RetrieveUpdateAPIView):
         queryset = Profile.objects.filter(profile=user)
         obj = queryset.first()
         return obj
-
-
-
 
 class CategoryAPIView(generics.ListCreateAPIView):
     permission_classes = [AllowAny]
