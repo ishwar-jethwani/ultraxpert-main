@@ -28,6 +28,7 @@ from allauth.socialaccount.providers.twitter.views import TwitterOAuthAdapter
 from dj_rest_auth.social_serializers import TwitterLoginSerializer
 from allauth.socialaccount.providers.linkedin_oauth2.views import LinkedInOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+import os
 
 
 
@@ -307,3 +308,16 @@ class CheckPromocode(APIView):
             return Response({"status":True},status=status.HTTP_200_OK)
         else:
             return Response({"status":False},status=status.HTTP_200_OK)
+
+
+class Deployement(APIView):
+    def get(self,request):
+        # command = request.data["deploye"]
+        cwd = os.getcwd()
+        os.system("git add --all")
+        os.system('git commit -m"final"')
+        os.system("git checkout production")
+        os.system("git pull origin main")
+        return Response({"status":"deployed"},status=status.HTTP_200_OK)
+
+
