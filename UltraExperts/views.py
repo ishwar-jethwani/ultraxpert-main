@@ -298,3 +298,12 @@ class LinkedInLogin(SocialLoginView):
     adapter_class = LinkedInOAuth2Adapter
     callback_url = BASE_URL+"/accounts/linkedin/login/callback/"    
     client_class = OAuth2Client
+
+
+class CheckPromocode(APIView):
+    def get(self,request):
+        promocode = request.GET.get("promocode")
+        if User.objects.filter(refer_code=promocode).exists():
+            return Response({"status":True},status=status.HTTP_200_OK)
+        else:
+            return Response({"status":False},status=status.HTTP_200_OK)

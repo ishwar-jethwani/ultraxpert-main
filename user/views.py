@@ -1,3 +1,4 @@
+from ast import Return
 from UltraExperts.serializers import UserSerilizer
 from rest_framework import status
 from rest_framework.response import Response
@@ -19,33 +20,41 @@ from activity.models import Subscriptions
 import json
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
+from django.shortcuts import get_object_or_404
+from UltraExperts.constants import DEBUG
 
 class Home_View(APIView):
     def get(self,request):
         page_number = 1
-        user = User.objects.all()
-        user = Paginator(user,51)
+        user = []
+        number = 51
+        if DEBUG == False:
+            user = User.objects.filter(is_expert=True,is_verified=True)
+            if user.count()<number:
+                number = user.count()
+        else:
+            user = User.objects.filter(is_expert=True)
+        user = Paginator(user,number)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
-            if i.is_expert==True:
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
-                rating_res = RatingSerializer(rating_obj,many=True)
-                profile_res = ProfileSerializer(profile_obj,many=True)
-                data = json.dumps(rating_res.data)
-                stars = json.loads(data)
-                avg_list = list()
-                for star in stars:
-                    avg_list.append(star["star_rating"]) 
-                try:
-                    avg = sum(avg_list)/len(avg_list)
-                    count= len(avg_list)
-                except ZeroDivisionError:
-                    avg = 0.0
-                    count= len(avg_list)
-                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
-                expert_list.append(profile)
+            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+            rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
+            rating_res = RatingSerializer(rating_obj,many=True)
+            profile_res = ProfileSerializer(profile_obj,many=True)
+            data = json.dumps(rating_res.data)
+            stars = json.loads(data)
+            avg_list = list()
+            for star in stars:
+                avg_list.append(star["star_rating"]) 
+            try:
+                avg = sum(avg_list)/len(avg_list)
+                count= len(avg_list)
+            except ZeroDivisionError:
+                avg = 0.0
+                count= len(avg_list)
+            profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+            expert_list.append(profile)
         return Response({"experts":expert_list},status=status.HTTP_200_OK)
 
 
@@ -77,31 +86,37 @@ class UserPlanSelect(APIView):
 class Expert_View(APIView):
     def get(self,request):
         page_number = 1
+        user = []
+        number  = 30
         if "page" in  request.GET:
             page_number = request.GET["page"]
-        user = User.objects.all()
-        user = Paginator(user,30)
+        if DEBUG == False:
+            user = User.objects.filter(is_expert=True,is_verified=True)
+            if user.count()<number:
+                number = user.count()
+        else:
+            user = User.objects.filter(is_expert=True)
+        user = Paginator(user,number)
         user = user.page(int(page_number))
         expert_list = []
         for i in user:
-            if i.is_expert==True:
-                profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
-                rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
-                rating_res = RatingSerializer(rating_obj,many=True)
-                profile_res = ProfileSerializer(profile_obj,many=True)
-                data = json.dumps(rating_res.data)
-                stars = json.loads(data)
-                avg_list = list()
-                for star in stars:
-                    avg_list.append(star["star_rating"]) 
-                try:
-                    avg = sum(avg_list)/len(avg_list)
-                    count= len(avg_list)
-                except ZeroDivisionError:
-                    avg = 0.0
-                    count= len(avg_list)
-                profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
-                expert_list.append(profile)
+            profile_obj = Profile.objects.filter(profile__user_id=i.user_id)
+            rating_obj  = Ratings.objects.filter(rating_on__profile__user_id=i.user_id)
+            rating_res = RatingSerializer(rating_obj,many=True)
+            profile_res = ProfileSerializer(profile_obj,many=True)
+            data = json.dumps(rating_res.data)
+            stars = json.loads(data)
+            avg_list = list()
+            for star in stars:
+                avg_list.append(star["star_rating"]) 
+            try:
+                avg = sum(avg_list)/len(avg_list)
+                count= len(avg_list)
+            except ZeroDivisionError:
+                avg = 0.0
+                count= len(avg_list)
+            profile = {"expert_profile":{"personal_detail":profile_res.data,"ratings":{"avg":round(avg,1),"reviews":count}}}
+            expert_list.append(profile)
         return Response({"experts":expert_list},status=status.HTTP_200_OK)
 
 
@@ -263,12 +278,38 @@ class CommentAPIView(APIView):
     serializer_class = ServicesSerializer
 
     def get(self,request,service_id):
-        data = Comment.objects.filter(service__service_id=service_id)
-        serialize = CommentSerializer(data)
-        return Response(data=serialize.data,status=status.HTTP_200_OK)
+        comment_id = request.GET["comment_id"]
+        main_comments= Comment.objects.filter(service__service_id=service_id)
+        if main_comments.exists():
+            if comment_id is not None:
+                main_comments= Comment.objects.filter(service__service_id=service_id,reply__id=comment_id)
+            serialize = CommentSerializer(main_comments,many=True)
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
+        return Response(data=[],status=status.HTTP_404_NOT_FOUND)
     
-    def post(self,request):
-        pass
+    def post(self,request,service_id):
+        try:
+            user = request.user
+            comment_msg = request.data["messgae"]
+            service = Services.objects.get(service_id=service_id)
+            comment_obj = Comment.objects.create(service=service,user=user,comment=comment_msg)
+            if "comment_id" in request.data:
+                comment_obj_first = Comment.objects.filter(id=request.data["comment_id"])
+                if comment_obj_first.exists():
+                    self_obj = comment_obj_first.first()
+                    comment_obj = Comment.objects.create(service=service,user=user,comment=comment_msg,reply=self_obj)
+            comment = CommentSerializer(comment_obj)
+            return Response(comment.data,status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({"msg":e},status=status.HTTP_400_BAD_REQUEST)
+
+
+
+                
+
+        
+
+
 
 
 

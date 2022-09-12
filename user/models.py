@@ -2,17 +2,12 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
-from django.core.mail import send_mail
-from django.db.models.fields.json import JSONField
-from googleapiclient import model
 from phonenumber_field.modelfields import PhoneNumberField
 from django.db.models.signals import pre_save
 from .utils import *
 from .manager import CustomUserManager
 from ckeditor.fields import RichTextField
 from django.shortcuts import reverse
-import os
-from datetime import datetime, timedelta
 from django.utils import timezone
 import json
 
@@ -31,6 +26,8 @@ class Keywords(models.Model):
 
 class User(AbstractBaseUser,PermissionsMixin):
     user_id     = models.CharField(max_length=10,unique=True,blank=True,null=True)
+    refer_code  = models.CharField(max_length=10,unique=True,blank=True,null=True)
+    reffered_by = models.CharField(max_length=10,blank=True,null=True)
     username    = models.CharField(max_length=50,verbose_name="username",blank=True,null=True)
     is_staff    = models.BooleanField(default=False)
     is_superuser= models.BooleanField(default=False)
@@ -205,10 +202,11 @@ class Comment(models.Model):
 
 
 
+
 def pre_save_create_user_id(sender, instance, *args, **kwargs):
     if not instance.user_id:
         instance.user_id= unique_user_id_generator(instance)
-
+        instance.refer_code = unique_refrence_code_genraor(instance)
 
 pre_save.connect(pre_save_create_user_id, sender=User)
 
@@ -229,41 +227,4 @@ def pre_save_create_plan_id(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def pre_save_create_user_id(sender, instance, *args, **kwargs):
-    if not instance.user_id:
-        instance.user_id= unique_user_id_generator(instance)
-        
-pre_save.connect(pre_save_create_user_id, sender=User)
-
 

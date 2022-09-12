@@ -5,8 +5,8 @@ from .models import *
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 class UserAccountAdmin(UserAdmin):
-    list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active"]
-    search_fields = ["id","email","username","user_id"]
+    list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active","refer_code","reffered_by"]
+    search_fields = ["id","email","username","user_id","refer_code"]
     readonly_fields = ["date_joined","last_login"]
     filter_horizontal = ()
     list_filter = ()
@@ -20,6 +20,6 @@ class ProfileAccountAdmin(admin.ModelAdmin):
     fieldsets = ()
 
 
-admin.site.register([Category,UserPlans,Services,Keywords,BankDetail])
+admin.site.register([Category,UserPlans,Services,Keywords,BankDetail,Comment])
 admin.site.register(User,UserAccountAdmin)
 admin.site.register(Profile,ProfileAccountAdmin)

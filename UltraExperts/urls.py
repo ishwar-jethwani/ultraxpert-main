@@ -55,6 +55,7 @@ urlpatterns+=[
    path("mobile_verification/",MobileVerificationApi.as_view(),name="mobile_verification"),
    path("mobile_register/",MobileUserCreate.as_view(),name="mobile_register"),
    path("mobile_login/",MobileLogin.as_view(),name="mobile_login"),
+   path("promocode/",CheckPromocode.as_view(),name="pomocode_api"),
    # path("craete_super_user/",CreatSuperuserAPI.as_view(),name="superusercreate")
 
 

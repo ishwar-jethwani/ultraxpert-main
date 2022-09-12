@@ -30,9 +30,9 @@ class Meeting(models.Model):
 
 class MeetingTypeCount(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    meet_45 = models.IntegerField(blank=True,null=True)
-    meet_30 = models.IntegerField(blank=True,null=True)
-    meet_60 = models.IntegerField(blank=True,null=True)
+    meet_45 = models.IntegerField(blank=True,null=True,default=0)
+    meet_30 = models.IntegerField(blank=True,null=True,default=0)
+    meet_60 = models.IntegerField(blank=True,null=True,default=0)
     date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
     date_updated = models.DateTimeField(auto_now=True,blank=True,null=True)
 

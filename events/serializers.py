@@ -95,6 +95,10 @@ class EventCreateSerializer(serializers.ModelSerializer):
 
                 if len(timings) > 0:
                     for timing in timings:
+                        time = timing["end_time"].split(":")
+                        if time[-1]=="60":
+                            hour = int(time[0])+1
+                            timing["end_time"]=f"{str(hour)}:00"
                         EventScheduleTime.objects.create(**timing, schedule=schedule_instance)
 
         return instance
