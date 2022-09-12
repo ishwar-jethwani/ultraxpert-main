@@ -314,10 +314,7 @@ class Deployement(APIView):
     def get(self,request):
         # command = request.data["deploye"]
         cwd = os.getcwd()
-        os.system("git add --all")
-        os.system('git commit -m"final"')
-        os.system("git checkout production")
-        os.system("git pull origin main")
+        os.system("git pull origin main --rebase")
         return Response({"status":"deployed"},status=status.HTTP_200_OK)
 
 
