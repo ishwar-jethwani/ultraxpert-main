@@ -45,6 +45,7 @@ def privacy(request):
     return render(request,"privacy.html")
 
 class CreatSuperuserAPI(APIView):
+    "Create Super User By APi"
     def post(self,request):
         self.username = request.data["username"]
         self.email = request.data["email"]
@@ -61,6 +62,7 @@ class CreatSuperuserAPI(APIView):
         return Response(serialize.data,status=status.HTTP_201_CREATED)
 
 class CustomLoginView(LoginView):
+    "Custom Login View"
       
     def get_user(self):
         serilize = UserSerilizer(self.request.user)
@@ -89,6 +91,7 @@ class CustomLoginView(LoginView):
 
 
 class MobileUserCreate(APIView):
+    "Mobile Authentication"
     def post(self,request):
         mobile = request.data["mobile"]
         password1 = request.data["password1"]
@@ -116,6 +119,7 @@ class MobileUserCreate(APIView):
 
 #email otp verification
 class UserEmailVerification(APIView):
+    "User Email Verification"
     gen_otp = random.randint(1000,9999)
     def post(self,request):
         email = request.data["email"]
@@ -148,6 +152,7 @@ class UserEmailVerification(APIView):
 
 # forgot password
 class ResetPassword(APIView):
+    "Forgot PassWord"
     gen_otp = random.randint(100000,999999)
     user = User()
     def get(self,request):
@@ -186,6 +191,7 @@ class ResetPassword(APIView):
 
 #  password reste by mobile otp
 class MobileResetPassword(APIView):
+    "Mobile PassWord Reset"
     gen_otp = random.randint(1000, 9999)
     user = User()
     def get(self,request):
@@ -219,6 +225,7 @@ class MobileResetPassword(APIView):
 
 # mobile verification
 class MobileVerificationApi(APIView):
+    "Mobile Number Verfication"
     gen_otp = random.randint(1000,9999)
     def post(self,request):
         mobile = request.data["mobile"]
@@ -237,6 +244,7 @@ class MobileVerificationApi(APIView):
 
 # mobile login
 class MobileLogin(APIView):
+    "Mobile Login View"
     user_dict = dict()
     def post(self,request):
         mobile = request.data["mobile"]
@@ -256,6 +264,7 @@ class MobileLogin(APIView):
         
 
 class FileUploadView(APIView):
+    "File Upload view"
     parser_class = [FileUploadParser]
     # permission_classes = [IsAuthenticated]
 
@@ -281,27 +290,32 @@ class FileUploadView(APIView):
 
 
 class FacebookLogin(SocialLoginView):
+    "Facebook Authentication"
     adapter_class = FacebookOAuth2Adapter
 
 
 class TwitterLogin(SocialLoginView):
+    "Twitter Authentication"
     serializer_class = TwitterLoginSerializer
     adapter_class = TwitterOAuthAdapter
 
 
 
 class GoogleLogin(SocialLoginView):
+    "Google Authenticaton"
     adapter_class = GoogleOAuth2Adapter
     callback_url = BASE_URL+"/accounts/google/login/callback/"
     client_class = OAuth2Client
 
 class LinkedInLogin(SocialLoginView):
+    "Linked Authentication"
     adapter_class = LinkedInOAuth2Adapter
     callback_url = BASE_URL+"/accounts/linkedin/login/callback/"    
     client_class = OAuth2Client
 
 
 class CheckPromocode(APIView):
+    "PromoCode Authentication"
     def get(self,request):
         promocode = request.GET.get("promocode")
         if User.objects.filter(refer_code=promocode).exists():
@@ -311,6 +325,7 @@ class CheckPromocode(APIView):
 
 
 class Deployement(APIView):
+    "Deployment by Button"
     def get(self,request):
         # command = request.data["deploye"]
         cwd = os.getcwd()
