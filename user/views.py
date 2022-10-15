@@ -125,7 +125,7 @@ class AutoCompleteAPIView(APIView):
         try:
             search = request.GET["serach"]
             # user = User.objects.filter(is_expert=True,)
-            profile_obj = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search))
+            profile_obj = Profile.objects.filter(profile__is_expert=True).filter(Q(first_name__icontains=search)|Q(last_name__icontains=search))
             profile_res = []
             service_res = []
             if profile_obj.exists():

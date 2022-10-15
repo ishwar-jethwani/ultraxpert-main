@@ -79,7 +79,7 @@ urlpatterns+=[
 
 
 
-# Sysytem Application
+# System Application
 urlpatterns+=[
    # path("",include("datascripts.urls")),
    path("user/",include("user.urls")),
