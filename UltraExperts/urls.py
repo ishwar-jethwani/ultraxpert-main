@@ -12,7 +12,6 @@ from django.contrib.sitemaps.views import sitemap
 admin.site.site_header = settings.ADMIN_SITE_HEADER
 
 from .views import *
-from . import views
 
 
 schema_view = get_schema_view(
