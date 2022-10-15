@@ -22,6 +22,7 @@ from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from UltraExperts.constants import DEBUG
+from django.db.models import Q
 
 class Home_View(APIView):
     def get(self,request):
@@ -60,7 +61,6 @@ class Home_View(APIView):
 
 
 class UserPlanSelect(APIView):
-
     permission_classes = [IsAuthenticated]
     def get(self,request):
         data = UserPlans.objects.all()
@@ -121,14 +121,18 @@ class Expert_View(APIView):
 
 
 class AutoCompleteAPIView(APIView):
-
     def get(self,request):
         try:
-            user = User.objects.filter(is_expert=True)
-            profile_obj = Profile.objects.filter(profile__in=list(user))
-            service_obj = Services.objects.filter(user__in=list(user))
-            service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
-            profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
+            search = request.GET["serach"]
+            # user = User.objects.filter(is_expert=True,)
+            profile_obj = Profile.objects.filter(Q(first_name__icontains=search)|Q(last_name__icontains=search))
+            profile_res = []
+            service_res = []
+            if profile_obj.exists():
+                profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
+            else:
+                service_obj = Services.objects.filter(service_name__icontains=search)
+                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
             profile_data = profile_res.data
             service_data = service_res.data
             data = profile_data+service_data
