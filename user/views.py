@@ -126,16 +126,20 @@ class AutoCompleteAPIView(APIView):
             search = request.GET["serach"]
             # user = User.objects.filter(is_expert=True,)
             profile_obj = Profile.objects.filter(profile__is_expert=True).filter(Q(first_name__icontains=search)|Q(last_name__icontains=search))
-            profile_res = []
-            service_res = []
+            service_obj = Services.objects.filter(service_name__icontains=search)
+            data = []
             if profile_obj.exists():
                 profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
-            else:
-                service_obj = Services.objects.filter(service_name__icontains=search)
+                data = profile_res.data
+            elif service_obj.exists():
                 service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
-            profile_data = profile_res.data
-            service_data = service_res.data
-            data = profile_data+service_data
+                data = service_res.data
+            elif profile_obj.exists() and service_obj.exists():
+                profile_res = ProfileAutoCompleteSerializer(profile_obj,many=True)
+                service_res = ServiceAutoCompleteSerializer(service_obj,many=True)
+                profile_data = profile_res.data
+                service_data = service_res.data
+                data = profile_data+service_data
             return Response(data=data,status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
