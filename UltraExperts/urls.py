@@ -60,12 +60,8 @@ urlpatterns+=[
 
 
 ]
-# Additional Feature
-urlpatterns+=[
-   path("promocode/",CheckPromocode.as_view(),name="pomocode_api"),
-   path("deploye/",Deployement.as_view(),name="deplyement")
-]
 
+# social Media Authentication
 urlpatterns+=[
       path("facebook/", FacebookLogin.as_view(), name='fb_login'),
       path("google/",GoogleLogin.as_view(),name="google_login"),
@@ -74,6 +70,15 @@ urlpatterns+=[
       
 
 ]
+
+
+# Additional Feature
+urlpatterns+=[
+   path("promocode/",CheckPromocode.as_view(),name="pomocode_api"),
+   path("deploye/",Deployement.as_view(),name="deplyement")
+]
+
+
 
 # Sysytem Application
 urlpatterns+=[
@@ -91,6 +96,7 @@ urlpatterns+=[
 
 
 ]
+
 
 sitemaps = {
     'static': StaticViewSitemap,
