@@ -122,8 +122,10 @@ class Expert_View(APIView):
 
 class AutoCompleteAPIView(APIView):
     def get(self,request):
+        search = ""
+        if "search" in request.GET:
+            search = request.GET.get("search")
         try:
-            search = request.GET["serach"]
             # user = User.objects.filter(is_expert=True,)
             profile_obj = Profile.objects.filter(profile__is_expert=True).filter(Q(first_name__icontains=search)|Q(last_name__icontains=search))
             service_obj = Services.objects.filter(service_name__icontains=search)
