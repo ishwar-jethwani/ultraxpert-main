@@ -29,7 +29,7 @@ class TestCreateUserData(APIView):
         count = 0
         obj_list = []
         # with transaction.atomic():
-        while count<100000:
+        while count<500:
             result = requests.get(url="https://randomuser.me/api/")
             data = result.json()
             fname = str(data["results"][0]["name"]["first"])
