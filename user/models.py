@@ -1,3 +1,5 @@
+from email.policy import default
+from typing import List
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
@@ -11,7 +13,7 @@ from django.shortcuts import reverse
 from django.utils import timezone
 import json
 
-
+#Keywords
 
 class Keywords(models.Model):
     name = models.CharField(max_length=10,verbose_name="Keyword",null=True,blank=True)
@@ -23,6 +25,9 @@ class Keywords(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
+
+# User Details Model
 
 class User(AbstractBaseUser,PermissionsMixin):
     user_id     = models.CharField(max_length=10,unique=True,blank=True,null=True)
@@ -49,8 +54,27 @@ class User(AbstractBaseUser,PermissionsMixin):
         verbose_name = ('user')
         verbose_name_plural = ('users')
 
+# Test Given By Expert
+
+class UserTest(models.Model):
+    user           = models.ForeignKey(User,on_delete=models.CASCADE)
+    test_id        = models.CharField(verbose_name="Test Id",blank=True,null=True)
+    test_name      = models.CharField(verbose_name="Test Name",blank=True,null=True)
+    title          = models.CharField(max_length=100,verbose_name="Test Title",blank=True,null=True)
+    strt_time      = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
+    duration       = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
+    questions      = models.JSONField(verbose_name="Questions",default=List,blank=True,null=True)
+    sequence       = models.PositiveIntegerField(blank=True,null=True)
+    comment        = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)
 
 
+    def __str__(self) -> str:
+        return self.test_name 
+
+    class Meta:
+        ordering = [" sequence"]
+
+#User Plan Details
 
 class UserPlans(models.Model):
     currency_take = (
@@ -74,7 +98,7 @@ class UserPlans(models.Model):
     class Meta:
         ordering = ["pk"]
 
-
+# Category Details
 
 class Category(models.Model):
     name    = models.CharField(max_length=200)
@@ -88,6 +112,8 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
+# Service Model
 
 class Services(models.Model):
     currency_take = (
@@ -123,7 +149,7 @@ class Services(models.Model):
 
 
 
-
+# User Profile Model
 
 class Profile(models.Model):
     gender =(
@@ -169,13 +195,15 @@ class Profile(models.Model):
 
 
 
+#User Bank Details Model 
+
 class BankDetail(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    account_holder = models.CharField(max_length=100,verbose_name="Account Holder Name",blank=True,null=True)
-    bank_name = models.CharField(max_length=1000,verbose_name="Bank Name",blank=True,null=True)
-    account_number = models.CharField(max_length=20,verbose_name="Account_number",blank=True,null=True)
-    ifsc_code = models.CharField(max_length=100,verbose_name="IFSC Code",blank=True,null=True)
-    timestamp = models.DateTimeField(auto_now_add=True,verbose_name="Creted On",blank=True,null=True)
+    user            = models.ForeignKey(User,on_delete=models.CASCADE)
+    account_holder  = models.CharField(max_length=100,verbose_name="Account Holder Name",blank=True,null=True)
+    bank_name       = models.CharField(max_length=1000,verbose_name="Bank Name",blank=True,null=True)
+    account_number  = models.CharField(max_length=20,verbose_name="Account_number",blank=True,null=True)
+    ifsc_code       = models.CharField(max_length=100,verbose_name="IFSC Code",blank=True,null=True)
+    timestamp       = models.DateTimeField(auto_now_add=True,verbose_name="Creted On",blank=True,null=True)
 
     def __str__(self) -> str:
         return str(self.user.username)
@@ -184,12 +212,14 @@ class BankDetail(models.Model):
         ordering = ["-timestamp"]
     
 
+# Comment Model 
+
 class Comment(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    service = models.ForeignKey(Services,on_delete=models.CASCADE,blank=True,null=True)
-    comment = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)
-    timestamp = models.DateTimeField(auto_now_add=True,blank=True,null=True)
-    reply = models.ForeignKey("self",related_name="comment_reply",blank=True,null=True,on_delete=models.PROTECT,verbose_name="Reply")
+    user        = models.ForeignKey(User,on_delete=models.CASCADE)
+    service     = models.ForeignKey(Services,on_delete=models.CASCADE,blank=True,null=True)
+    comment     = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)
+    timestamp   = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    reply       = models.ForeignKey("self",related_name="comment_reply",blank=True,null=True,on_delete=models.PROTECT,verbose_name="Reply")
 
     def __str__(self) -> str:
         return str(self.user.username)
