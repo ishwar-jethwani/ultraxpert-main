@@ -109,4 +109,4 @@ class BankSerializer(serializers.ModelSerializer):
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
-        fields = ["test_id","test_name","title","start_time","duration","ques_ans_json","test_category"]
+        fields = "__all__"

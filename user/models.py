@@ -1,4 +1,5 @@
 from email.policy import default
+from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
@@ -72,10 +73,11 @@ class Test(models.Model):
     "Test For Becoming Expert"
     test_id             = models.CharField(max_length=10,verbose_name="Test Id",blank=True,null=True)
     test_name           = models.CharField(max_length=50,verbose_name="Test Name",blank=True,null=True)
-    title               = models.CharField(max_length=100,verbose_name="Test Title",blank=True,null=True)
     start_time          = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
     duration            = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
-    ques_ans_json       = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
+    options             = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
+    answer              = models.JSONField(verbose_name="Answer",blank=True,null=True,default=dict)
+    question            = RichTextField(verbose_name="Question",blank=True,null=True)
     sequence            = models.PositiveIntegerField(blank=True,null=True)
     test_category       = models.CharField(max_length=50,verbose_name="Category",blank=True,null=True)
     date_created        = models.DateTimeField(auto_now_add=True,blank=True,null=True)

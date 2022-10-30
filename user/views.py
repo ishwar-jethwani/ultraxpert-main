@@ -321,3 +321,5 @@ class UserTestAPI(APIView):
         question = random.choices(list(Test.objects.filter(test_category=category)))
         serialize = TestSerializer(question[0])
         return Response(serialize.data,status=status.HTTP_200_OK)
+
+    
