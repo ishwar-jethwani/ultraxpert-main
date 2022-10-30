@@ -61,7 +61,7 @@ class UserTestReport(models.Model):
     "User Test Report"
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     qualified = models.BooleanField(default=False)
-    date_of_test = models.DateTimeField(auto_now_add=True)
+    date_of_test = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     def __str__(self) -> str:
         return self.user.user_id
@@ -73,11 +73,12 @@ class Test(models.Model):
     test_id             = models.CharField(max_length=10,verbose_name="Test Id",blank=True,null=True)
     test_name           = models.CharField(max_length=50,verbose_name="Test Name",blank=True,null=True)
     title               = models.CharField(max_length=100,verbose_name="Test Title",blank=True,null=True)
-    strt_time           = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
+    start_time          = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
     duration            = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
     ques_ans_json       = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
     sequence            = models.PositiveIntegerField(blank=True,null=True)
     test_category       = models.CharField(max_length=50,verbose_name="Category",blank=True,null=True)
+    date_created        = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     def __str__(self) -> str:
         return self.test_name 

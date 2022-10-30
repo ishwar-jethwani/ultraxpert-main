@@ -1,4 +1,3 @@
-from ast import Return
 from UltraExperts.serializers import UserSerilizer
 from rest_framework import status
 from rest_framework.response import Response
@@ -17,12 +16,12 @@ from rest_auth.registration.views import SocialConnectView
 from rest_auth.social_serializers import TwitterConnectSerializer
 from activity.views import IsGETOrIsAuthenticated
 from activity.models import Subscriptions
-import json
 from django.core.paginator import Paginator
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from UltraExperts.constants import DEBUG
 from django.db.models import Q
+import random
 
 class Home_View(APIView):
     def get(self,request):
@@ -313,16 +312,12 @@ class CommentAPIView(APIView):
         except Exception as e:
             return Response({"msg":e},status=status.HTTP_400_BAD_REQUEST)
 
-
-
-                
-
-        
-
-
-
-
-
-
-
-
+class UserTestAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    """User Test Api For Creating Test"""
+    def get(self,request):
+        user = request.user
+        category = Profile.objects.get(profile=user).title
+        question = random.choices(list(Test.objects.filter(test_category=category)))
+        serialize = TestSerializer(question[0])
+        return Response(serialize.data,status=status.HTTP_200_OK)

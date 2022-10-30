@@ -64,7 +64,7 @@ def unique_refrence_code_genrator(instance):
 	return refrence_code_new
 
 #This is for user test id genration
-def user_test_id_genrator(size=6, chars=string.ascii_uppercase + string.digits):
+def user_test_id_genrator(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
 def unique_test_id_gen(instance):

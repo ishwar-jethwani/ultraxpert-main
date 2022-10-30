@@ -1,5 +1,3 @@
-from dataclasses import field
-from statistics import mode
 from rest_framework import serializers
 from .models import *
 from UltraExperts.serializers import *
@@ -107,4 +105,8 @@ class BankSerializer(serializers.ModelSerializer):
             if user.is_expert == True:
                 service = BankDetail.objects.create(**validated_data, user=user)
                 return service
-    
+
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = ["test_id","test_name","title","start_time","duration","ques_ans_json","test_category"]

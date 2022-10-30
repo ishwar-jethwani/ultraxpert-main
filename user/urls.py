@@ -23,6 +23,7 @@ urlpatterns = [
     path("service_delete/<service_id>/",ServiceDelete.as_view(),name="service-delete"),
     path("delete/",UserDelete.as_view(),name="delete"),
     path("comment/<str:service_id>/",CommentAPIView.as_view(),name="comment"),
+    path("test_question/",UserTestAPI.as_view(),name="test_api")
 
     
 
