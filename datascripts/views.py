@@ -102,6 +102,39 @@ class TestServiceCreate(APIView):
                 except:
                     pass
             return Response({"msg":"added"},status=status.HTTP_200_OK)
+
+
+class TestQuestion(APIView):
+    "Test Question Genration"
+    def get(self,request):
+        category = random.choice(["Linux","Docker","Cloud","Kubernetes"])
+        data = requests.get(url="https://quizapi.io/api/v1/questions",headers={"X-Api-Key":"m9Fxp2IeoT26gni6OxNvWVDbtFVEwrbYJiJDUWhf"},params={"category":"Docker"})
+        main_list = json.loads(data.text)
+        final_data_list = []
+        for main_dict in main_list:
+            question = main_dict["question"]
+            multiple_answer = main_dict["multiple_correct_answers"]
+            options = main_dict["answers"]
+            answers = main_dict["correct_answers"]
+            category = main_dict["category"]
+            print(answers)
+            correct_ans = [key for key in answers.keys() if answers[key]=="true"][0]
+            correct_ans = correct_ans.strip("_correct")
+            try:
+                final_dict = {
+                    "category":category,
+                    "question":question,
+                    "options":options,
+                    "multiple_answer":multiple_answer,
+                    "answer":options[correct_ans]
+                }
+                final_data_list.append(final_dict)
+            except Exception as e:
+                print(e)
+        with open("qestion.json","w",encoding="utf-8") as file:
+            file.write(json.dumps(final_data_list))
+        return Response(data=data.json())
+
             
             
 
