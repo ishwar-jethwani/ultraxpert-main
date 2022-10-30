@@ -18,23 +18,19 @@ import json
 from datetime import datetime,timedelta
 from django.core.mail import send_mail
 from django.template.loader import get_template
-
-
-
-
 # authorize razorpay client with API Keys.
 
 
 razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 
-                
+#View For Create Service  
+               
 class ServiceOrderCreate(APIView):
     endpoint = "orders" 
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
     permission_classes = [IsAuthenticated]
     def post(self,request,order_id):
-        
         try:
             order = Order.objects.get(order_id=order_id)
             payload = {
@@ -48,6 +44,7 @@ class ServiceOrderCreate(APIView):
             print(e)
             return Response({"res":0,"msg":"somthing went wrong"})
 
+#View For Create Meeting
 
 class CreateMeetingOrder(APIView):
     endpoint = "orders" 
@@ -70,7 +67,7 @@ class CreateMeetingOrder(APIView):
             print(e)
             return Response({"res":0,"msg":"somthing went wrong"})
 
-
+#View For Making Payments
 
 class PaymentLink(APIView):
     endpoint = "payment_links"
@@ -125,7 +122,6 @@ class PaymentLink(APIView):
 
 # Payment BY default checkout
 
-
 class ServicePaymentAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request,order_id):
@@ -165,6 +161,7 @@ class ServicePaymentAPIView(APIView):
         else:
             return render(request, 'paymentfail.html')
 
+# View For Making Payments According To Plan
 
 class PlanPaymentAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -209,7 +206,7 @@ class PlanPaymentAPIView(APIView):
             return render(request, 'paymentfail.html')
 
 
-
+# View For Checking Payment Staus 
 class GetResponse(APIView):
     def post(self,request):
         data = request.data
@@ -228,7 +225,8 @@ class GetResponse(APIView):
         return Response(data = payment_created.data,status=HTTP_200_OK) 
 
 
-# refund 
+# View For Making Payment REfund
+
 class RefundAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request,order_id):
@@ -262,6 +260,7 @@ class RefundAPIView(APIView):
 
 
 
+#View For Creating Invoice
 
 class InvoiceAPIView(APIView):
     def post(self,request):

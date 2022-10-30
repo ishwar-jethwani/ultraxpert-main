@@ -44,8 +44,11 @@ client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
 def privacy(request):
     return render(request,"privacy.html")
 
+#SuperUser
+
 class CreatSuperuserAPI(APIView):
-    "Create Super User By APi"
+    """Create Super User By APi"""
+
     def post(self,request):
         self.username = request.data["username"]
         self.email = request.data["email"]
@@ -61,8 +64,10 @@ class CreatSuperuserAPI(APIView):
         serialize = UserSerilizer(user)
         return Response(serialize.data,status=status.HTTP_201_CREATED)
 
+#Custom Login
+
 class CustomLoginView(LoginView):
-    "Custom Login View"
+    """Custom Login View"""
       
     def get_user(self):
         serilize = UserSerilizer(self.request.user)
@@ -89,9 +94,11 @@ class CustomLoginView(LoginView):
 
         return orginal_response 
 
+#Mobile User
 
 class MobileUserCreate(APIView):
-    "Mobile Authentication"
+    """Mobile Authentication"""
+
     def post(self,request):
         mobile = request.data["mobile"]
         password1 = request.data["password1"]
@@ -112,14 +119,11 @@ class MobileUserCreate(APIView):
         else:
             return Response({"msg":"password is not match"},status=status.HTTP_400_BAD_REQUEST)
         
-        
 
+#Email otp verification
 
-
-
-#email otp verification
 class UserEmailVerification(APIView):
-    "User Email Verification"
+    """User Email Verification"""
     gen_otp = random.randint(1000,9999)
     def post(self,request):
         email = request.data["email"]
@@ -150,9 +154,10 @@ class UserEmailVerification(APIView):
     #         raise ValidationError(detail="You have enterd wrong otp", code=400) # raise error ok 
 
 
-# forgot password
+# Forgot Password
+
 class ResetPassword(APIView):
-    "Forgot PassWord"
+    """Forgot PassWord"""
     gen_otp = random.randint(100000,999999)
     user = User()
     def get(self,request):
@@ -189,9 +194,10 @@ class ResetPassword(APIView):
                 return Response({"msg":"password is set sucessfully"},status=status.HTTP_200_OK)
         return Response({"msg":"you have entered wrong otp"})
 
-#  password reste by mobile otp
+#  password reset by mobile otp
+
 class MobileResetPassword(APIView):
-    "Mobile PassWord Reset"
+    """Mobile PassWord Reset"""
     gen_otp = random.randint(1000, 9999)
     user = User()
     def get(self,request):
@@ -223,9 +229,10 @@ class MobileResetPassword(APIView):
 
 
 
-# mobile verification
+# Mobile verification
+
 class MobileVerificationApi(APIView):
-    "Mobile Number Verfication"
+    """Mobile Number Verfication"""
     gen_otp = random.randint(1000,9999)
     def post(self,request):
         mobile = request.data["mobile"]
@@ -242,7 +249,8 @@ class MobileVerificationApi(APIView):
                 print(e)
             return Response({"msg":"msg is failed to send","value":encoded_value},status=status.HTTP_200_OK)
 
-# mobile login
+# Mobile login
+
 class MobileLogin(APIView):
     "Mobile Login View"
     user_dict = dict()
@@ -262,9 +270,10 @@ class MobileLogin(APIView):
         else:
             return Response({"msg":"invelid creadential"},status=status.HTTP_400_BAD_REQUEST)
         
+#File Upload
 
 class FileUploadView(APIView):
-    "File Upload view"
+    """File Upload view"""
     parser_class = [FileUploadParser]
     # permission_classes = [IsAuthenticated]
 
@@ -288,34 +297,34 @@ class FileUploadView(APIView):
         )
 
 
-
+#Facebook Login
 class FacebookLogin(SocialLoginView):
-    "Facebook Authentication"
+    """Facebook Authentication"""
     adapter_class = FacebookOAuth2Adapter
 
-
+#Twitter Login
 class TwitterLogin(SocialLoginView):
-    "Twitter Authentication"
+    """Twitter Authentication"""
     serializer_class = TwitterLoginSerializer
     adapter_class = TwitterOAuthAdapter
 
-
-
+#Google Login
 class GoogleLogin(SocialLoginView):
-    "Google Authenticaton"
+    """Google Authenticaton"""
     adapter_class = GoogleOAuth2Adapter
     callback_url = BASE_URL+"/accounts/google/login/callback/"
     client_class = OAuth2Client
 
+#Linkdin Login
 class LinkedInLogin(SocialLoginView):
-    "Linked Authentication"
+    """Linked Authentication"""
     adapter_class = LinkedInOAuth2Adapter
     callback_url = BASE_URL+"/accounts/linkedin/login/callback/"    
     client_class = OAuth2Client
 
-
+#Check Promocode
 class CheckPromocode(APIView):
-    "PromoCode Authentication"
+    """PromoCode Authentication"""
     def get(self,request):
         promocode = request.GET.get("promocode")
         if User.objects.filter(refer_code=promocode).exists():
@@ -323,9 +332,9 @@ class CheckPromocode(APIView):
         else:
             return Response({"status":False},status=status.HTTP_200_OK)
 
-
+#Deployment
 class Deployement(APIView):
-    "Deployment by Button"
+    """Deployment by Button"""
     def get(self,request):
         # command = request.data["deploye"]
         cwd = os.getcwd()

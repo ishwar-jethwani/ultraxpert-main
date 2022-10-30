@@ -3,6 +3,7 @@ from rest_framework import serializers
 from user.models import User
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
+#Custom Registration
 
 class CustomRegisterSerializer(RegisterSerializer):
     reffered_by = serializers.CharField(max_length=10,required=False)    
@@ -13,12 +14,15 @@ class CustomRegisterSerializer(RegisterSerializer):
         data_dict["verification_status"] = self.validated_data.get('verification_status')
         return data_dict
 
+#User Selilizer 
 
 class UserSerilizer(serializers.ModelSerializer):
     class Meta:
         fields = ["pk","user_id","is_expert","is_verified","username","email","mobile","refer_code","reffered_by"]
         model = User
-    
+
+#User Order Serilizer
+  
 class OrderUserSerilizer(serializers.ModelSerializer):
     class Meta:
         fields = ["pk","user_id","is_expert","is_verified","username"]

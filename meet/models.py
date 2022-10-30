@@ -5,7 +5,10 @@ from user.models import Profile, Services, User
 from .utils import *
 from django.db.models.signals import pre_save
 
+#Model For Meeting
+
 class Meeting(models.Model):
+        """Meeting Model"""
         meeting_id = models.CharField(max_length=20,verbose_name="Meeting ID",unique=True,blank=True)
         user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True,verbose_name="Customer")
         service = models.ForeignKey(Services,on_delete=models.CASCADE,verbose_name="Service",blank=True,null=True)
@@ -28,7 +31,16 @@ class Meeting(models.Model):
         def __str__(self) -> str:
             return self.expert.profile.username+" "+"and"+" "+ self.user.username
 
+"""Saving Meeting Id"""
+
+def pre_save_create_meeting_id(sender, instance, *args, **kwargs):
+    if not instance.meeting_id:
+        instance.meeting_id= unique_meeting_id_generator(instance)
+pre_save.connect(pre_save_create_meeting_id, sender=Meeting)  
+
+#Model For Meeting Duration
 class MeetingTypeCount(models.Model):
+    """Duration Of Meeting"""
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     meet_45 = models.IntegerField(blank=True,null=True,default=0)
     meet_30 = models.IntegerField(blank=True,null=True,default=0)
@@ -42,6 +54,8 @@ class MeetingTypeCount(models.Model):
     class Meta:
         ordering = ["-date_updated"]
 
+#Model For Meeting Order Meeting According TO Time
+ 
 class MeetingRefundContainer(models.Model):
     meeting = models.ForeignKey(Meeting,on_delete=models.CASCADE,null=True,blank=True)
     date_created = models.DateTimeField(auto_created=True,null=True,blank=True)
@@ -52,9 +66,4 @@ class MeetingRefundContainer(models.Model):
 
 
 
-
-def pre_save_create_meeting_id(sender, instance, *args, **kwargs):
-    if not instance.meeting_id:
-        instance.meeting_id= unique_meeting_id_generator(instance)
-pre_save.connect(pre_save_create_meeting_id, sender=Meeting)  
 

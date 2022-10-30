@@ -4,15 +4,21 @@ from rest_framework import serializers
 from .models import *
 from UltraExperts.serializers import *
 
+#Serilizer For Keyword
 
 class KeywordSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Keywords
         fields = ["id","name"]
+
+#Serilizer For Category
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id","name","img"]
+
+#Serilizer For Profile
 
 class ProfileSerializer(serializers.ModelSerializer):
     categories = CategorySerializer()
@@ -23,6 +29,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ["id","first_name","last_name","profile","mobile_number","is_online","title","description","profile_img","gender","country","keywords","categories","user_plan","education","experience"]
 
 
+#Serilizer For Showing Service
+
 class ServiceShowSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     date_created  = serializers.DateTimeField(format="%c")
@@ -31,6 +39,7 @@ class ServiceShowSerializer(serializers.ModelSerializer):
         model = Services
         fields = ["user","id","service_id","service_img","service_name","category","description","delivery_date","price","currency","tags","date_created"]
 
+#Serilizer For Service
 
 class ServicesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,8 +65,9 @@ class ServicesSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
         if user.is_expert == True:
             service = Services.objects.create(**validated_data, user=user)
-            return service
-    
+            return service  
+
+#Serilizer For User Plan
 
 class UserPlanSerilizer(serializers.ModelSerializer):
     date_created = serializers.DateTimeField(format="%c")
@@ -66,6 +76,7 @@ class UserPlanSerilizer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+#Serilizer For Comment
 
 class CommentSerializer(serializers.ModelSerializer):
     timestamp = serializers.DateTimeField(format="%c")
@@ -73,6 +84,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = "__all__"
 
+#Serilizer For Autocompleting Profile
 
 class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
@@ -84,6 +96,8 @@ class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ["first_name","last_name"]
 
+#Serilizer For Autocompleting Service
+
 class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         return {
@@ -93,9 +107,7 @@ class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Services
 
-    
-
-
+#Serilizer For Bank
 
 class BankSerializer(serializers.ModelSerializer):
     class Meta:

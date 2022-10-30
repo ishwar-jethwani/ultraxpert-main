@@ -3,8 +3,10 @@ from rest_framework.serializers import ModelSerializer
 from user.serializers import ProfileSerializer, ServiceShowSerializer
 from events.serializers import EventReadSerializer
 from rest_framework import serializers
-
 from .models import *
+
+# Serialalizer For Meeting
+
 class MeetingSerializer(ModelSerializer):
     user= OrderUserSerilizer()
     service = ServiceShowSerializer()
@@ -15,6 +17,7 @@ class MeetingSerializer(ModelSerializer):
         model = Meeting
         fields = "__all__"
         depth = 2
+# Serializer For Meeting Container
 
 class MeetingContainerSerializer(ModelSerializer):
     user= OrderUserSerilizer()

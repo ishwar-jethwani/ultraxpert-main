@@ -1,9 +1,12 @@
 import random
 import string
 
+#Random String Generator 
+
 def random_string_generator_meeting(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
+# Unique Meeting Id Generator 
 
 def unique_meeting_id_generator(instance):
 	meeting_new_id= random_string_generator_meeting()

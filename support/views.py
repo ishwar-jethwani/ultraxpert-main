@@ -11,12 +11,14 @@ from datetime import datetime
 def dashboard(request):
     return render(request,"support/base.html")
 
+#Dashboard TEmplate Access
+
 class DashboardView(APIView):
     template_name = 'support/dashboard.html'
     ctx = {}
     base_context = None
 
-    # main function of get document
+    """main function of get document"""
     def get(self, request):
         self.data = request.GET
         if 'action' in self.data:
@@ -27,6 +29,8 @@ class DashboardView(APIView):
                 self.ctx = {'status': 'error', 'msg': 'Invalid Action'}
             return Response(self.ctx)
         return self.base_context.render(request, self.template_name)
+    
+    """Getting User Data"""
     def get_user_table(self):
         self.params = json.loads(self.data['params'])
         search = self.params['search']

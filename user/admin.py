@@ -1,9 +1,10 @@
 from django.contrib import admin
-
 from .models import *
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
+#User 
+
 class UserAccountAdmin(UserAdmin):
     list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active","refer_code","reffered_by"]
     search_fields = ["id","email","username","user_id","refer_code"]
@@ -11,6 +12,8 @@ class UserAccountAdmin(UserAdmin):
     filter_horizontal = ()
     list_filter = ()
     fieldsets = ()
+
+#Profile
 
 class ProfileAccountAdmin(admin.ModelAdmin):
     list_display = ["id","profile","first_name","last_name"]
@@ -20,6 +23,6 @@ class ProfileAccountAdmin(admin.ModelAdmin):
     fieldsets = ()
 
 
-admin.site.register([Category,UserPlans,Services,Keywords,BankDetail,Comment])
+admin.site.register([Category,UserPlans,Services,Keywords,BankDetail,Comment,Test,UserTestReport])
 admin.site.register(User,UserAccountAdmin)
 admin.site.register(Profile,ProfileAccountAdmin)

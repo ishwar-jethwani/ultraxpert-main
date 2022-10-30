@@ -1,5 +1,4 @@
 from email.policy import default
-from typing import List
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
@@ -53,26 +52,54 @@ class User(AbstractBaseUser,PermissionsMixin):
     class Meta:
         verbose_name = ('user')
         verbose_name_plural = ('users')
+# For Pre Saving User ID and Refer Code in Instance
+def pre_save_create_user_id(sender, instance, *args, **kwargs):
+    if not instance.user_id:
+        instance.user_id= unique_user_id_generator(instance)
+        instance.refer_code = unique_refrence_code_genrator(instance)
+pre_save.connect(pre_save_create_user_id, sender=User)
 
-# Test Given By Expert
 
-class UserTest(models.Model):
-    user           = models.ForeignKey(User,on_delete=models.CASCADE)
-    test_id        = models.CharField(verbose_name="Test Id",blank=True,null=True)
-    test_name      = models.CharField(verbose_name="Test Name",blank=True,null=True)
-    title          = models.CharField(max_length=100,verbose_name="Test Title",blank=True,null=True)
-    strt_time      = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
-    duration       = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
-    questions      = models.JSONField(verbose_name="Questions",default=List,blank=True,null=True)
-    sequence       = models.PositiveIntegerField(blank=True,null=True)
-    comment        = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)
+#User Test Report Model
 
+class UserTestReport(models.Model):
+    """User Test Report"""
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    qualified = models.BooleanField(default=False)
+    date_of_test = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.user.user_id
+    class Meta:
+        ordering = ["-date_of_test"]
+
+#Test Model
+   
+class Test(models.Model):
+    """Test For Becoming Expert"""
+    test_id             = models.CharField(max_length=10,verbose_name="Test Id",blank=True,null=True)
+    test_name           = models.CharField(max_length=50,verbose_name="Test Name",blank=True,null=True)
+    title               = models.CharField(max_length=100,verbose_name="Test Title",blank=True,null=True)
+    strt_time           = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
+    duration            = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
+    ques_ans_json       = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
+    sequence            = models.PositiveIntegerField(blank=True,null=True)
+    test_category       = models.CharField(max_length=50,verbose_name="Category",blank=True,null=True)
 
     def __str__(self) -> str:
         return self.test_name 
 
     class Meta:
-        ordering = [" sequence"]
+        ordering = ["sequence"]
+
+
+# For Pre Saving Test ID in Instance
+def pre_save_create_test_id(sender, instance, *args, **kwargs):
+    if not instance.test_id:
+        instance.test_id= unique_test_id_gen(instance)
+pre_save.connect(pre_save_create_test_id, sender=Test)
+
+
 
 #User Plan Details
 
@@ -98,7 +125,13 @@ class UserPlans(models.Model):
     class Meta:
         ordering = ["pk"]
 
-# Category Details
+# For Pre Saving Plan ID in Instance
+def pre_save_create_plan_id(sender, instance, *args, **kwargs):
+    if not instance.plan_id:
+        instance.plan_id= f"PLAN{unique_plan_id_generator(instance)}"
+pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
+
+#Category
 
 class Category(models.Model):
     name    = models.CharField(max_length=200)
@@ -148,8 +181,15 @@ class Services(models.Model):
         ordering= ["-date_created"]
 
 
+# For Pre Saving Service ID in Instance
 
-# User Profile Model
+def pre_save_create_service_id(sender, instance, *args, **kwargs):
+    if not instance.service_id:
+        instance.service_id= unique_service_id_generator_service(instance)
+pre_save.connect(pre_save_create_service_id, sender=Services)
+
+
+#Profile Model
 
 class Profile(models.Model):
     gender =(
@@ -233,28 +273,12 @@ class Comment(models.Model):
 
 
 
-def pre_save_create_user_id(sender, instance, *args, **kwargs):
-    if not instance.user_id:
-        instance.user_id= unique_user_id_generator(instance)
-        instance.refer_code = unique_refrence_code_genraor(instance)
-
-pre_save.connect(pre_save_create_user_id, sender=User)
 
 
 
-def pre_save_create_service_id(sender, instance, *args, **kwargs):
-    if not instance.service_id:
-        instance.service_id= unique_service_id_generator_service(instance)
-
-
-pre_save.connect(pre_save_create_service_id, sender=Services)
 
 
 
-def pre_save_create_plan_id(sender, instance, *args, **kwargs):
-    if not instance.plan_id:
-        instance.plan_id= f"PLAN{unique_plan_id_generator(instance)}"
 
 
-pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
 

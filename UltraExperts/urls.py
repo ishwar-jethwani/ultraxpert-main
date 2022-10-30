@@ -8,10 +8,11 @@ from dj_rest_auth.views import PasswordChangeView,LogoutView
 from django.conf import settings
 from .sitemaps import StaticViewSitemap
 from django.contrib.sitemaps.views import sitemap
-
-admin.site.site_header = settings.ADMIN_SITE_HEADER
-
 from .views import *
+
+admin.site.site_er = settings.ADMIN_SITE_HEADER
+
+
 
 
 schema_view = get_schema_view(
@@ -56,11 +57,10 @@ urlpatterns+=[
    path("mobile_login/",MobileLogin.as_view(),name="mobile_login"),
 
    # path("craete_super_user/",CreatSuperuserAPI.as_view(),name="superusercreate")
-
-
 ]
 
 # social Media Authentication
+
 urlpatterns+=[
       path("facebook/", FacebookLogin.as_view(), name='fb_login'),
       path("google/",GoogleLogin.as_view(),name="google_login"),
@@ -72,6 +72,7 @@ urlpatterns+=[
 
 
 # Additional Feature
+
 urlpatterns+=[
    path("promocode/",CheckPromocode.as_view(),name="pomocode_api"),
    path("deploye/",Deployement.as_view(),name="deplyement")
@@ -80,8 +81,9 @@ urlpatterns+=[
 
 
 # System Application
+
 urlpatterns+=[
-   # path("",include("datascripts.urls")),
+   path("",include("datascripts.urls")),
    path("user/",include("user.urls")),
    path("activity/",include("activity.urls")),
    path("chat/",include("chat.urls")),
@@ -92,8 +94,6 @@ urlpatterns+=[
    path("vault/",include("vault.urls")),
    path("genral/",include("genral.urls")),
    path("support/",include("support.urls")),
-
-
 ]
 
 

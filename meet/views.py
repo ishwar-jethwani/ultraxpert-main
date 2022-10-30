@@ -15,10 +15,11 @@ from django.core.mail import send_mail
 from django.template.loader import get_template
 # from background_task import background
 
+#View For Creating Meeting
 
 class MeetingAPI(APIView):
     permission_classes = [IsAuthenticated]
-
+    """Main Section Code For Creating New Meeting"""
     def post(self,request):
         user = request.user
         service_id = request.data["service_id"]
@@ -55,6 +56,7 @@ class MeetingAPI(APIView):
         else:
             return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
+    """Code For Fetching Details About The Meetings"""
     def get(self,request):
         user = request.user
         meetings = Meeting.objects.filter(user=user)
@@ -73,7 +75,9 @@ class MeetingAPI(APIView):
             meet.save(update_fields=["join_btn","rating_btn"])
         serialize = MeetingSerializer(meetings,many=True)
         return Response(serialize.data,status=status.HTTP_200_OK)
-    
+
+#View For Getting Information Of Meeting Of An Expert
+   
 class ExpertMeeting(APIView):
     permission_classes = [IsAuthenticated]
     def get(self,request):
@@ -133,6 +137,7 @@ class ExpertMeeting(APIView):
             return Response(data=serialize.data,status=status.HTTP_200_OK)
         return Response({"msg":"somthing went worng"},status=status.HTTP_400_BAD_REQUEST)
 
+#View For Creating Token Validation For Expert
 
 class MeetingValidation(APIView):
     permission_classes = [IsAuthenticated]
@@ -156,6 +161,7 @@ class MeetingValidation(APIView):
         except:
             return Response({"msg":"Meeting is not defined"},status=status.HTTP_404_NOT_FOUND)
 
+# View For Setting Time Limit For Meeting
 
 class MeetingContainer(APIView):
     permission_classes = [IsAuthenticated]
@@ -204,7 +210,8 @@ class MeetingContainer(APIView):
         else:
             return Response({"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
-        
+#View For Creating Quick Joining For Expert
+       
 class MeetingQuikeJoin(APIView):
     permission_classes = [IsAuthenticated]
     def post(self,request):
@@ -219,6 +226,8 @@ class MeetingQuikeJoin(APIView):
             serialize = MeetingSerializer(meet)
             return Response(serialize.data,status=status.HTTP_200_OK)
         return Response(serialize.data,status=status.HTTP_400_BAD_REQUEST)
+
+#View For Enabling and Disableing Button After Checking Time Slots available or Not 
 
 class JoinedMeeting(APIView):
     permission_classes = [IsAuthenticated]
