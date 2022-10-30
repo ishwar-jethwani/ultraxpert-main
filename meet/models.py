@@ -57,6 +57,7 @@ class MeetingTypeCount(models.Model):
 #Model For Meeting Order Meeting According TO Time
  
 class MeetingRefundContainer(models.Model):
+    """Refunded Meeting Credit"""
     meeting = models.ForeignKey(Meeting,on_delete=models.CASCADE,null=True,blank=True)
     date_created = models.DateTimeField(auto_created=True,null=True,blank=True)
     def __str__(self) -> str:

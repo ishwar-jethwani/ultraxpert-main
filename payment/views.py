@@ -26,6 +26,7 @@ razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
 #View For Create Service  
                
 class ServiceOrderCreate(APIView):
+    """Service Creation"""
     endpoint = "orders" 
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
@@ -47,6 +48,7 @@ class ServiceOrderCreate(APIView):
 #View For Create Meeting
 
 class CreateMeetingOrder(APIView):
+    """Meeting Order Generation"""
     endpoint = "orders" 
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
@@ -70,6 +72,7 @@ class CreateMeetingOrder(APIView):
 #View For Making Payments
 
 class PaymentLink(APIView):
+    """Payment Link Activation"""
     endpoint = "payment_links"
     auth=HTTPBasicAuth(username=RAZOR_KEY_ID,password=RAZOR_KEY_SECRET)
     url = PAYMANT_BASE_URL+endpoint
@@ -123,6 +126,7 @@ class PaymentLink(APIView):
 # Payment BY default checkout
 
 class ServicePaymentAPIView(APIView):
+    """"Payment OF Service By Default Checkout"""
     permission_classes = [IsAuthenticated]
     def get(self,request,order_id):
         currency = 'INR'
@@ -164,6 +168,7 @@ class ServicePaymentAPIView(APIView):
 # View For Making Payments According To Plan
 
 class PlanPaymentAPIView(APIView):
+    """"Payment According To Plan """
     permission_classes = [IsAuthenticated]
     def get(self,request,subs_id):
         currency = 'INR'
@@ -207,7 +212,9 @@ class PlanPaymentAPIView(APIView):
 
 
 # View For Checking Payment Staus 
+
 class GetResponse(APIView):
+    """Checking Of Status Of Payment"""
     def post(self,request):
         data = request.data
         payment_id = data["payload"]["payment"]["entity"]["id"]
@@ -228,6 +235,7 @@ class GetResponse(APIView):
 # View For Making Payment REfund
 
 class RefundAPIView(APIView):
+    """"Refund Of Payment"""
     permission_classes = [IsAuthenticated]
     def post(self,request,order_id):
         reason_value = request.GET["reason"]
@@ -263,6 +271,7 @@ class RefundAPIView(APIView):
 #View For Creating Invoice
 
 class InvoiceAPIView(APIView):
+    """Generating Invoice"""
     def post(self,request):
         data = request.data
         invoice = razorpay_client.invoice.create(data=data)

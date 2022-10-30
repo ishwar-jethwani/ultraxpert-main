@@ -18,8 +18,8 @@ from django.template.loader import get_template
 #View For Creating Meeting
 
 class MeetingAPI(APIView):
+    """Meeting For User"""
     permission_classes = [IsAuthenticated]
-    """Main Section Code For Creating New Meeting"""
     def post(self,request):
         user = request.user
         service_id = request.data["service_id"]
@@ -56,7 +56,7 @@ class MeetingAPI(APIView):
         else:
             return Response({"res":0,"msg":"you dont have meeting"},status=status.HTTP_200_OK)
 
-    """Code For Fetching Details About The Meetings"""
+    
     def get(self,request):
         user = request.user
         meetings = Meeting.objects.filter(user=user)
@@ -79,6 +79,7 @@ class MeetingAPI(APIView):
 #View For Getting Information Of Meeting Of An Expert
    
 class ExpertMeeting(APIView):
+    """Meeting For Expert"""
     permission_classes = [IsAuthenticated]
     def get(self,request):
         user = request.user
@@ -140,6 +141,7 @@ class ExpertMeeting(APIView):
 #View For Creating Token Validation For Expert
 
 class MeetingValidation(APIView):
+    """Token Varification For Meeting"""
     permission_classes = [IsAuthenticated]
     def get(self,request,meeting_id):
         user = request.user
@@ -164,6 +166,7 @@ class MeetingValidation(APIView):
 # View For Setting Time Limit For Meeting
 
 class MeetingContainer(APIView):
+    """Meeting Container For Expert"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         user = request.user  
@@ -213,6 +216,7 @@ class MeetingContainer(APIView):
 #View For Creating Quick Joining For Expert
        
 class MeetingQuikeJoin(APIView):
+    """Payment Verification For Expert"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         meeting_id = request.data["meeting_id"]
@@ -230,6 +234,7 @@ class MeetingQuikeJoin(APIView):
 #View For Enabling and Disableing Button After Checking Time Slots available or Not 
 
 class JoinedMeeting(APIView):
+    """If Meeting Is Not Joined Credit Will Be Refunded By This Function"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         meeting_id = request.data["meeting_id"]
