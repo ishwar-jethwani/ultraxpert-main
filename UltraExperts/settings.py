@@ -458,4 +458,11 @@ DEFAULT_FROM_EMAIL = 'UltraTeam Team <noreply@onlinewebsitemarket.com>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
+# Redis COnnection
+# REDIS_URL = REDIS_URL
+
+# if REDIS_URL:
+#     CACHES = {
+#         "default": REDIS_URL
+#     }
 
