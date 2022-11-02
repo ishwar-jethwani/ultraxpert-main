@@ -62,6 +62,7 @@ class UserTestReport(models.Model):
     "User Test Report"
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     qualified = models.BooleanField(default=False)
+    correct_ans_count = models.PositiveIntegerField(verbose_name="Number Of Correct Answer",default=0)
     date_of_test = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     def __str__(self) -> str:
@@ -72,27 +73,25 @@ class UserTestReport(models.Model):
 class Test(models.Model):
     "Test For Becoming Expert"
     test_id             = models.CharField(max_length=10,verbose_name="Test Id",blank=True,null=True)
-    test_name           = models.CharField(max_length=50,verbose_name="Test Name",blank=True,null=True)
-    start_time          = models.DateTimeField(verbose_name="Start Time",blank=True,null=True)
     duration            = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
     options             = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
-    answer              = models.JSONField(verbose_name="Answer",blank=True,null=True,default=dict)
+    answers             = models.JSONField(verbose_name="Answer",blank=True,null=True,default=dict)
     question            = RichTextField(verbose_name="Question",blank=True,null=True)
-    sequence            = models.PositiveIntegerField(blank=True,null=True)
     test_category       = models.CharField(max_length=50,verbose_name="Category",blank=True,null=True)
-    date_created        = models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    multi_ans           = models.BooleanField(default=False,verbose_name="Multiple Answer")
+    date_created        = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.test_name 
+        return self.test_id
 
     class Meta:
-        ordering = ["sequence"]
+        ordering = ["-date_created"]
 
 
 # For Pre Saving Test ID in Instance
 def pre_save_create_test_id(sender, instance, *args, **kwargs):
     if not instance.test_id:
-        instance.test_id= unique_test_id_gen(instance)
+        instance.test_id = unique_test_id_gen(instance)
 pre_save.connect(pre_save_create_test_id, sender=Test)
 
 

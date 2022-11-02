@@ -167,6 +167,8 @@ CORS_ALLOW_HEADERS = [
 #https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 #server =  os.getenv("SERVER")
 server = SERVER
+print(server)
+
 if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
     DATABASES = { 
         'default': {
@@ -185,7 +187,7 @@ elif server == "TEST":
         'NAME': os.environ.get('POSTGRES_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'db',
+        'HOST': "db",
         'PORT': 5432,
     }
 }

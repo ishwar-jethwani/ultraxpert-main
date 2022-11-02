@@ -1,5 +1,17 @@
 version: "3.9"
 services:
+  db:
+    image: postgres:13.3
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DATABASE: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - .dbdata:/var/lib/postgres
+    ports:
+      - "32768:5432"
   redis:
     image: redis:alpine
     command: redis-server
@@ -7,10 +19,15 @@ services:
       - "14000:6379"
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:80
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     depends_on:
+      - db
       - redis
