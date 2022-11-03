@@ -83,7 +83,7 @@ urlpatterns+=[
 # System Application
 
 urlpatterns+=[
-   path("",include("datascripts.urls")),
+   #path("",include("datascripts.urls")),
    path("user/",include("user.urls")),
    path("activity/",include("activity.urls")),
    path("chat/",include("chat.urls")),

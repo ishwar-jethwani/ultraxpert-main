@@ -75,6 +75,12 @@ class UserPlanSerilizer(serializers.ModelSerializer):
         model = UserPlans
         fields = "__all__"
 
+#Serializer For Test 
+
+class TestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Test
+        fields = "__all__"
 
 #Serilizer For Comment
 
