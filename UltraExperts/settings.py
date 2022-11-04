@@ -169,15 +169,17 @@ CORS_ALLOW_HEADERS = [
 server = SERVER
 print(server)
 
-if 'RDS_HOSTNAME' in os.environ and  server == "Production" :
+
+
+if server == "PRODUCTION" :
     DATABASES = { 
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': os.environ["RDS_DB_NAME"],
-            'USER': os.environ["RDS_USERNAME"],
-            'PASSWORD': os.environ["RDS_PASSWORD"],
-            'HOST': os.environ["RDS_HOSTNAME"],
-            'PORT':  os.environ["RDS_PORT"],
+            'NAME': RDS_PRODUCTION_DB_NAME,
+            'USER': RDS_PRODUCTION_DB_USERNAME,
+            'PASSWORD': RDS_PRODUCTION_DB_PASSWORD,
+            'HOST': RDS_PRODUCTION_DB_HOSTNAME,
+            'PORT': RDS_PRODUCTION_DB_PORT,
         }
     }
 elif server == "TEST":
@@ -191,13 +193,19 @@ elif server == "TEST":
         'PORT': 5432,
     }
 }
-# if len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DATABASE_URL", None) is None:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     DATABASES = {
-#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-#     }
-elif server=="local":
+elif server == "STAGING":
+        DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config("RDS_DB_NAME"),
+            'USER': config("RDS_USERNAME"),
+            'PASSWORD': config("RDS_PASSWORD"),
+            'HOST': config("RDS_HOSTNAME"),
+            'PORT': config("RDS_PORT"),
+        }
+    }
+
+else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -208,17 +216,8 @@ elif server=="local":
             'PORT': config("PORT"),
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': config("RDS_DB_NAME"),
-            'USER': config("RDS_USERNAME"),
-            'PASSWORD': config("RDS_PASSWORD"),
-            'HOST': config("RDS_HOSTNAME"),
-            'PORT': config("RDS_PORT"),
-        }
-    }
+
+
  
 
 
