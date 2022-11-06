@@ -1,9 +1,6 @@
-from faulthandler import disable
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from meet.models import Meeting
 from .constant import *
 from rest_framework.permissions import IsAuthenticated
 from .serializers import *
@@ -11,7 +8,7 @@ from rest_framework.generics import CreateAPIView
 from activity.serializers import *
 from .models import *
 from collections import defaultdict
-from datetime import datetime,date
+from datetime import datetime,timedelta
 
 
 # def base64_encode(message):
