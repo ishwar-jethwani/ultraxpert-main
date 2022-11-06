@@ -34,13 +34,13 @@ from UltraExperts.serializers import UserSerilizer
 #         document=ServiceDocument
 
 class SearchSerializer(ModelSerializer):
+    """ModelSerializer For Model Search"""
     class Meta:
         fields = ["query"]
         model = Search
 
-
-
 class ExpertSearchSerializer(ModelSerializer):
+    """ModelSerializer For Expert search"""
     class Meta:
         fields = [
             "first_name",
@@ -57,6 +57,7 @@ class ExpertSearchSerializer(ModelSerializer):
         model= Profile
         depth = 1
 class ServiceSearchSerializer(ModelSerializer):
+    """ModelSerializer For Service Search"""
     class Meta:
         fields = [
             "service_id",

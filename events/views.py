@@ -112,12 +112,14 @@ from datetime import datetime,timedelta
 
      
 class EventCreateAPIView(CreateAPIView):
+    """Create APIView For Creating New Events"""
     queryset = Event.objects.all()
     permission_classes = [IsAuthenticated]
     serializer_class = EventCreateSerializer
 
 
 class GlobalCheckAPI(APIView):
+    """APIView For Checking Booked Events"""
     def post(self,request):
         expert_id = request.data["expert_id"]
         slot_id = request.data["slot_id"]
@@ -141,6 +143,7 @@ class GlobalCheckAPI(APIView):
 
 
 class GetEventAPIView(APIView):
+    """APIView For Checking All Events"""
     def get(self,request,service_id):
         event = Event.objects.filter(releted_service__service_id=service_id)
         list_of_event = event.values_list("event_id",flat=True)
@@ -175,6 +178,7 @@ class GetEventAPIView(APIView):
             return Response(result,status=status.HTTP_200_OK)
 
 class BookedStatusChangeAPI(APIView):
+    """APIView For Checking Booking Status"""
     def post(self,request):
         slot_id = request.data["slot_id"]
         payment_id = request.data["payment_id"]

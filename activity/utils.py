@@ -2,11 +2,11 @@ import random
 import string
 from django.conf import settings
 from django.core.cache import cache
-
+#Random String Geerator 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
-
+#Unique Order Id Generator
 def unique_order_id_generator(instance):
 	order_new_id= random_string_generator()
 
@@ -17,7 +17,7 @@ def unique_order_id_generator(instance):
 		return unique_order_id_generator(instance)
 	return order_new_id
 
-
+#Unique Request Id Generator 
 def unique_request_id_generator(instance):
 	request_new_id= random_string_generator()
 
@@ -29,11 +29,11 @@ def unique_request_id_generator(instance):
 	return request_new_id
 
 
-
+#Random String Geerator 
 def random_string_generator_for_subs_id(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
-
+#Unique Subscription Id Generator
 def unique_subs_id_generator(instance):
 	subs_new_id= random_string_generator_for_subs_id()
 

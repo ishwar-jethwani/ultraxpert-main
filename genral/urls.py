@@ -10,6 +10,5 @@ urlpatterns = [
     path("contact/",SupportQueryAPI.as_view(),name="contact"),
     path("blog/",BlogListAPI.as_view(),name="blog"),
     path("blog_create/",BlogCreateAPI.as_view(),name="blog_create"),
-    path("blog/<str:pk>/",BlogReadAPI.as_view(),name="blog_read")
-
+    path("blog/<str:pk>/",BlogReadAPI.as_view(),name="blog_read"),
 ]

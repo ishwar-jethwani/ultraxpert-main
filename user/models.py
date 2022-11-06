@@ -13,9 +13,9 @@ from django.shortcuts import reverse
 from django.utils import timezone
 import json
 
-
-
+#Model Keywords
 class Keywords(models.Model):
+    """Model For Keyword Details"""
     name = models.CharField(max_length=10,verbose_name="Keyword",null=True,blank=True)
     date_created = models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
@@ -25,8 +25,9 @@ class Keywords(models.Model):
     def __str__(self) -> str:
         return self.name
 
-
+#User Model
 class User(AbstractBaseUser,PermissionsMixin):
+    """Model For Saving User Details"""
     user_id     = models.CharField(max_length=10,unique=True,blank=True,null=True)
     refer_code  = models.CharField(max_length=10,unique=True,blank=True,null=True)
     reffered_by = models.CharField(max_length=10,blank=True,null=True)
@@ -50,6 +51,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     class Meta:
         verbose_name = ('user')
         verbose_name_plural = ('users')
+
 # For Pre Saving User ID and Refer Code in Instance
 def pre_save_create_user_id(sender, instance, *args, **kwargs):
     if not instance.user_id:
@@ -57,9 +59,9 @@ def pre_save_create_user_id(sender, instance, *args, **kwargs):
         instance.refer_code = unique_refrence_code_genrator(instance)
 pre_save.connect(pre_save_create_user_id, sender=User)
 
-
+#User Test Report Model
 class UserTestReport(models.Model):
-    "User Test Report"
+    """User Test Report"""
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     qualified = models.BooleanField(default=False)
     correct_ans_count = models.PositiveIntegerField(verbose_name="Number Of Correct Answer",default=0)
@@ -69,9 +71,9 @@ class UserTestReport(models.Model):
         return self.user.user_id
     class Meta:
         ordering = ["-date_of_test"]
-    
+#Model Test    
 class Test(models.Model):
-    "Test For Becoming Expert"
+    """Test For Becoming Expert"""
     test_id             = models.CharField(max_length=10,verbose_name="Test Id",blank=True,null=True)
     duration            = models.DurationField(verbose_name="Test Duration",blank=True,null=True)
     options             = models.JSONField(verbose_name="Questions",default=dict,blank=True,null=True)
@@ -94,11 +96,9 @@ def pre_save_create_test_id(sender, instance, *args, **kwargs):
         instance.test_id = unique_test_id_gen(instance)
 pre_save.connect(pre_save_create_test_id, sender=Test)
 
-
-
-
-
+#User Plan Model
 class UserPlans(models.Model):
+    """Model For User Plan Details"""
     currency_take = (
         ("INR","INR"),
         ("USD","USD"),
@@ -125,8 +125,9 @@ def pre_save_create_plan_id(sender, instance, *args, **kwargs):
         instance.plan_id= f"PLAN{unique_plan_id_generator(instance)}"
 pre_save.connect(pre_save_create_plan_id, sender=UserPlans)
 
-
+#Category Model
 class Category(models.Model):
+    """Model For Category Details"""
     name    = models.CharField(max_length=200)
     img     = models.URLField(null=True,blank=True)
     number  = models.PositiveIntegerField(null=True,blank=True)
@@ -138,8 +139,9 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
-
+#Services Model
 class Services(models.Model):
+    """Model For Details Of Services"""
     currency_take = (
         ("INR","INR"),
         ("USD","USD"),
@@ -178,8 +180,9 @@ def pre_save_create_service_id(sender, instance, *args, **kwargs):
         instance.service_id= unique_service_id_generator_service(instance)
 pre_save.connect(pre_save_create_service_id, sender=Services)
 
-
+#Profile Model
 class Profile(models.Model):
+    """Model For Auto Completing User Profiles"""
     gender =(
         ("Male","Male"),
         ("Female","Female"),
@@ -221,9 +224,9 @@ class Profile(models.Model):
     class Meta:
         ordering = ["pk"]
 
-
-
+#Bank Detail Model
 class BankDetail(models.Model):
+    """Model For Saving Bank Details"""
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     account_holder = models.CharField(max_length=100,verbose_name="Account Holder Name",blank=True,null=True)
     bank_name = models.CharField(max_length=1000,verbose_name="Bank Name",blank=True,null=True)
@@ -236,9 +239,10 @@ class BankDetail(models.Model):
 
     class Meta:
         ordering = ["-timestamp"]
-    
 
+#Comment Model 
 class Comment(models.Model):
+    """Model For saving Comments"""
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     service = models.ForeignKey(Services,on_delete=models.CASCADE,blank=True,null=True)
     comment = models.CharField(max_length=200000,verbose_name="Comment",blank=True,null=True)

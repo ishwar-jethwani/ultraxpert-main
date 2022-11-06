@@ -17,6 +17,7 @@ from django.template.loader import get_template
 
 
 class MeetingAPI(APIView):
+    """APIView For Generating Meeting"""
     permission_classes = [IsAuthenticated]
 
     def post(self,request):
@@ -75,6 +76,7 @@ class MeetingAPI(APIView):
         return Response(serialize.data,status=status.HTTP_200_OK)
     
 class ExpertMeeting(APIView):
+    """APIView For Creating Experts Meeting"""
     permission_classes = [IsAuthenticated]
     def get(self,request):
         user = request.user
@@ -135,6 +137,7 @@ class ExpertMeeting(APIView):
 
 
 class MeetingValidation(APIView):
+    """APIView For Token Validation For Meeting"""
     permission_classes = [IsAuthenticated]
     def get(self,request,meeting_id):
         user = request.user
@@ -158,6 +161,7 @@ class MeetingValidation(APIView):
 
 
 class MeetingContainer(APIView):
+    """APIView For Creating Meeting Container"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         user = request.user  
@@ -206,6 +210,7 @@ class MeetingContainer(APIView):
 
         
 class MeetingQuikeJoin(APIView):
+    """APIView For Quick Join Of Meeting"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         meeting_id = request.data["meeting_id"]
@@ -221,6 +226,7 @@ class MeetingQuikeJoin(APIView):
         return Response(serialize.data,status=status.HTTP_400_BAD_REQUEST)
 
 class JoinedMeeting(APIView):
+    """APIView For Meeting Joining"""
     permission_classes = [IsAuthenticated]
     def post(self,request):
         meeting_id = request.data["meeting_id"]

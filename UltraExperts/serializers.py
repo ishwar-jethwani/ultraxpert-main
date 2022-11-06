@@ -5,6 +5,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 
 
 class CustomRegisterSerializer(RegisterSerializer):
+    """Serializer For Custom Registration"""
     reffered_by = serializers.CharField(max_length=10,required=False)    
     verification_status = serializers.BooleanField(default=False)
     def get_cleaned_data(self):
@@ -15,11 +16,13 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class UserSerilizer(serializers.ModelSerializer):
+    """Serializer For  User"""
     class Meta:
         fields = ["pk","user_id","is_expert","is_verified","username","email","mobile","refer_code","reffered_by"]
         model = User
     
 class OrderUserSerilizer(serializers.ModelSerializer):
+    """Serializer For Order"""
     class Meta:
         fields = ["pk","user_id","is_expert","is_verified","username"]
         model = User

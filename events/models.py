@@ -4,12 +4,9 @@ from django.db import models
 from .utils import * 
 from django.db.models.signals import pre_save
 
-
-
-
-
+#Event Model
 class Event(models.Model):
-
+    """Model For Event Details"""
     notify_choices = (
     ('5 Minutes',5),
     ('10 Minutes',10),
@@ -41,8 +38,9 @@ class Event(models.Model):
     def schedules(self):
         return self.eventschedule_set.all()
 
-
+#EventSchedule Model
 class EventSchedule(models.Model):
+    """Model For Scheduling Events"""
     day = models.CharField(verbose_name="Day",max_length=30,blank=True,null=True)
     event = models.ForeignKey(Event,on_delete=models.CASCADE)
 
@@ -54,7 +52,9 @@ class EventSchedule(models.Model):
     def timings(self):
         return self.eventscheduletime_set.all()
 
+#EventScheduleTime Model
 class EventScheduleTime(models.Model):
+    """Model For Event Time Details """
     start_time  = models.CharField(max_length=255,verbose_name="start time",blank=True,null=True)
     end_time    = models.CharField(max_length=255,verbose_name="End time",blank=True,null=True)
     timezone    = models.CharField(max_length=255,verbose_name="timeZone",blank=True,null=True)
@@ -66,7 +66,7 @@ class EventScheduleTime(models.Model):
     def __str__(self) -> str:
         return "{}-{}-{}".format(str(self.id), str(self.schedule.id),str(self.schedule.event.event_id))
 
-
+#For Pre Saving Event Id 
 def pre_save_create_event_id(sender, instance, *args, **kwargs):
     if not instance.event_id:
         instance.event_id= unique_event_id_generator(instance)

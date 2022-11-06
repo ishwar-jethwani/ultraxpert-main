@@ -5,8 +5,9 @@ from user.models import *
 import requests
 import random
 from django.db import transaction,IntegrityError
-class Category_Create(APIView):
 
+class Category_Create(APIView):
+    """APIView For Creating Category"""
     def get(self,request):    
         with open("datascripts\data\cat.json","r") as file:
             data = file.read()
@@ -24,6 +25,7 @@ class Category_Create(APIView):
             return Response({"msg":"not created"},status=status.HTTP_400_BAD_REQUEST)
 
 class TestCreateUserData(APIView):
+    """APIView For Creating User Test"""
     def get(self,request):
         prof = ["Python Developer","Django Developer","PHP Developer","Dot Net Developer","QA Engineer","Software Engineer","System Engineer","Cloud Service Engineer","Hardware Engineer","Designer","Graphics Designer","Civil Engineer","Frountend Software Develoer","Backend Software Developer"]
         count = 0
@@ -80,6 +82,7 @@ class TestCreateUserData(APIView):
 
 
 class TestServiceCreate(APIView):
+    """APIView For Creating Test AS Per Service"""
     def get(self,request):
         prof = ["Python Developer","Django Developer"]
         user_prof = Profile.objects.filter(title__in=prof).values_list("id",flat=True)
@@ -105,7 +108,7 @@ class TestServiceCreate(APIView):
 
 
 class TestQuestion(APIView):
-    "Test Question Genration"
+    """APIView Test Question Genration"""
     def get(self,request):
         data = requests.get(url="https://quizapi.io/api/v1/questions",headers={"X-Api-Key":"m9Fxp2IeoT26gni6OxNvWVDbtFVEwrbYJiJDUWhf"},params={"category":"Docker"})
         main_list = json.loads(data.text)

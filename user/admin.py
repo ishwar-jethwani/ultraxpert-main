@@ -4,7 +4,9 @@ from .models import *
 
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
 class UserAccountAdmin(UserAdmin):
+    """User Account Admin"""
     list_display = ["id","user_id","username","mobile","email","is_verified","is_expert","is_staff","is_superuser","is_active","refer_code","reffered_by"]
     search_fields = ["id","email","username","user_id","refer_code"]
     readonly_fields = ["date_joined","last_login"]
@@ -13,6 +15,7 @@ class UserAccountAdmin(UserAdmin):
     fieldsets = ()
 
 class ProfileAccountAdmin(admin.ModelAdmin):
+    """Profile Account Admin"""
     list_display = ["id","profile","first_name","last_name"]
     search_fields = ["id","first_name","last_name"]
     filter_horizontal = ()

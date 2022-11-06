@@ -16,7 +16,7 @@ from rest_framework import permissions
 
 
 class IsGETOrIsAuthenticated(permissions.BasePermission):        
-
+    """View For Authentication"""
     def has_permission(self, request, view):
         if request.method == 'GET':
             return True
@@ -24,6 +24,7 @@ class IsGETOrIsAuthenticated(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 class SendProjectRequest(generics.CreateAPIView):
+    """Create APIView For Sending Project Request"""
     permission_classes = [IsAuthenticated]  
     serializer_class = ProjectRequestSerializer
     def get_queryset(self):
@@ -31,6 +32,7 @@ class SendProjectRequest(generics.CreateAPIView):
 
 
 class AcceptAndRejectProjectRequest(APIView):
+    """APIView For Accept and Reject Of Project Request"""
     permission_classes = [IsAuthenticated]
 
     def post(self,request,request_id):
@@ -45,6 +47,7 @@ class AcceptAndRejectProjectRequest(APIView):
 
 
 class RatingView(APIView):
+    """APIView For Rating To Profiles"""
     permission_classes = [IsGETOrIsAuthenticated]
 
     def get(self,request,user_id):
@@ -81,6 +84,7 @@ class RatingView(APIView):
 
 
 class Place_Order(APIView):
+    """APIView For Placing New Order"""
     permission_classes= [IsAuthenticated]
     def post(self,request,service_id):
         user = request.user
@@ -95,6 +99,7 @@ class Place_Order(APIView):
             return Response({"msg":"somthing went wrong"},status=status.HTTP_200_OK)
         
 class OrderHistory(APIView):
+    """APIView For Fetching Order History"""
     permission_classes = [IsAuthenticated]
     def get(self,request):
         user = request.user
@@ -104,6 +109,7 @@ class OrderHistory(APIView):
 
 
 class PaymentConfirmationApiView(generics.UpdateAPIView):
+    """ Update APIView Payment Confirmation"""
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderHistorySerializer
@@ -111,6 +117,7 @@ class PaymentConfirmationApiView(generics.UpdateAPIView):
 
 
 class OrderStatusUpdateApiView(generics.RetrieveUpdateAPIView):
+    """RetrieveUpdateAPIView For Updation Of Order Status"""
     permission_classes = [IsAuthenticated]
     queryset = Order.objects.all()
     serializer_class = OrderStatusSerializer
@@ -118,6 +125,7 @@ class OrderStatusUpdateApiView(generics.RetrieveUpdateAPIView):
 
         
 class ExpertGotOrder(generics.ListAPIView):
+    """ListAPIView For Displaying Expert's Order"""
     permission_classes = [IsAuthenticated]
     serializer_class = OrderHistorySerializer
     def get_queryset(self):
@@ -125,18 +133,21 @@ class ExpertGotOrder(generics.ListAPIView):
 
 
 class SubscriptionView(generics.ListAPIView):
+    """ListAPIView For Displaying Subscription Details"""
     permission_classes = [IsAuthenticated]
     serializer_class = SubscriptionSerializer
     def get_queryset(self):
         return Subscriptions.objects.filter(user=self.request.user)
 
 class SubscriptonStatusUpdateApiView(generics.RetrieveUpdateAPIView):
+    """RetrieveUpdateAPIView For Updation Of Subscription Status"""
     permission_classes = [IsAuthenticated]
     queryset = Subscriptions.objects.all()
     serializer_class = SubscriptionSerializer
     lookup_field = "subs_id" 
 
 class Transaction(generics.ListAPIView):
+    """ListAPIView For Displaying Transaction Details"""
     permission_classes = [IsAuthenticated]
     serializer_class = OrderSerializer
     def get_queryset(self):

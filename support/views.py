@@ -12,6 +12,7 @@ def dashboard(request):
     return render(request,"support/base.html")
 
 class DashboardView(APIView):
+    """APIView For Dispalying Dashboard Template"""
     template_name = 'support/dashboard.html'
     ctx = {}
     base_context = None

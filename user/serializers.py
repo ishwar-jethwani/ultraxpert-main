@@ -2,17 +2,19 @@ from rest_framework import serializers
 from .models import *
 from UltraExperts.serializers import *
 
-
 class KeywordSerilizer(serializers.ModelSerializer):
+    """ModelSerializer For Model Keyword"""
     class Meta:
         model = Keywords
         fields = ["id","name"]
 class CategorySerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Category"""
     class Meta:
         model = Category
         fields = ["id","name","img"]
 
 class ProfileSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Profile"""
     categories = CategorySerializer()
     keywords = KeywordSerilizer()
     profile = OrderUserSerilizer()
@@ -22,6 +24,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 
 class ServiceShowSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Displaying Service"""
     category = CategorySerializer()
     date_created  = serializers.DateTimeField(format="%c")
     user = OrderUserSerilizer()
@@ -31,6 +34,7 @@ class ServiceShowSerializer(serializers.ModelSerializer):
 
 
 class ServicesSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Service"""
     class Meta:
         model = Services
         fields = "__all__"
@@ -58,6 +62,7 @@ class ServicesSerializer(serializers.ModelSerializer):
     
 
 class UserPlanSerilizer(serializers.ModelSerializer):
+    """ModelSerializer For Model User Plan"""
     date_created = serializers.DateTimeField(format="%c")
     class Meta:
         model = UserPlans
@@ -66,6 +71,7 @@ class UserPlanSerilizer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Comment"""
     timestamp = serializers.DateTimeField(format="%c")
     class Meta:
         model = Comment
@@ -73,6 +79,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Auto Completing User Profiles"""
     def to_representation(self, instance):
         return {
             "name":f"{instance.first_name} {instance.last_name}",
@@ -83,6 +90,7 @@ class ProfileAutoCompleteSerializer(serializers.ModelSerializer):
         fields = ["first_name","last_name"]
 
 class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Auto Completing Services"""
     def to_representation(self, instance):
         return {
             "name":instance.service_name,
@@ -91,11 +99,8 @@ class ServiceAutoCompleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Services
 
-    
-
-
-
 class BankSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Bank"""
     class Meta:
         model = BankDetail
         fields = ["user","account_holder","bank_name","account_number","ifsc_code"]
@@ -107,6 +112,7 @@ class BankSerializer(serializers.ModelSerializer):
                 return service
 
 class TestSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Model Test"""
     class Meta:
         model = Test
         fields = "__all__"

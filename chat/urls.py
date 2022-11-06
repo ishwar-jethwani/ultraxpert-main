@@ -5,6 +5,4 @@ urlpatterns = [
     path('', ChatSessionView.as_view()),
     path('<uri>/',ChatSessionView.as_view()),
     path('<uri>/messages/',ChatSessionMessageView.as_view()),
-
-
 ]

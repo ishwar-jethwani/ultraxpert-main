@@ -2,11 +2,8 @@ from rest_framework import serializers
 from .models import *
 import datetime
 
-
-
-
-
 class EventReadSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Event Read Model"""
     class Meta:
         model = EventScheduleTime
         fields = "__all__"
@@ -47,23 +44,21 @@ class EventReadSerializer(serializers.ModelSerializer):
 
 
 class EventScheduleTimeCreateSerializer(serializers.ModelSerializer):
-    """
-    Helper Serializer for Creating an event
-    """
+    """Helper Serializer for Creating an event"""
     class Meta:
         model = EventScheduleTime
         fields = ['start_time','end_time','timezone','duration','booked']
 
 
 class EventScheduleCreateSerializer(serializers.ModelSerializer):
+    """ModelSerializer For  Event Scheduler"""
     timings = EventScheduleTimeCreateSerializer(many=True, required=False)
     class Meta:
         model = EventSchedule
         fields = ['day', 'timings']
 
-
-
 class EventCreateSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Creating Event"""
     schedules = EventScheduleCreateSerializer(many=True, required=False)
     class Meta:
         model = Event

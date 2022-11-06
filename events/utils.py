@@ -1,10 +1,11 @@
 import random
 import string
 
+#For Generating Random String
 def random_string_generator_event(size=10, chars=string.ascii_lowercase + string.digits):
 	return ''.join(random.choice(chars) for _ in range(size))
 
-
+#Generating Unique Event Id
 def unique_event_id_generator(instance):
 	event_new_id= random_string_generator_event()
 

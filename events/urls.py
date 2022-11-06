@@ -6,6 +6,5 @@ urlpatterns = [
     path("event/", EventCreateAPIView.as_view(), name="event"),
     path("get_event/<service_id>/",GetEventAPIView.as_view(),name="get_event"),
     path("slot/",BookedStatusChangeAPI.as_view(),name="status_changed"),
-    path("event_disable/",GlobalCheckAPI.as_view(),name="event_disable")
-
+    path("event_disable/",GlobalCheckAPI.as_view(),name="event_disable"),
 ]

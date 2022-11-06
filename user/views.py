@@ -24,6 +24,7 @@ from django.db.models import Q
 import random
 
 class Home_View(APIView):
+    """APIView For Displaying All Details Of User"""
     def get(self,request):
         page_number = 1
         user = []
@@ -60,6 +61,7 @@ class Home_View(APIView):
 
 
 class UserPlanSelect(APIView):
+    """APIView For Selecting User Plan"""
     permission_classes = [IsAuthenticated]
     def get(self,request):
         data = UserPlans.objects.all()
@@ -83,6 +85,7 @@ class UserPlanSelect(APIView):
         return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
 
 class Expert_View(APIView):
+    """APIView For Displaying Expert Details"""
     def get(self,request):
         page_number = 1
         user = []
@@ -120,6 +123,7 @@ class Expert_View(APIView):
 
 
 class AutoCompleteAPIView(APIView):
+    """APIView For Auto Completing User Profile"""
     def get(self,request):
         search = ""
         if "search" in request.GET:
@@ -149,6 +153,7 @@ class AutoCompleteAPIView(APIView):
 
 
 class UserDelete(APIView):
+    """APIView For Deleting User"""
     permission_classes = [IsAuthenticated]
     serializer_class   = UserSerilizer
     def delete(self,request):
@@ -158,6 +163,7 @@ class UserDelete(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class Profile_View(generics.RetrieveUpdateAPIView):
+    """Retrieve and Update APIView For Updating Profiles"""
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
 
@@ -168,11 +174,13 @@ class Profile_View(generics.RetrieveUpdateAPIView):
         return obj
 
 class CategoryAPIView(generics.ListCreateAPIView):
+    """Create APIView for Creating New Category"""
     permission_classes = [AllowAny]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 class CategoryRetriveAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """Retrieve Update APIView For Displaying Category"""
     permission_classes = [AllowAny]
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
@@ -180,12 +188,14 @@ class CategoryRetriveAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ServiceCreate(generics.ListCreateAPIView):
+    """Create APIView For Creating New Service """
     permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
     def get_queryset(self):
         return Services.objects.filter(user=self.request.user)
     
 class ServiceUpdate(generics.UpdateAPIView):
+    """Update APIView For Updating Service """
     permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
     lookup_field = "service_id"
@@ -193,6 +203,7 @@ class ServiceUpdate(generics.UpdateAPIView):
         return Services.objects.filter(user=self.request.user)
 
 class ServiceDelete(generics.DestroyAPIView):
+    """Destroy APIView For Deleting Service """
     permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
     lookup_field = "service_id"
@@ -200,11 +211,13 @@ class ServiceDelete(generics.DestroyAPIView):
         return Services.objects.filter(user=self.request.user)
 
 class ServiceDetail(generics.RetrieveAPIView):
+    """Retrieve APIView For Displaying Service Details"""
     serializer_class = ServiceShowSerializer
     lookup_field = "service_id"
     queryset = Services.objects.all()
 
 class ServiceList(generics.ListAPIView):
+    """List APIView for Displaying UserPlan"""
     serializer_class = ServiceShowSerializer
     def get_queryset(self):
         page_number = 1
@@ -229,15 +242,18 @@ class ServiceList(generics.ListAPIView):
     
 
 class UserPlanAPIView(generics.ListAPIView):
+    """List APIView for Displaying UserPlan"""
     serializer_class = UserPlanSerilizer
     queryset = UserPlans.objects.all()
 
 class KeywordsAPIView(generics.ListCreateAPIView):
+    """Create APIView For Creating Keywords"""
     permission_classes = [IsAuthenticated]
     serializer_class = KeywordSerilizer
     queryset = Keywords.objects.all()
 
 class UserUpdateAPI(generics.RetrieveUpdateAPIView):
+    """Retrieve Update APIView For Updating User Details"""
     permission_classes = [IsAuthenticated]
     serializer_class = UserSerilizer
     queryset = User.objects.all()
@@ -245,6 +261,7 @@ class UserUpdateAPI(generics.RetrieveUpdateAPIView):
 
 
 class ExpertDetailView(APIView):
+    """API View For Fetching Expert Details"""
     def get(self,request,user_id):
         user = User.objects.get(user_id=user_id)
         profile_obj = Profile.objects.filter(profile__is_expert=True,profile=user)
@@ -270,12 +287,14 @@ class ExpertDetailView(APIView):
 
 
 class BankDetailCreate(generics.CreateAPIView):
+    """Create APIView For Bank Detail"""
     permission_classes = [IsAuthenticated]
     serializer_class = BankSerializer
     def get_queryset(self):
         return BankDetail.objects.filter(user=self.request.user)
 
 class BankDetailRead(generics.RetrieveUpdateAPIView):
+    """Retrieve Update APIView For Bank Detail"""
     permission_classes = [IsAuthenticated]
     serializer_class = BankSerializer
     def get_object(self):
@@ -283,6 +302,7 @@ class BankDetailRead(generics.RetrieveUpdateAPIView):
         return object
 
 class CommentAPIView(APIView):
+    """API For Comment"""
     permission_classes = [IsGETOrIsAuthenticated]
     serializer_class = ServicesSerializer
 

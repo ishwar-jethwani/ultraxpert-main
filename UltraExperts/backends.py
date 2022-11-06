@@ -1,6 +1,7 @@
 from django.contrib.auth.backends import ModelBackend
 from user.models import User
 class MobileAuthenticationBackend(ModelBackend):
+    """Authentication Through Mobile And Password"""
     def authenticate(self, request, **kwargs):
         mobile = kwargs["mobile"]
         password = kwargs["password"]

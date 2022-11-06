@@ -11,7 +11,9 @@ from .utils import *
 from django.db.models.signals import pre_save
 from user.models import *
 
+#Project Model
 class Project_Request(models.Model):
+    """Model For Request Details For Project"""
     request_id = models.CharField(max_length=10,blank=True,unique=True)
     request_from_user = ForeignKey(User,on_delete=models.CASCADE)
     service = ForeignKey(Services,on_delete=models.CASCADE)
@@ -24,7 +26,7 @@ class Project_Request(models.Model):
     class Meta:
         ordering = ["-request_time"]
 
-
+#Pre Saving Reqeust Id
 def pre_save_create_request_id(sender, instance, *args, **kwargs):
     if not instance.request_id:
         instance.request_id= unique_request_id_generator(instance)
@@ -32,8 +34,9 @@ def pre_save_create_request_id(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_create_request_id, sender=Project_Request)
 
-
+#Ratings Model
 class Ratings(models.Model):
+    """Model For Ratings Details"""
     user_name = models.ForeignKey(User,on_delete=models.CASCADE)
     short_title = models.CharField(max_length=100,blank=True,null=True)
     review =  RichTextField(blank=True,null=True)
@@ -48,8 +51,9 @@ class Ratings(models.Model):
     class Meta:
         ordering = ["pk"]
 
-    
+#Order Model   
 class Order(models.Model):
+    """Model For order Details"""
     stages = (
         ("pending","pending"),
         ("booked","booked"),
@@ -73,6 +77,7 @@ class Order(models.Model):
     class Meta:
         ordering = ["-order_created"]
 
+#Pre Saving Order Id 
 def pre_save_create_order_id(sender, instance, *args, **kwargs):
     if not instance.order_id:
         instance.order_id= unique_order_id_generator(instance)
@@ -80,7 +85,9 @@ def pre_save_create_order_id(sender, instance, *args, **kwargs):
 
 pre_save.connect(pre_save_create_order_id, sender=Order)
 
+#Subscription Model
 class Subscriptions(models.Model):
+    """Model For Subscription Details"""
     subs_id = models.CharField(max_length=20,verbose_name="id",blank=True)
     plan = models.ForeignKey(UserPlans,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -93,10 +100,7 @@ class Subscriptions(models.Model):
     class Meta:
         ordering = ["-date_created"]
 
-
-
-
-
+#Pre Saving Subscription Id 
 def pre_save_create_subs_id(sender, instance, *args, **kwargs):
     if not instance.subs_id:
         instance.subs_id= unique_subs_id_generator(instance)

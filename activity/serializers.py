@@ -9,6 +9,7 @@ from django.template.loader import get_template
 
 
 class ProjectRequestSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Project Request Model"""
     class Meta:
         model = Project_Request
         fields = "__all__"
@@ -26,11 +27,13 @@ class ProjectRequestSerializer(serializers.ModelSerializer):
         return request
 
 class RatingUserserializer(serializers.ModelSerializer):
+    """ModelSerializer For Rating User Model"""
     class Meta:
         model = User
         fields = ["user_id","username","is_expert"]
 
 class RatingSerializer(serializers.ModelSerializer):
+    """ModelSerializer For Rating Model"""
     user_name = RatingUserserializer()
     date_created = serializers.DateTimeField(format="%c")
     class Meta:
@@ -39,6 +42,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class OrderHistorySerializer(serializers.ModelSerializer):
+    """ModelSerializer For Order History Model"""
     user = OrderUserSerilizer()
     order_created = serializers.DateTimeField(format="%c")
     service_obj = ServiceShowSerializer()
@@ -59,6 +63,7 @@ class OrderHistorySerializer(serializers.ModelSerializer):
             return instance
 
 class OrderStatusSerializer(serializers.ModelSerializer):
+    """ModelSerializer oFor Order Status Model"""
     order_created = serializers.DateTimeField(format="%c")
     service_obj = ServiceShowSerializer()
     user = UserSerilizer()
@@ -76,6 +81,7 @@ class OrderStatusSerializer(serializers.ModelSerializer):
 
     
 class OrderSerializer(serializers.ModelSerializer):
+    """ModelSerializer Order Model"""
     user = OrderUserSerilizer()
     order_on = OrderUserSerilizer()
     service_obj = ServiceShowSerializer()

@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 user = User()
 
 class ChatSessionView(APIView):
-    """Manage Chat sessions."""
+    """APIView Manage Chat sessions."""
 
     permission_classes = [IsAuthenticated]
 
@@ -53,7 +53,7 @@ class ChatSessionView(APIView):
     
 
 class ChatSessionMessageView(APIView):
-    """Create/Get Chat session messages."""
+    """APIView Create/Get Chat session messages."""
 
     permission_classes = [IsAuthenticated]
 
