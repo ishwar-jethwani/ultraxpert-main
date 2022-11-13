@@ -260,7 +260,6 @@ class JoinedMeeting(APIView):
             return Response({"msg":"meeting is not available"},status=status.HTTP_200_OK)
 
 
-
    
         
 

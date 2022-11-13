@@ -116,3 +116,9 @@ class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
         fields = "__all__"
+
+class UserTestReportSerializer(serializers.ModelSerializer):
+    """Serilizer For User Report"""
+    class Meta:
+        model = UserTestReport
+        fields = "__all__"

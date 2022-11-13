@@ -22,6 +22,7 @@ from django.shortcuts import get_object_or_404
 from UltraExperts.constants import DEBUG
 from django.db.models import Q
 import random
+from django.db import IntegrityError
 
 class Home_View(APIView):
     """APIView For Displaying All Details Of User"""
@@ -83,6 +84,58 @@ class UserPlanSelect(APIView):
                 serialize = SubscriptionSerializer(subscription)
                 return Response(data=serialize.data,status=status.HTTP_200_OK)
         return Response(data={"msg":"somthing went wrong"},status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserReporterGenrator(APIView):
+    """User Report After Test"""
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        user = request.user
+        data = request.data
+        qualified = data["qualified"]
+        correct_ans_count = data["correct_ans_count"]
+        try:
+            user_report = UserTestReport.objects.create(
+                user = user,
+                qualified=qualified,
+                correct_ans_count=correct_ans_count
+            )
+            serilize = UserTestReportSerializer(user_report)
+            return Response(data=serilize.data,status=status.HTTP_200_OK)
+        except IntegrityError as e:
+            return Response({"msg":"Report is alredy Created!","error_msg":str(e)},status=status.HTTP_400_BAD_REQUEST)
+        finally:
+            return Response({"msg":"Somthing Went Wrong"},status=status.HTTP_400_BAD_REQUEST)
+
+
+class TestView(APIView):
+    """Test Questions"""
+    def get(self,request):
+        category_name = request.GET.get("category_name")
+        questions = Test.objects.filter(test_category=category_name)
+        if questions.exists():
+            serialize = TestSerializer(questions,many=True)
+            return Response(serialize.data,status=status.HTTP_200_OK)
+        else:
+            return Response({"msg":"data not found"},status=status.HTTP_200_OK)
+        
+
+
+class BecomeExpertView(APIView):
+    """Test Resport Check and User Converted into Expert"""
+    permission_classes = [IsAuthenticated]
+    def post(self,request):
+        user = request.user
+        report = UserTestReport.objects.get(user=user)
+        if report.qualified==True:
+            user.is_expert=True
+            user.save()
+            serialize = UserSerilizer(user)
+            return Response(data=serialize.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(data={"msg":"Better Luck Next Time!"},status=status.HTTP_200_OK)
+
 
 class Expert_View(APIView):
     """APIView For Displaying Expert Details"""
