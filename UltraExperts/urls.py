@@ -42,7 +42,7 @@ urlpatterns = [
 
 urlpatterns+=[
    path("register/",include('dj_rest_auth.registration.urls'),name="register"),
-   path("login/",CustomLoginView.as_view(),name="login"),
+   path("login/",LoginView.as_view(),name="login"),
    path("logout/",LogoutView.as_view(),name="logout"),
    path("reset/",ResetPassword.as_view(),name="reset_password"),
    path("change/",PasswordChangeView.as_view(),name="change_password"),

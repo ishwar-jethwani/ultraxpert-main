@@ -29,6 +29,12 @@ from dj_rest_auth.social_serializers import TwitterLoginSerializer
 from allauth.socialaccount.providers.linkedin_oauth2.views import LinkedInOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 import os
+from django.conf import settings
+from django.middleware import csrf
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from rest_framework import status
 
 
 
@@ -39,6 +45,66 @@ BUCKET_NAME = AWS_STORAGE_BUCKET_NAME
 
 client = Client(TWILIO_AUTH_ID, TWILIO_SECRET_KEY)
 
+
+
+class LoginView(APIView):
+    """Main Login View"""
+    def get_tokens_for_user(self,user):
+        refresh = RefreshToken.for_user(user)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+    def get_user(self):
+        serilize = UserSerilizer(self.request.user)
+        return serilize.data
+        
+    def get_response(self):
+        orginal_response = self.response
+        mydata = self.get_user()
+        orginal_response.data.update(mydata)
+        email = mydata["email"]
+        username = mydata["username"]
+        subject = "Ultra Creation Sending Email"
+        message = "Hi %s! Welcome to UltraXpert" % email
+        htmly = get_template("welcome-email.html")
+        htmly = htmly.render({"username":username})
+        User.objects.filter(email=email).update(is_verified=True)
+        send_mail(
+            from_email = None,
+            recipient_list = [email],
+            subject =subject,
+            html_message = htmly,
+            message = message
+            )
+
+        return orginal_response 
+
+
+    def post(self, request, format=None):
+        data = request.data
+        self.response = Response()        
+        email = data.get('email', None)
+        password = data.get('password', None)
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            if user.is_active:
+                data = self.get_tokens_for_user(user)
+                self.response.set_cookie(
+                    key = settings.SIMPLE_JWT['AUTH_COOKIE'], 
+                    value = data["access"],
+                    expires = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+                    secure = settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
+                    httponly = settings.SIMPLE_JWT['AUTH_COOKIE_HTTP_ONLY'],
+                    samesite = settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE']
+                )
+                csrf.get_token(request)
+                self.response.data = {"Success" : "Login successfully","data":data}
+                return self.get_response()
+            else:
+                return Response({"No active" : "This account is not active!!"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"Invalid" : "Invalid username or password!!"}, status=status.HTTP_404_NOT_FOUND)
 
 
 def privacy(request):
@@ -61,33 +127,33 @@ class CreatSuperuserAPI(APIView):
         serialize = UserSerilizer(user)
         return Response(serialize.data,status=status.HTTP_201_CREATED)
 
-class CustomLoginView(LoginView):
-    "Custom Login View"
+# class CustomLoginView(LoginView):
+#     "Custom Login View"
       
-    def get_user(self):
-        serilize = UserSerilizer(self.request.user)
-        return serilize.data
+#     def get_user(self):
+#         serilize = UserSerilizer(self.request.user)
+#         return serilize.data
         
-    def get_response(self):
-        orginal_response = super().get_response()
-        mydata = self.get_user()
-        orginal_response.data.update(mydata)
-        email = mydata["email"]
-        username = mydata["username"]
-        subject = "Ultra Creation Sending Email"
-        message = "Hi %s! Welcome to UltraXpert" % email
-        htmly = get_template("welcome-email.html")
-        htmly = htmly.render({"username":username})
-        User.objects.filter(email=email).update(is_verified=True)
-        send_mail(
-            from_email = None,
-            recipient_list = [email],
-            subject =subject,
-            html_message = htmly,
-            message = message
-            )
+#     def get_response(self):
+#         orginal_response = super().get_response()
+#         mydata = self.get_user()
+#         orginal_response.data.update(mydata)
+#         email = mydata["email"]
+#         username = mydata["username"]
+#         subject = "Ultra Creation Sending Email"
+#         message = "Hi %s! Welcome to UltraXpert" % email
+#         htmly = get_template("welcome-email.html")
+#         htmly = htmly.render({"username":username})
+#         User.objects.filter(email=email).update(is_verified=True)
+#         send_mail(
+#             from_email = None,
+#             recipient_list = [email],
+#             subject =subject,
+#             html_message = htmly,
+#             message = message
+#             )
 
-        return orginal_response 
+#         return orginal_response 
 
 
 class MobileUserCreate(APIView):

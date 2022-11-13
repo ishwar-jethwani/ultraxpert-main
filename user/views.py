@@ -118,7 +118,7 @@ class TestView(APIView):
             serialize = TestSerializer(questions,many=True)
             return Response(serialize.data,status=status.HTTP_200_OK)
         else:
-            return Response({"msg":"data not found"},status=status.HTTP_200_OK)
+            return Response({"msg":"data not found"},status=status.HTTP_404_NOT_FOUND)
         
 
 
