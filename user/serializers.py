@@ -115,7 +115,7 @@ class TestSerializer(serializers.ModelSerializer):
     """ModelSerializer For Model Test"""
     class Meta:
         model = Test
-        fields = "__all__"
+        fields = ["test_id","question","options"]
 
 class UserTestReportSerializer(serializers.ModelSerializer):
     """Serilizer For User Report"""

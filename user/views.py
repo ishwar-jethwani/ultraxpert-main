@@ -386,13 +386,47 @@ class CommentAPIView(APIView):
             return Response({"msg":e},status=status.HTTP_400_BAD_REQUEST)
 
 class UserTestAPI(APIView):
-    permission_classes = [IsAuthenticated]
     """User Test Api For Creating Test"""
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         user = request.user
         category = Profile.objects.get(profile=user).title
-        question = random.choices(list(Test.objects.filter(test_category=category)))
-        serialize = TestSerializer(question[0])
+        questions = random.choices(Test.objects.filter(test_category=category))
+        serialize = TestSerializer(questions[0:5],many=True)
         return Response(serialize.data,status=status.HTTP_200_OK)
+    def post(self,request):
+        user = request.user
+        answer = request.data["answer"]
+        test_id = request.data["test_id"]
+        try:
+            report = UserTestReport.objects.create(user=user)
+            test = Test.objects.get(test_id=test_id)
+            if answer == [key for key,val in test.answers.items() if val==True][0]:
+                report.correct_ans_count+=1
+            elif report.correct_ans_count>=3:
+                report.qualified = True
+            report.save()
+            serialize = UserTestReportSerializer(report)
+            return Response(data=serialize.data,status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"msg":"Somthing went wrong","error_message":str(e)},status=status.HTTP_400_BAD_REQUEST)
+
+        
+        
+
+                
+                
+        
+            
+            
+
+
+        
+
+
+        
+        
+
+
 
     
