@@ -43,7 +43,7 @@ def unique_plan_id_generator(instance):
 
 	Klass= instance.__class__
 
-	qs_exists= Klass.objects.filter(plan_id=plan_new_id).exists()
+	qs_exists= Klass.objects.filter(plan_id="PLAN"+plan_new_id).exists()
 	if qs_exists:
 		return unique_plan_id_generator(instance)
 	return plan_new_id

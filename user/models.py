@@ -40,6 +40,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     date_joined = models.DateTimeField(('date_joined'),auto_now_add=True,blank=True,null=True)
     is_expert   = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
+    is_employee = models.BooleanField(default=False)
     objects     = CustomUserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

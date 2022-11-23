@@ -92,6 +92,7 @@ urlpatterns+=[
    path("vault/",include("vault.urls")),
    path("genral/",include("genral.urls")),
    path("support/",include("support.urls")),
+   path("enterprises/",include("company.urls")),
 
 
 ]
