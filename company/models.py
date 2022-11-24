@@ -2,7 +2,7 @@ from django.db import models
 from user.models import *
 from .utils import *
 
-class Trining(models.Model):
+class Training(models.Model):
     training_id = models.CharField(max_length=20,verbose_name="Trininig ID",blank=True,null=True)
     training_name = models.CharField(max_length=100,verbose_name="Training Name",blank=True,null=True)
     technology =  models.CharField(max_length=100,verbose_name="Technology",blank=True,null=True)
